@@ -1,84 +1,140 @@
 import { WaitlistForm } from "./WaitlistForm";
-import { Shield, TrendingUp, PiggyBank } from "lucide-react";
+import { Shield, TrendingUp, PiggyBank, ChevronDown } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { useWaitlistCount } from "@/hooks/useWaitlistCount";
+import { AnimatedBackground } from "./AnimatedBackground";
+import { motion } from "framer-motion";
 import logo from "@/assets/logo.png";
 
 export const Hero = () => {
   const { ref, isVisible } = useScrollAnimation();
   const { count, isLoading: countLoading } = useWaitlistCount();
 
+  const scrollToFeatures = () => {
+    const element = document.getElementById("features");
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <section 
       id="hero" 
       aria-label="Introduction and waitlist signup"
-      className="relative pt-32 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden"
+      className="relative pt-32 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden min-h-screen flex flex-col justify-center"
     >
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[hsl(var(--safespend-primary-light))] via-background to-background -z-10" />
-      
-      {/* Decorative circles */}
-      <div className="absolute top-20 right-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl -z-10" />
-      <div className="absolute bottom-10 left-10 w-96 h-96 bg-accent/10 rounded-full blur-3xl -z-10" />
+      {/* Animated Background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[hsl(var(--safespend-primary-light))] via-background to-background -z-20" />
+      <AnimatedBackground />
 
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto w-full">
         <div
           ref={ref}
           className={`text-center max-w-4xl mx-auto transition-all duration-700 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
           }`}
         >
-          {/* Logo */}
-          <div className="flex justify-center mb-6">
-            <img src={logo} alt="Safe Spend" className="h-20 w-20" />
-          </div>
+          {/* Logo with glow */}
+          <motion.div 
+            className="flex justify-center mb-6"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            <div className="relative">
+              <img src={logo} alt="Safe Spend" className="h-20 w-20 relative z-10" />
+              <motion.div
+                className="absolute inset-0 rounded-full bg-primary/30 blur-xl"
+                animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
+                transition={{ duration: 3, repeat: Infinity }}
+              />
+            </div>
+          </motion.div>
 
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/20 text-accent text-sm font-medium mb-6">
+          <motion.div 
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/20 text-accent text-sm font-medium mb-6"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+          >
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75" />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-accent" />
             </span>
             Coming Soon — Join the Waitlist
-          </div>
+          </motion.div>
 
-          {/* Headline */}
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground leading-tight mb-6">
+          {/* Headline with gradient text */}
+          <motion.h1 
+            className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground leading-tight mb-6"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+          >
             Take Control of Your{" "}
-            <span className="text-primary">Money</span>,{" "}
-            <span className="text-accent">Effortlessly</span>
-          </h1>
+            <span className="gradient-text">Money</span>,{" "}
+            <span className="gradient-text">Effortlessly</span>
+          </motion.h1>
 
           {/* Subheadline */}
-          <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
+          <motion.p 
+            className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-8"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+          >
             Safe Spend is your personal finance companion. Track expenses, build budgets, 
             crush debt, and grow your savings — all in one beautiful dashboard.
-          </p>
+          </motion.p>
 
           {/* Waitlist Form */}
-          <div className="max-w-md mx-auto mb-12" id="waitlist">
+          <motion.div 
+            className="max-w-md mx-auto mb-12" 
+            id="waitlist"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+          >
             <WaitlistForm variant="hero" />
             <p className="text-sm text-muted-foreground mt-3">
               Join {countLoading ? "..." : count.toLocaleString()}+ others waiting for early access. No spam, ever.
             </p>
-          </div>
+          </motion.div>
 
           {/* Trust indicators */}
-          <div className="flex flex-wrap justify-center gap-8 text-muted-foreground">
-            <div className="flex items-center gap-2">
-              <Shield className="h-5 w-5 text-primary" />
+          <motion.div 
+            className="flex flex-wrap justify-center gap-8 text-muted-foreground"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6 }}
+          >
+            <div className="flex items-center gap-2 group">
+              <Shield className="h-5 w-5 text-primary group-hover:scale-110 transition-transform" />
               <span className="text-sm">Bank-level security</span>
             </div>
-            <div className="flex items-center gap-2">
-              <TrendingUp className="h-5 w-5 text-accent" />
+            <div className="flex items-center gap-2 group">
+              <TrendingUp className="h-5 w-5 text-accent group-hover:scale-110 transition-transform" />
               <span className="text-sm">Smart insights</span>
             </div>
-            <div className="flex items-center gap-2">
-              <PiggyBank className="h-5 w-5 text-primary" />
+            <div className="flex items-center gap-2 group">
+              <PiggyBank className="h-5 w-5 text-primary group-hover:scale-110 transition-transform" />
               <span className="text-sm">Goal tracking</span>
             </div>
-          </div>
+          </motion.div>
         </div>
+
+        {/* Scroll indicator */}
+        <motion.button
+          onClick={scrollToFeatures}
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 text-muted-foreground hover:text-foreground transition-colors"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1 }}
+          aria-label="Scroll to features"
+        >
+          <ChevronDown className="h-8 w-8 animate-bounce-down" />
+        </motion.button>
       </div>
     </section>
   );
