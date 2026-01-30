@@ -31,7 +31,7 @@ export const useWaitlist = () => {
       toast.success("Thanks for joining Safe Spend! We'll be in touch soon.");
       return { success: true, alreadyExists: false };
     } catch (error) {
-      console.error("Waitlist error:", error);
+      // Error details not logged to client console for security
       toast.error("Something went wrong. Please try again.");
       return { success: false, error: error as Error };
     } finally {

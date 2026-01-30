@@ -15,16 +15,17 @@ export const useWaitlistCount = (): UseWaitlistCountResult => {
   useEffect(() => {
     const fetchCount = async () => {
       try {
-        const { count: waitlistCount, error: fetchError } = await supabase
-          .from("waitlist")
-          .select("*", { count: "exact", head: true });
+        // Use secure RPC function that doesn't expose email data
+        const { data, error: fetchError } = await supabase
+          .rpc("get_waitlist_count");
 
         if (fetchError) throw fetchError;
 
         // Add base count for social proof (simulated early adopters)
         const baseCount = 1000;
-        setCount((waitlistCount || 0) + baseCount);
+        setCount((data || 0) + baseCount);
       } catch (err) {
+        // Don't log error details to client console
         setError(err instanceof Error ? err : new Error("Failed to fetch count"));
         // Fallback to base count on error
         setCount(1000);
