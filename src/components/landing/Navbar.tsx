@@ -38,6 +38,18 @@ export const Navbar = () => {
             >
               How it Works
             </button>
+            <button
+              onClick={() => scrollToSection("pricing")}
+              className="text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Pricing
+            </button>
+            <button
+              onClick={() => scrollToSection("faq")}
+              className="text-muted-foreground hover:text-foreground transition-colors"
+            >
+              FAQ
+            </button>
             <Button
               onClick={() => scrollToSection("waitlist")}
               className="bg-primary hover:bg-primary/90 text-primary-foreground"
@@ -72,6 +84,18 @@ export const Navbar = () => {
               className="block w-full text-left py-2 text-muted-foreground hover:text-foreground transition-colors"
             >
               How it Works
+            </button>
+            <button
+              onClick={() => scrollToSection("pricing")}
+              className="block w-full text-left py-2 text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Pricing
+            </button>
+            <button
+              onClick={() => scrollToSection("faq")}
+              className="block w-full text-left py-2 text-muted-foreground hover:text-foreground transition-colors"
+            >
+              FAQ
             </button>
             <Button
               onClick={() => scrollToSection("waitlist")}
