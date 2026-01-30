@@ -6,48 +6,56 @@ import useEmblaCarousel from "embla-carousel-react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 
+// Import profile images
+import sarahImg from "@/assets/testimonials/sarah-m.jpg";
+import marcusImg from "@/assets/testimonials/marcus-t.jpg";
+import jenniferImg from "@/assets/testimonials/jennifer-l.jpg";
+import davidImg from "@/assets/testimonials/david-k.jpg";
+import aishaImg from "@/assets/testimonials/aisha-r.jpg";
+import carlosImg from "@/assets/testimonials/carlos-p.jpg";
+
 const testimonials = [
   {
     quote: "Safe Spend helped me save $500 in my first month just by seeing where my money was going.",
     name: "Sarah M.",
     role: "Freelancer",
     avatar: "SM",
-    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=SarahM",
+    image: sarahImg,
   },
   {
     quote: "Finally, a budgeting app that doesn't make me feel guilty. The interface is beautiful.",
     name: "Marcus T.",
     role: "Software Engineer",
     avatar: "MT",
-    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=MarcusT",
+    image: marcusImg,
   },
   {
     quote: "I paid off my credit card 6 months early using the debt payoff planner.",
     name: "Jennifer L.",
     role: "Teacher",
     avatar: "JL",
-    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=JenniferL",
+    image: jenniferImg,
   },
   {
     quote: "Running my own business means irregular income. Safe Spend helps me plan ahead and stay on top of cash flow.",
     name: "David K.",
     role: "Small Business Owner",
     avatar: "DK",
-    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=DavidK",
+    image: davidImg,
   },
   {
     quote: "I've tried so many finance apps. This is the first one that actually stuck. Simple, beautiful, effective.",
     name: "Aisha R.",
     role: "Marketing Manager",
     avatar: "AR",
-    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=AishaR",
+    image: aishaImg,
   },
   {
     quote: "On a tight budget, every dollar counts. Safe Spend showed me where I was wasting money on subscriptions.",
     name: "Carlos P.",
     role: "Graduate Student",
     avatar: "CP",
-    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=CarlosP",
+    image: carlosImg,
   },
 ];
 
@@ -71,8 +79,8 @@ const Avatar = ({ image, fallback, name }: AvatarProps) => {
   return (
     <img
       src={image}
-      alt={`${name}'s avatar`}
-      className="w-12 h-12 rounded-full bg-primary/20"
+      alt={`${name}'s profile photo`}
+      className="w-12 h-12 rounded-full object-cover bg-primary/20"
       onError={() => setImgError(true)}
     />
   );
