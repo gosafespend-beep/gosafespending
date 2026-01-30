@@ -1,5 +1,6 @@
 import { Shield, Lock, Eye, CreditCard } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import { motion } from "framer-motion";
 
 const badges = [
   {
@@ -37,17 +38,25 @@ export const TrustBadges = () => {
           }`}
         >
           {badges.map((badge, index) => (
-            <div
+            <motion.div
               key={badge.label}
-              className="flex flex-col items-center text-center p-4 rounded-xl bg-card/50 border border-border/30 hover:border-primary/30 transition-all duration-300"
-              style={{ transitionDelay: `${index * 100}ms` }}
+              className="flex flex-col items-center text-center p-4 rounded-xl bg-card/50 border border-border/30 hover:border-primary/30 transition-all duration-300 group"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1 }}
+              whileHover={{ scale: 1.02 }}
             >
-              <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-3">
+              <motion.div 
+                className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-3"
+                whileHover={{ scale: 1.1, rotate: 5 }}
+                transition={{ type: "spring", stiffness: 400 }}
+              >
                 <badge.icon className="w-6 h-6 text-primary" />
-              </div>
+              </motion.div>
               <p className="font-medium text-foreground text-sm">{badge.label}</p>
               <p className="text-xs text-muted-foreground mt-1">{badge.description}</p>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

@@ -4,7 +4,7 @@ import { AppPreview } from "@/components/landing/AppPreview";
 import { TrustBadges } from "@/components/landing/TrustBadges";
 import { Features } from "@/components/landing/Features";
 import { HowItWorks } from "@/components/landing/HowItWorks";
-import { Testimonials } from "@/components/landing/Testimonials";
+import { TestimonialsCarousel } from "@/components/landing/TestimonialsCarousel";
 import { FAQ } from "@/components/landing/FAQ";
 import { Footer } from "@/components/landing/Footer";
 import { StickyWaitlistBar } from "@/components/landing/StickyWaitlistBar";
@@ -28,7 +28,7 @@ const Index = () => {
         <AppPreview />
         <Features />
         <HowItWorks />
-        <Testimonials />
+        <TestimonialsCarousel />
         <FAQ />
       </main>
       <Footer />
