@@ -1,9 +1,9 @@
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { BrowserFrame } from "./BrowserFrame";
 import { FeatureAnnotation } from "./FeatureAnnotation";
+import { DashboardMockup } from "./DashboardMockup";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
-import appPreviewImage from "@/assets/app-preview.png";
 
 export const AppPreview = () => {
   const { ref, isVisible } = useScrollAnimation();
@@ -55,12 +55,7 @@ export const AppPreview = () => {
             {/* Gradient border container with browser frame */}
             <div className="gradient-border p-[2px] rounded-2xl">
               <BrowserFrame>
-                <img 
-                  src={appPreviewImage} 
-                  alt="Safe Spend Dashboard - Track expenses, budgets, and savings goals"
-                  className="w-full h-auto"
-                  loading="lazy"
-                />
+                <DashboardMockup />
               </BrowserFrame>
             </div>
 
