@@ -15,6 +15,7 @@ import {
   ChevronDown,
   AlertTriangle,
 } from "lucide-react";
+import { SpendingTrendCard, RecentTransactionsCard, SidebarFooter } from "./dashboard-mockup";
 
 // Animated counter hook
 const useCountUp = (end: number, duration: number = 2000, inView: boolean) => {
@@ -180,12 +181,15 @@ export const DashboardMockup = () => {
             </ul>
           </div>
         </nav>
+
+        {/* Sidebar Footer */}
+        <SidebarFooter isInView={isInView} />
       </aside>
 
       {/* Main Content */}
       <main className="flex-1 flex flex-col overflow-hidden">
         {/* Header */}
-        <header className="flex items-center justify-between px-2 sm:px-3 py-1.5 sm:py-2 border-b border-[hsl(200,25%,18%)]">
+        <header className="flex items-center justify-between px-2 sm:px-3 py-1.5 sm:py-2 border-b border-[hsl(200,25%,18%)] flex-shrink-0">
           <h1 className="font-semibold text-foreground text-[0.55rem] sm:text-[0.7rem]">Finance Tracker</h1>
           <button className="flex items-center gap-0.5 px-1.5 py-0.5 rounded-md bg-secondary text-muted-foreground text-[0.4rem] sm:text-[0.5rem]">
             January 2026
@@ -193,10 +197,10 @@ export const DashboardMockup = () => {
           </button>
         </header>
 
-        {/* Content Area */}
-        <div className="flex-1 p-2 sm:p-3 overflow-auto space-y-2 sm:space-y-2.5">
+        {/* Content Area - Flex column to fill height */}
+        <div className="flex-1 p-2 sm:p-3 flex flex-col gap-1.5 sm:gap-2 min-h-0 overflow-hidden">
           {/* Stats Row */}
-          <div className="grid grid-cols-4 gap-1.5 sm:gap-2">
+          <div className="grid grid-cols-4 gap-1.5 sm:gap-2 flex-shrink-0">
             {statsData.map((stat, index) => (
               <StatCard
                 key={stat.label}
@@ -211,7 +215,7 @@ export const DashboardMockup = () => {
           </div>
 
           {/* Alerts Grid */}
-          <div className="grid grid-cols-2 gap-1.5 sm:gap-2">
+          <div className="grid grid-cols-2 gap-1.5 sm:gap-2 flex-shrink-0">
             {alertsData.map((alert, index) => (
               <AlertCard
                 key={alert.title}
@@ -222,6 +226,12 @@ export const DashboardMockup = () => {
                 isInView={isInView}
               />
             ))}
+          </div>
+
+          {/* Bottom Section - Expands to fill remaining space */}
+          <div className="flex-1 grid grid-cols-2 gap-1.5 sm:gap-2 min-h-0">
+            <SpendingTrendCard isInView={isInView} />
+            <RecentTransactionsCard isInView={isInView} />
           </div>
         </div>
       </main>
