@@ -2,15 +2,18 @@ import { motion, useInView } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import {
+  LayoutDashboard,
+  ArrowLeftRight,
   Wallet,
-  TrendingUp,
-  TrendingDown,
+  CreditCard,
   PiggyBank,
-  Sparkles,
+  Lightbulb,
+  FileText,
+  TrendingUp,
+  Tags,
+  Settings,
+  ChevronDown,
   AlertTriangle,
-  CheckCircle2,
-  Calendar,
-  ArrowRight,
 } from "lucide-react";
 
 // Animated counter hook
@@ -51,45 +54,42 @@ const formatNumber = (num: number) => {
   return num.toLocaleString("en-US");
 };
 
+// Sidebar navigation data
+const navItems = {
+  main: [
+    { icon: LayoutDashboard, label: "Dashboard", active: true },
+    { icon: ArrowLeftRight, label: "Transactions", active: false },
+  ],
+  tracking: [
+    { icon: Wallet, label: "Accounts", active: false },
+    { icon: CreditCard, label: "Debt Tracker", active: false },
+    { icon: PiggyBank, label: "Savings Goals", active: false },
+    { icon: Lightbulb, label: "Insights", active: false },
+  ],
+  analysis: [
+    { icon: FileText, label: "Reports", active: false },
+    { icon: TrendingUp, label: "Net Worth", active: false },
+  ],
+  settings: [
+    { icon: Tags, label: "Categories", active: false },
+    { icon: Settings, label: "Settings", active: false },
+  ],
+};
+
 // Stats data
 const statsData = [
-  { label: "BALANCE", value: 48715, icon: Wallet, trend: null, color: "text-primary" },
-  { label: "INCOME", value: 217215, icon: TrendingUp, trend: "+0%", color: "text-emerald-400" },
-  { label: "EXPENSES", value: 168500, icon: TrendingDown, trend: "-0%", color: "text-red-400" },
-  { label: "NET", value: 48715, icon: PiggyBank, trend: "+0%", color: "text-primary" },
+  { label: "Balance", value: 18715, color: "text-primary", prefix: "$" },
+  { label: "Income", value: 187215, color: "text-emerald-400", prefix: "$" },
+  { label: "Expenses", value: 168500, color: "text-red-400", prefix: "$" },
+  { label: "Net", value: 18715, color: "text-primary", prefix: "$" },
 ];
 
-// Insights data
-const insightsData: { type: "success" | "warning"; title: string; subtitle: string }[] = [
-  { type: "success", title: "Healthy Savings", subtitle: "You're saving 22% of your income this month" },
-  { type: "warning", title: "Rent expense Near Limit", subtitle: "100% of budget used" },
-  { type: "warning", title: "Fixed account saving Near Limit", subtitle: "100% of budget used" },
-  { type: "warning", title: "Groceries expense Near Limit", subtitle: "100% of budget used" },
-];
-
-// Spending categories for donut chart
-const spendingCategories = [
-  { name: "Fixed account saving", color: "#14b8a6", percent: 25 },
-  { name: "Moms loan", color: "#06b6d4", percent: 20 },
-  { name: "Rent expense", color: "#f59e0b", percent: 25 },
-  { name: "Splendors loan", color: "#ef4444", percent: 15 },
-  { name: "Splendors school fees", color: "#a855f7", percent: 15 },
-];
-
-// Budget items
-const budgetItems = [
-  { name: "Car loan expense", percent: 0, color: "bg-muted" },
-  { name: "Electricity expense", percent: 67, color: "bg-amber-500" },
-  { name: "Fixed account saving", percent: 100, color: "bg-red-500" },
-  { name: "Groceries expense", percent: 100, color: "bg-red-500" },
-];
-
-// Recent transactions
-const transactions = [
-  { date: "30/01", type: "income", category: "essaypro payments", desc: "Payments from Essaypro", amount: 30000 },
-  { date: "29/01", type: "expense", category: "Other", desc: "Debt payment: Kenya Police Sacco", amount: -2500 },
-  { date: "25/01", type: "expense", category: "Moms loan", desc: "Paid 25,000 on KCB Loan expense", amount: -25000 },
-  { date: "25/01", type: "expense", category: "Splendors school fees", desc: "Paid 5,000 for Splendors School Fees", amount: -10000 },
+// Alert cards data
+const alertsData = [
+  { title: "Low Savings", subtitle: "Emergency Fund", percent: 100 },
+  { title: "Rent expense", subtitle: "Near Limit", percent: 100 },
+  { title: "Fixed Account", subtitle: "Near Limit", percent: 100 },
+  { title: "Groceries", subtitle: "Near Limit", percent: 100 },
 ];
 
 export const DashboardMockup = () => {
@@ -100,225 +100,131 @@ export const DashboardMockup = () => {
     <div
       ref={ref}
       aria-hidden="true"
-      className="w-full aspect-[16/11] bg-[hsl(200,25%,8%)] rounded-lg overflow-hidden flex flex-col text-[0.35rem] sm:text-[0.45rem] md:text-[0.55rem] lg:text-[0.65rem] p-2 sm:p-3 md:p-4"
+      className="w-full aspect-[16/10] bg-[hsl(200,25%,8%)] rounded-lg overflow-hidden flex text-[0.5rem] sm:text-[0.6rem] md:text-[0.7rem] lg:text-xs"
     >
-      {/* Stats Row */}
-      <div className="grid grid-cols-4 gap-1.5 sm:gap-2 mb-2 sm:mb-3">
-        {statsData.map((stat, index) => (
-          <StatCard
-            key={stat.label}
-            {...stat}
-            isInView={isInView}
-            delay={index * 100}
-          />
-        ))}
-      </div>
-
-      {/* Insights Section */}
-      <div className="bg-card/50 rounded-lg p-1.5 sm:p-2 mb-2 sm:mb-3 border border-border">
-        <div className="flex items-center gap-1 mb-1.5">
-          <Sparkles className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-primary" />
-          <span className="font-medium text-foreground">Insights</span>
+      {/* Sidebar */}
+      <aside className="w-[22%] min-w-[80px] bg-[hsl(200,25%,10%)] border-r border-[hsl(200,25%,18%)] flex flex-col p-2 sm:p-3">
+        {/* Logo */}
+        <div className="flex items-center gap-1.5 mb-4 sm:mb-6">
+          <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-lg bg-primary flex items-center justify-center">
+            <span className="text-[0.5rem] sm:text-[0.6rem] font-bold text-primary-foreground">S</span>
+          </div>
+          <span className="font-semibold text-foreground hidden sm:inline">Safe Spend</span>
         </div>
-        <div className="space-y-1">
-          {insightsData.map((insight, index) => (
-            <InsightRow key={index} {...insight} isInView={isInView} delay={200 + index * 50} />
-          ))}
-        </div>
-      </div>
 
-      {/* Middle Section - 3 Columns */}
-      <div className="grid grid-cols-3 gap-1.5 sm:gap-2 mb-2 sm:mb-3 flex-1 min-h-0">
-        {/* Spending by Category - Donut Chart */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.4 }}
-          className="bg-card rounded-lg p-1.5 sm:p-2 border border-border"
-        >
-          <h3 className="font-medium text-foreground mb-1.5 flex items-center gap-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-primary" />
-            Spending by Category
-          </h3>
-          <div className="flex items-center gap-2">
-            {/* Simple SVG Donut */}
-            <div className="w-12 h-12 sm:w-16 sm:h-16 relative flex-shrink-0">
-              <svg viewBox="0 0 36 36" className="w-full h-full -rotate-90">
-                {spendingCategories.map((cat, i) => {
-                  const offset = spendingCategories.slice(0, i).reduce((acc, c) => acc + c.percent, 0);
-                  return (
-                    <circle
-                      key={cat.name}
-                      cx="18"
-                      cy="18"
-                      r="14"
-                      fill="none"
-                      stroke={cat.color}
-                      strokeWidth="6"
-                      strokeDasharray={`${cat.percent} ${100 - cat.percent}`}
-                      strokeDashoffset={-offset}
-                      className="transition-all duration-1000"
-                    />
-                  );
-                })}
-              </svg>
-            </div>
-            {/* Legend */}
-            <div className="space-y-0.5 overflow-hidden">
-              {spendingCategories.map((cat) => (
-                <div key={cat.name} className="flex items-center gap-1 truncate">
-                  <span className="w-1.5 h-1.5 rounded-sm flex-shrink-0" style={{ backgroundColor: cat.color }} />
-                  <span className="text-muted-foreground truncate">{cat.name}</span>
-                </div>
+        {/* Navigation Sections */}
+        <nav className="flex-1 space-y-3 sm:space-y-4">
+          {/* Main */}
+          <div>
+            <p className="text-[0.4rem] sm:text-[0.5rem] text-muted-foreground font-medium mb-1 uppercase tracking-wider">Main</p>
+            <ul className="space-y-0.5">
+              {navItems.main.map((item) => (
+                <li key={item.label}>
+                  <div
+                    className={`flex items-center gap-1.5 px-1.5 py-1 rounded-md transition-colors ${
+                      item.active
+                        ? "bg-primary/20 text-primary"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    <item.icon className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+                    <span className="hidden sm:inline truncate">{item.label}</span>
+                  </div>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
-        </motion.div>
 
-        {/* Budget Status */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.5 }}
-          className="bg-card rounded-lg p-1.5 sm:p-2 border border-border"
-        >
-          <h3 className="font-medium text-foreground mb-1.5 flex items-center gap-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-primary" />
-            Budget Status
-          </h3>
-          <div className="mb-2">
-            <div className="flex justify-between text-muted-foreground mb-0.5">
-              <span>Overall Budget</span>
-              <span>Ksh 143,500 / Ksh 216,084</span>
-            </div>
-            <div className="h-1.5 bg-muted rounded-full overflow-hidden">
-              <div className="h-full w-[66%] bg-primary rounded-full" />
-            </div>
-            <p className="text-muted-foreground mt-0.5">Ksh 72,584 remaining</p>
+          {/* Tracking */}
+          <div>
+            <p className="text-[0.4rem] sm:text-[0.5rem] text-muted-foreground font-medium mb-1 uppercase tracking-wider">Tracking</p>
+            <ul className="space-y-0.5">
+              {navItems.tracking.map((item) => (
+                <li key={item.label}>
+                  <div className="flex items-center gap-1.5 px-1.5 py-1 rounded-md text-muted-foreground">
+                    <item.icon className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+                    <span className="hidden sm:inline truncate">{item.label}</span>
+                  </div>
+                </li>
+              ))}
+            </ul>
           </div>
-          <div className="space-y-1">
-            {budgetItems.map((item) => (
-              <div key={item.name}>
-                <div className="flex justify-between text-muted-foreground">
-                  <span className="truncate">{item.name}</span>
-                  <span>{item.percent}%</span>
-                </div>
-                <div className="h-1 bg-muted rounded-full overflow-hidden">
-                  <div className={`h-full ${item.color} rounded-full`} style={{ width: `${item.percent}%` }} />
-                </div>
-              </div>
+
+          {/* Analysis */}
+          <div>
+            <p className="text-[0.4rem] sm:text-[0.5rem] text-muted-foreground font-medium mb-1 uppercase tracking-wider">Analysis</p>
+            <ul className="space-y-0.5">
+              {navItems.analysis.map((item) => (
+                <li key={item.label}>
+                  <div className="flex items-center gap-1.5 px-1.5 py-1 rounded-md text-muted-foreground">
+                    <item.icon className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+                    <span className="hidden sm:inline truncate">{item.label}</span>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Settings */}
+          <div>
+            <p className="text-[0.4rem] sm:text-[0.5rem] text-muted-foreground font-medium mb-1 uppercase tracking-wider">Settings</p>
+            <ul className="space-y-0.5">
+              {navItems.settings.map((item) => (
+                <li key={item.label}>
+                  <div className="flex items-center gap-1.5 px-1.5 py-1 rounded-md text-muted-foreground">
+                    <item.icon className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+                    <span className="hidden sm:inline truncate">{item.label}</span>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </nav>
+      </aside>
+
+      {/* Main Content */}
+      <main className="flex-1 flex flex-col overflow-hidden">
+        {/* Header */}
+        <header className="flex items-center justify-between px-3 sm:px-4 py-2 sm:py-3 border-b border-[hsl(200,25%,18%)]">
+          <h1 className="font-semibold text-foreground text-[0.65rem] sm:text-sm">Finance Tracker</h1>
+          <button className="flex items-center gap-1 px-2 py-1 rounded-md bg-secondary text-muted-foreground text-[0.5rem] sm:text-[0.6rem]">
+            January 2026
+            <ChevronDown className="w-2.5 h-2.5" />
+          </button>
+        </header>
+
+        {/* Content Area */}
+        <div className="flex-1 p-3 sm:p-4 overflow-auto space-y-3 sm:space-y-4">
+          {/* Stats Row */}
+          <div className="grid grid-cols-4 gap-2 sm:gap-3">
+            {statsData.map((stat, index) => (
+              <StatCard
+                key={stat.label}
+                label={stat.label}
+                value={stat.value}
+                color={stat.color}
+                prefix={stat.prefix}
+                isInView={isInView}
+                delay={index * 100}
+              />
             ))}
           </div>
-        </motion.div>
 
-        {/* Right Column - Stacked Cards */}
-        <div className="flex flex-col gap-1.5 sm:gap-2">
-          {/* Balance After Bills */}
-          <motion.div
-            initial={{ opacity: 0, x: 10 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ delay: 0.6 }}
-            className="bg-card rounded-lg p-1.5 sm:p-2 border border-border flex-1"
-          >
-            <div className="flex items-center gap-1 text-muted-foreground mb-1">
-              <Calendar className="w-2 h-2 sm:w-2.5 sm:h-2.5" />
-              <span>Balance After Bills</span>
-              <span className="text-[0.3rem] sm:text-[0.4rem] bg-muted px-1 rounded">next 14 days</span>
-            </div>
-            <p className="text-red-400 font-bold text-[0.5rem] sm:text-[0.7rem]">-Ksh 20,500.00</p>
-            <div className="flex items-center gap-1 mt-1 text-amber-500 bg-amber-500/10 rounded px-1 py-0.5">
-              <AlertTriangle className="w-2 h-2" />
-              <span className="truncate">Shortfall Alert: You'll be Ksh 20,500 short</span>
-            </div>
-          </motion.div>
-
-          {/* Emergency Fund */}
-          <motion.div
-            initial={{ opacity: 0, x: 10 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ delay: 0.65 }}
-            className="bg-card rounded-lg p-1.5 sm:p-2 border border-border flex-1"
-          >
-            <div className="flex justify-between items-center mb-1">
-              <span className="text-muted-foreground flex items-center gap-1">
-                <PiggyBank className="w-2 h-2 sm:w-2.5 sm:h-2.5" />
-                Emergency Fund
-              </span>
-              <span className="text-primary text-[0.3rem] sm:text-[0.4rem] flex items-center gap-0.5 cursor-pointer">
-                Get started <ArrowRight className="w-1.5 h-1.5" />
-              </span>
-            </div>
-            <p className="text-foreground font-medium">Current: <span className="text-primary">Ksh 0.00</span></p>
-          </motion.div>
-
-          {/* Upcoming Bills */}
-          <motion.div
-            initial={{ opacity: 0, x: 10 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ delay: 0.7 }}
-            className="bg-card rounded-lg p-1.5 sm:p-2 border border-border flex-1"
-          >
-            <div className="flex items-center gap-1 text-muted-foreground mb-1">
-              <Calendar className="w-2 h-2 sm:w-2.5 sm:h-2.5" />
-              <span>Upcoming Bills</span>
-            </div>
-            <div className="space-y-0.5">
-              <div className="flex justify-between">
-                <span className="text-foreground">Rent <span className="text-muted-foreground">Monthly</span></span>
-                <span className="text-foreground">Ksh 15,000</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-foreground">Water <span className="text-muted-foreground">Monthly</span></span>
-                <span className="text-foreground">Ksh 1,000</span>
-              </div>
-            </div>
-          </motion.div>
+          {/* Alerts Grid */}
+          <div className="grid grid-cols-2 gap-2 sm:gap-3">
+            {alertsData.map((alert, index) => (
+              <AlertCard
+                key={alert.title}
+                title={alert.title}
+                subtitle={alert.subtitle}
+                percent={alert.percent}
+                delay={index * 50}
+                isInView={isInView}
+              />
+            ))}
+          </div>
         </div>
-      </div>
-
-      {/* Recent Transactions */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={isInView ? { opacity: 1, y: 0 } : {}}
-        transition={{ delay: 0.8 }}
-        className="bg-card rounded-lg p-1.5 sm:p-2 border border-border"
-      >
-        <h3 className="font-medium text-foreground mb-1.5">Recent Transactions</h3>
-        <div className="overflow-hidden">
-          <table className="w-full">
-            <thead>
-              <tr className="text-muted-foreground border-b border-border">
-                <th className="text-left py-0.5 font-medium">Date</th>
-                <th className="text-left py-0.5 font-medium">Type</th>
-                <th className="text-left py-0.5 font-medium">Category</th>
-                <th className="text-left py-0.5 font-medium hidden sm:table-cell">Description</th>
-                <th className="text-right py-0.5 font-medium">Amount</th>
-              </tr>
-            </thead>
-            <tbody>
-              {transactions.map((tx, i) => (
-                <tr key={i} className="border-b border-border/50 last:border-0">
-                  <td className="py-0.5 text-muted-foreground">{tx.date}</td>
-                  <td className="py-0.5">
-                    <span className={`px-1 py-0.5 rounded text-[0.3rem] sm:text-[0.4rem] ${
-                      tx.type === "income" 
-                        ? "bg-emerald-500/20 text-emerald-400" 
-                        : "bg-red-500/20 text-red-400"
-                    }`}>
-                      {tx.type}
-                    </span>
-                  </td>
-                  <td className="py-0.5 text-foreground truncate max-w-[50px] sm:max-w-none">{tx.category}</td>
-                  <td className="py-0.5 text-muted-foreground truncate max-w-[80px] hidden sm:table-cell">{tx.desc}</td>
-                  <td className={`py-0.5 text-right font-medium ${tx.amount > 0 ? "text-emerald-400" : "text-red-400"}`}>
-                    {tx.amount > 0 ? "+" : ""}Ksh {formatNumber(Math.abs(tx.amount))}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </motion.div>
+      </main>
     </div>
   );
 };
@@ -327,14 +233,13 @@ export const DashboardMockup = () => {
 interface StatCardProps {
   label: string;
   value: number;
-  icon: React.ElementType;
-  trend: string | null;
   color: string;
+  prefix: string;
   isInView: boolean;
   delay: number;
 }
 
-const StatCard = ({ label, value, icon: Icon, trend, color, isInView, delay }: StatCardProps) => {
+const StatCard = ({ label, value, color, prefix, isInView, delay }: StatCardProps) => {
   const count = useCountUp(value, 2000, isInView);
   const prefersReducedMotion = useReducedMotion();
 
@@ -343,53 +248,53 @@ const StatCard = ({ label, value, icon: Icon, trend, color, isInView, delay }: S
       initial={prefersReducedMotion ? {} : { opacity: 0, y: 10 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.4, delay: delay / 1000 }}
-      className="bg-card border border-border rounded-lg p-1.5 sm:p-2"
+      className="bg-card border border-border rounded-lg p-2 sm:p-3"
     >
-      <div className="flex items-center justify-between mb-1">
-        <p className="text-muted-foreground uppercase tracking-wider">{label}</p>
-        <Icon className={`w-2.5 h-2.5 sm:w-3 sm:h-3 ${color}`} />
-      </div>
-      <p className={`font-bold text-[0.55rem] sm:text-[0.75rem] md:text-sm ${color}`}>
-        Ksh {formatNumber(count)}.00
+      <p className="text-muted-foreground text-[0.4rem] sm:text-[0.5rem] uppercase tracking-wider mb-1">{label}</p>
+      <p className={`font-bold text-[0.7rem] sm:text-sm md:text-base ${color}`}>
+        {prefix}{formatNumber(count)}
       </p>
-      {trend && (
-        <p className="text-muted-foreground mt-0.5">{trend}</p>
-      )}
+      <p className="text-muted-foreground text-[0.35rem] sm:text-[0.45rem] mt-0.5">0% from last month</p>
     </motion.div>
   );
 };
 
-// Insight Row Component
-interface InsightRowProps {
-  type: "success" | "warning";
+// Alert Card Component
+interface AlertCardProps {
   title: string;
   subtitle: string;
-  isInView: boolean;
+  percent: number;
   delay: number;
+  isInView: boolean;
 }
 
-const InsightRow = ({ type, title, subtitle, isInView, delay }: InsightRowProps) => {
+const AlertCard = ({ title, subtitle, percent, delay, isInView }: AlertCardProps) => {
   const prefersReducedMotion = useReducedMotion();
-  const isSuccess = type === "success";
 
   return (
     <motion.div
-      initial={prefersReducedMotion ? {} : { opacity: 0, x: -10 }}
-      animate={isInView ? { opacity: 1, x: 0 } : {}}
-      transition={{ duration: 0.3, delay: delay / 1000 }}
-      className={`flex items-center gap-1.5 px-1.5 py-1 rounded-md ${
-        isSuccess ? "bg-emerald-500/10 border border-emerald-500/30" : "bg-amber-500/10 border border-amber-500/30"
-      }`}
+      initial={prefersReducedMotion ? {} : { opacity: 0, scale: 0.95 }}
+      animate={isInView ? { opacity: 1, scale: 1 } : {}}
+      transition={{ duration: 0.3, delay: (400 + delay) / 1000 }}
+      className="bg-amber-500/10 border border-amber-500/30 rounded-lg p-2 sm:p-3"
     >
-      {isSuccess ? (
-        <CheckCircle2 className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-emerald-500 flex-shrink-0" />
-      ) : (
-        <AlertTriangle className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-amber-500 flex-shrink-0" />
-      )}
-      <div className="min-w-0">
-        <p className={`font-medium truncate ${isSuccess ? "text-emerald-500" : "text-amber-500"}`}>{title}</p>
-        <p className={`truncate ${isSuccess ? "text-emerald-500/70" : "text-amber-500/70"}`}>{subtitle}</p>
+      <div className="flex items-start gap-1.5 mb-2">
+        <AlertTriangle className="w-3 h-3 sm:w-4 sm:h-4 text-amber-500 flex-shrink-0 mt-0.5" />
+        <div className="min-w-0">
+          <p className="font-medium text-amber-500 text-[0.5rem] sm:text-[0.6rem] truncate">{title}</p>
+          <p className="text-amber-500/70 text-[0.4rem] sm:text-[0.5rem] truncate">{subtitle}</p>
+        </div>
       </div>
+      {/* Progress bar */}
+      <div className="w-full h-1 sm:h-1.5 bg-amber-500/20 rounded-full overflow-hidden">
+        <motion.div
+          initial={prefersReducedMotion ? { width: `${percent}%` } : { width: 0 }}
+          animate={isInView ? { width: `${percent}%` } : {}}
+          transition={{ duration: 0.8, delay: (600 + delay) / 1000 }}
+          className="h-full bg-amber-500 rounded-full"
+        />
+      </div>
+      <p className="text-amber-500/70 text-[0.35rem] sm:text-[0.45rem] mt-1">{percent}% used</p>
     </motion.div>
   );
 };
