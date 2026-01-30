@@ -1,4 +1,5 @@
 import { UserPlus, LineChart, Rocket } from "lucide-react";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 const steps = [
   {
@@ -22,11 +23,18 @@ const steps = [
 ];
 
 export const HowItWorks = () => {
+  const { ref, isVisible } = useScrollAnimation();
+
   return (
     <section id="how-it-works" className="py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         {/* Section header */}
-        <div className="text-center max-w-2xl mx-auto mb-16">
+        <div
+          ref={ref}
+          className={`text-center max-w-2xl mx-auto mb-16 transition-all duration-700 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+          }`}
+        >
           <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">
             Get Started in <span className="text-accent">3 Simple Steps</span>
           </h2>
@@ -38,7 +46,13 @@ export const HowItWorks = () => {
         {/* Steps */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
           {steps.map((step, index) => (
-            <div key={index} className="relative text-center">
+            <div
+              key={index}
+              className={`relative text-center transition-all duration-700 ${
+                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+              }`}
+              style={{ transitionDelay: isVisible ? `${index * 150}ms` : "0ms" }}
+            >
               {/* Connector line (hidden on mobile and last item) */}
               {index < steps.length - 1 && (
                 <div className="hidden md:block absolute top-12 left-1/2 w-full h-0.5 bg-gradient-to-r from-primary/40 to-accent/40" />

@@ -4,6 +4,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 const faqs = [
   {
@@ -33,11 +34,18 @@ const faqs = [
 ];
 
 export const FAQ = () => {
+  const { ref, isVisible } = useScrollAnimation();
+
   return (
     <section id="faq" className="py-20 px-4 sm:px-6 lg:px-8 bg-background">
       <div className="max-w-3xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-12">
+        <div
+          ref={ref}
+          className={`text-center mb-12 transition-all duration-700 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+          }`}
+        >
           <span className="inline-block px-4 py-1.5 mb-4 text-sm font-medium text-primary bg-primary/10 rounded-full">
             FAQ
           </span>
@@ -55,7 +63,10 @@ export const FAQ = () => {
             <AccordionItem
               key={index}
               value={`item-${index}`}
-              className="bg-card border border-border/50 rounded-xl px-6 data-[state=open]:border-primary/30"
+              className={`bg-card border border-border/50 rounded-xl px-6 data-[state=open]:border-primary/30 transition-all duration-500 ${
+                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+              }`}
+              style={{ transitionDelay: isVisible ? `${index * 75}ms` : "0ms" }}
             >
               <AccordionTrigger className="text-left text-foreground hover:no-underline py-5">
                 {faq.question}

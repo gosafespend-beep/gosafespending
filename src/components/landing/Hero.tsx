@@ -1,8 +1,11 @@
 import { WaitlistForm } from "./WaitlistForm";
 import { Shield, TrendingUp, PiggyBank } from "lucide-react";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import logo from "@/assets/logo.png";
 
 export const Hero = () => {
+  const { ref, isVisible } = useScrollAnimation();
+
   return (
     <section className="relative pt-32 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
       {/* Background gradient */}
@@ -13,7 +16,12 @@ export const Hero = () => {
       <div className="absolute bottom-10 left-10 w-96 h-96 bg-accent/10 rounded-full blur-3xl -z-10" />
 
       <div className="max-w-7xl mx-auto">
-        <div className="text-center max-w-4xl mx-auto">
+        <div
+          ref={ref}
+          className={`text-center max-w-4xl mx-auto transition-all duration-700 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+          }`}
+        >
           {/* Logo */}
           <div className="flex justify-center mb-6">
             <img src={logo} alt="Safe Spend" className="h-20 w-20" />
