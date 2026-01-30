@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-const BASE_URL = "https://gosafespending.lovable.app";
+const BASE_URL = "https://gosafespend.com";
 
 /**
  * Generates Organization JSON-LD schema for brand identity in search

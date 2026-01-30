@@ -9,7 +9,7 @@ interface SEOHeadProps {
   noIndex?: boolean;
 }
 
-const BASE_URL = "https://gosafespending.lovable.app";
+const BASE_URL = "https://gosafespend.com";
 const DEFAULT_IMAGE = `${BASE_URL}/og-image.png`;
 const SITE_NAME = "Safe Spend";
 

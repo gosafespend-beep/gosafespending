@@ -1,5 +1,5 @@
 # Safe Spend - Robots.txt
-# https://gosafespending.lovable.app
+# https://gosafespend.com
 
 User-agent: Googlebot
 Allow: /
@@ -26,7 +26,7 @@ Allow: /
 Crawl-delay: 2
 
 # Sitemap location
-Sitemap: https://gosafespending.lovable.app/sitemap.xml
+Sitemap: https://gosafespend.com/sitemap.xml
 
 # Disallow patterns
 Disallow: /api/

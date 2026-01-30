@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
-const BASE_URL = "https://gosafespending.lovable.app";
+const BASE_URL = "https://gosafespend.com";
 
 const breadcrumbNames: Record<string, string> = {
   "/": "Home",
