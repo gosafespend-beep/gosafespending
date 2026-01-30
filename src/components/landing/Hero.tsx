@@ -9,7 +9,11 @@ export const Hero = () => {
   const { count, isLoading: countLoading } = useWaitlistCount();
 
   return (
-    <section className="relative pt-32 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <section 
+      id="hero" 
+      aria-label="Introduction and waitlist signup"
+      className="relative pt-32 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden"
+    >
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-[hsl(var(--safespend-primary-light))] via-background to-background -z-10" />
       

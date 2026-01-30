@@ -9,6 +9,11 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
 import CookiesPolicy from "./pages/CookiesPolicy";
 import Contact from "./pages/Contact";
+import { SEOHead } from "./components/seo/SEOHead";
+import { BreadcrumbSchema } from "./components/seo/BreadcrumbSchema";
+import { FAQSchema } from "./components/seo/FAQSchema";
+import { OrganizationSchema } from "./components/seo/OrganizationSchema";
+import { PerformanceOptimizations } from "./components/seo/PerformanceOptimizations";
 
 const queryClient = new QueryClient();
 
@@ -18,6 +23,13 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        {/* SEO & Performance Components */}
+        <SEOHead />
+        <BreadcrumbSchema />
+        <FAQSchema />
+        <OrganizationSchema />
+        <PerformanceOptimizations />
+        
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
