@@ -925,6 +925,7 @@ export type Database = {
         }
         Returns: string
       }
+      get_waitlist_count: { Args: never; Returns: number }
     }
     Enums: {
       [_ in never]: never

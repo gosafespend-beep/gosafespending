@@ -7,9 +7,8 @@ import logo from "@/assets/logo.png";
 const NotFound = () => {
   const location = useLocation();
 
-  useEffect(() => {
-    console.error("404 Error: User attempted to access non-existent route:", location.pathname);
-  }, [location.pathname]);
+  // 404 errors are handled gracefully without exposing internal paths
+  // Error tracking should be done server-side or via error monitoring service
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-background px-4">
