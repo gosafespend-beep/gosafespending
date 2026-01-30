@@ -123,6 +123,22 @@ All colors MUST be HSL.
   animation: fade-in-up 0.6s ease-out forwards;
 }
 
+/* Float animation for app preview */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Gradient border for app preview */
+.gradient-border {
+  background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 100%);
+  border-radius: 1rem;
+}
+
 /* Staggered animation delays */
 .animate-delay-100 {
   animation-delay: 100ms;
