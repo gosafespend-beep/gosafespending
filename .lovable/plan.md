@@ -1,129 +1,89 @@
 
-# Live CSS Dashboard Mockup - Implementation Plan
+Goal
+- Remove the “huge blank space” under the alert cards inside the DashboardMockup preview and make the sidebar feel vertically “filled” (less dead space), by adding realistic dashboard sections (a graph + list) and by letting the layout intentionally occupy the available height.
 
-## Overview
+What’s happening now (root cause)
+- The mockup container has a fixed aspect ratio (currently `aspect-[2/1]`), so it always reserves a specific height.
+- Inside that fixed height, the main content only renders:
+  1) header
+  2) stats row
+  3) alerts grid
+- Those elements don’t add up to the full available height, so the remaining height becomes empty space.
+- The sidebar has the same issue: navigation content is top-aligned with nothing “anchoring” the bottom.
 
-Replace the static `app-preview.png` image with a pixel-perfect live CSS/React mockup that replicates the dashboard design exactly. This creates an interactive, animated preview that feels more dynamic and professional while maintaining the exact visual appearance.
+Solution (high level)
+1) Add a “Spending Trend” graph panel directly under the alert cards.
+2) Add an additional panel next to or under the graph (e.g., “Recent Transactions” list or “Top Categories”).
+3) Adjust the layout so the new bottom section expands to fill the remaining vertical space (so we don’t just keep adding content and accidentally create scrollbars).
 
-## Benefits of Live CSS Mockup
+Implementation design (DashboardMockup)
+A) Layout adjustments to guarantee “fill”
+- Change the main content area wrapper from a `space-y-*` stack to a true flex column layout:
+  - `ContentArea` becomes `flex flex-col` with `gap-*`
+  - Add a bottom “dashboard lower section” wrapper with `flex-1 min-h-0`
+  - Ensure its child cards use `h-full` so the section expands to consume leftover space.
+- Keep overflow behavior controlled:
+  - Prefer `overflow-hidden` inside the mockup (to avoid tiny scrollbars inside the BrowserFrame).
+  - If needed for smaller viewports, allow only the “transactions list” panel to scroll (not the whole mockup).
 
-- **Dynamic Animations**: Numbers can count up, cards can have subtle hover effects
-- **Scalability**: Crisp on all screen sizes (no pixelation)
-- **Interactivity**: Subtle hover states and micro-animations
-- **Consistency**: Uses the same design tokens as the rest of the site
-- **Performance**: CSS renders faster than large images on slow connections
+B) New sections to add under Alerts
+1) Spending Trend (Graph) card
+- A new card component under alerts:
+  - Title: “Spending Trend”
+  - Sub-label: “Last 7 days” (or “This month”)
+  - Right-side stat: “$2,340” (example)
+- Graph implementation approach (pick the simplest stable option):
+  Option 1 (recommended for perfect predictability at tiny sizes): Pure CSS “bar sparkline”
+  - Render ~10 vertical bars using divs with varying heights, using `bg-primary/70` and `bg-primary/20`.
+  - This avoids Recharts sizing quirks in very small containers.
+  Option 2: Recharts mini area/line chart
+  - Use `ResponsiveContainer` with an explicit small height (e.g., 56–80px).
+  - Hide axes/ticks entirely; use a subtle gradient fill.
+  - This looks great, but can be more fragile in tiny/animated containers.
+- Either way, the goal is a graph that visually reads as a chart and fills space.
 
----
+2) Secondary panel to balance the layout (fills remaining space)
+- Add one of:
+  a) Recent Transactions card (recommended; visually dense, great at filling height)
+     - 5–7 rows, each row: merchant label + category + amount (green/red)
+     - Include small colored dot or icon at left
+     - If height is tight, truncate merchant names and keep typography small
+  b) Top Categories card
+     - 4–6 categories with slim progress bars (like the alert bars)
+     - Example: Rent 78%, Groceries 64%, Transport 35%, Subscriptions 22%
 
-## Dashboard Structure (Based on Current Image)
+C) Sidebar “fill” improvement
+- Add a bottom-anchored sidebar footer section:
+  - Use `mt-auto` to push it to the bottom.
+  - Include either:
+    - “Monthly Budget” mini progress bar + “Remaining $420”
+    - Optional tiny “Upgrade” CTA (decorative button style, no click behavior required)
+- This makes the sidebar feel complete and eliminates the “floating menu” look.
 
-The mockup will replicate this exact layout:
+Files to change
+- src/components/landing/DashboardMockup.tsx
+  - Add new mock data arrays:
+    - `trendData` (if using Recharts) or `sparkBars` (if using CSS bars)
+    - `recentTransactions` or `topCategories`
+  - Add new subcomponents:
+    - `SpendingTrendCard`
+    - `RecentTransactionsCard` (or `TopCategoriesCard`)
+    - `SidebarFooterCard` (optional)
+  - Update the main content layout to use a `flex` structure that intentionally fills height.
 
-```text
-+------------------+----------------------------------------+
-|    SIDEBAR       |              HEADER                    |
-|                  |   Finance Tracker    January 2026     |
-|  Safe Spend      +----------------------------------------+
-|  Dashboard       |                                        |
-|  Transactions    |   BALANCE    INCOME    EXPENSES   NET  |
-|                  |   $18,715   $187,215  $168,500  $18,715|
-|  TRACKING        +----------------------------------------+
-|  Accounts        |                                        |
-|  Debt Tracker    |   +-------------+  +-------------+     |
-|  Savings Goals   |   | Low Savings |  | Rent Near   |     |
-|  Insights        |   |    Alert    |  | Limit Alert |     |
-|                  |   +-------------+  +-------------+     |
-|  ANALYSIS        |                                        |
-|  Reports         |   +-------------+  +-------------+     |
-|  Net Worth       |   | Fixed Acct  |  | Groceries   |     |
-|                  |   | Near Limit  |  | Near Limit  |     |
-|  SETTINGS        |   +-------------+  +-------------+     |
-|  Categories      |                                        |
-|  Settings        |                                        |
-+------------------+----------------------------------------+
-```
+Visual acceptance criteria (what “fixed” means)
+- No obvious empty block under the alert cards; that area is now occupied by:
+  - a graph panel (spending trend), and
+  - a list/progress panel (transactions/categories)
+- Sidebar no longer looks “cut short”; bottom area contains a small footer module.
+- No ugly internal scrollbars in normal desktop preview (1536px wide).
+- On smaller viewports, if overflow is unavoidable, only the transactions list can scroll (not the whole mockup).
 
----
+Testing checklist
+- Verify on desktop preview: App Preview section shows no blank gap under alerts.
+- Verify on mobile width: mockup remains readable and doesn’t collapse weirdly.
+- Verify “prefers-reduced-motion”: count-up and any chart animation doesn’t feel jarring.
+- Confirm the new content doesn’t imply bank connections (keep it generic/manual).
 
-## Implementation Details
-
-### New Component: `DashboardMockup.tsx`
-
-Create a self-contained component with these sub-elements:
-
-#### 1. Sidebar
-- Logo + "Safe Spend" branding
-- Navigation sections: MAIN, TRACKING, ANALYSIS, SETTINGS
-- Active state on "Dashboard" item with teal highlight
-- Icons for each menu item (using Lucide icons)
-
-#### 2. Header
-- "Finance Tracker" title
-- Month/year selector styled as a dropdown button
-
-#### 3. Stats Cards Row
-- 4 cards: Balance, Income, Expenses, Net
-- Large dollar amounts with animated count-up effect
-- Percentage indicators (showing 0%)
-- Color-coded: Income (green), Expenses (red), Balance/Net (teal)
-
-#### 4. Alert Cards Grid
-- 4 warning cards in a 2x2 grid
-- Yellow/orange warning styling
-- Progress bars showing 100% used
-- Text: "Low Savings", "Rent expense Near Limit", etc.
-
----
-
-## Technical Approach
-
-### Files to Create
-| File | Purpose |
-|------|---------|
-| `src/components/landing/DashboardMockup.tsx` | Main mockup component with all dashboard elements |
-
-### Files to Modify
-| File | Change |
-|------|--------|
-| `src/components/landing/AppPreview.tsx` | Replace `<img>` with `<DashboardMockup />` component |
-
-### Styling Strategy
-- Use existing Tailwind classes and CSS variables from `index.css`
-- Match the dark theme colors exactly (sidebar-background, card, border)
-- Use the teal primary color for active states
-- Scale down to fit within the browser frame (using transform or font-size scaling)
-
-### Animation Enhancements
-- Animated number count-up for dollar amounts (on scroll into view)
-- Subtle pulse on active sidebar item
-- Optional: gentle shimmer effect on stat cards
-- Respects `prefers-reduced-motion` setting
-
----
-
-## Visual Accuracy Checklist
-
-The mockup will match the image exactly:
-- Dark navy/slate background colors
-- Teal accent colors for active states and primary elements
-- Proper spacing and card shadows
-- Correct typography hierarchy (section labels, values, descriptions)
-- Warning cards with amber/orange accents
-- Proper border radius on all cards
-
----
-
-## Responsive Considerations
-
-- Desktop: Full sidebar + main content area
-- Tablet/Mobile: The mockup scales down proportionally within the browser frame
-- The component uses a fixed aspect ratio container to maintain proportions
-
----
-
-## Technical Notes
-
-1. **Accessibility**: The mockup is decorative, so appropriate `aria-hidden="true"` will be applied
-2. **Performance**: Pure CSS/Tailwind - no additional dependencies needed
-3. **Maintainability**: Single component file keeps the mockup self-contained
-4. **Animation**: Uses Framer Motion for count-up numbers (already installed)
+Notes / tradeoffs
+- If you want the mockup to match a specific existing screenshot “exactly,” we’ll need the reference image for the “below alerts” area too. Otherwise, we’ll add realistic dashboard content that matches the existing style system (colors, spacing, borders) but is newly designed to fill the space.
