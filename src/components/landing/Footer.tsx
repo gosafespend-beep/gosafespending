@@ -31,13 +31,13 @@ export const Footer = () => {
 
           {/* Links */}
           <div className="flex items-center gap-6 text-sm text-muted-foreground">
-            <a href="#" className="hover:text-background transition-colors">
+            <a href="#" className="hover:text-foreground transition-colors">
               Privacy Policy
             </a>
-            <a href="#" className="hover:text-background transition-colors">
+            <a href="#" className="hover:text-foreground transition-colors">
               Terms of Service
             </a>
-            <a href="#" className="hover:text-background transition-colors">
+            <a href="#" className="hover:text-foreground transition-colors">
               Contact
             </a>
           </div>
@@ -70,7 +70,7 @@ export const Footer = () => {
 
         {/* Copyright */}
         <div className="text-center mt-8 pt-8 border-t border-border/50 text-sm text-muted-foreground">
-          © {currentYear} SafeSpend. Your finances, simplified.
+          © {currentYear} Safe Spend. Your finances, simplified.
         </div>
       </div>
     </footer>
