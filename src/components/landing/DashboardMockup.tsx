@@ -100,7 +100,7 @@ export const DashboardMockup = () => {
     <div
       ref={ref}
       aria-hidden="true"
-      className="w-full aspect-[16/9] bg-[hsl(200,25%,8%)] rounded-lg overflow-hidden flex text-[0.5rem] sm:text-[0.6rem] md:text-[0.7rem] lg:text-xs"
+      className="w-full aspect-[2/1] bg-[hsl(200,25%,8%)] rounded-lg overflow-hidden flex text-[0.5rem] sm:text-[0.6rem] md:text-[0.7rem] lg:text-xs"
     >
       {/* Sidebar */}
       <aside className="w-[20%] min-w-[70px] bg-[hsl(200,25%,10%)] border-r border-[hsl(200,25%,18%)] flex flex-col p-1.5 sm:p-2">
