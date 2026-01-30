@@ -41,11 +41,11 @@ export const HowItWorks = () => {
             <div key={index} className="relative text-center">
               {/* Connector line (hidden on mobile and last item) */}
               {index < steps.length - 1 && (
-                <div className="hidden md:block absolute top-12 left-1/2 w-full h-0.5 bg-gradient-to-r from-primary/20 to-accent/20" />
+                <div className="hidden md:block absolute top-12 left-1/2 w-full h-0.5 bg-gradient-to-r from-primary/40 to-accent/40" />
               )}
 
               {/* Step number circle */}
-              <div className="relative inline-flex items-center justify-center w-24 h-24 rounded-full bg-gradient-to-br from-primary to-accent mb-6">
+              <div className="relative inline-flex items-center justify-center w-24 h-24 rounded-full bg-gradient-to-br from-primary to-accent mb-6 shadow-lg shadow-primary/20">
                 <div className="absolute inset-1 rounded-full bg-background flex items-center justify-center">
                   <step.icon className="h-10 w-10 text-primary" />
                 </div>
