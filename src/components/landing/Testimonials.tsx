@@ -67,8 +67,10 @@ const Avatar = ({ image, fallback, name }: AvatarProps) => {
   return (
     <img
       src={image}
-      alt={name}
+      alt={`${name}'s profile photo`}
       className="w-12 h-12 rounded-full bg-primary/20"
+      width={48}
+      height={48}
       onError={() => setImgError(true)}
     />
   );

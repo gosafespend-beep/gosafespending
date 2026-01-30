@@ -14,6 +14,8 @@ import { BreadcrumbSchema } from "./components/seo/BreadcrumbSchema";
 import { FAQSchema } from "./components/seo/FAQSchema";
 import { OrganizationSchema } from "./components/seo/OrganizationSchema";
 import { PerformanceOptimizations } from "./components/seo/PerformanceOptimizations";
+import { WebSiteSchema } from "./components/seo/WebSiteSchema";
+import { HowToSchema } from "./components/seo/HowToSchema";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +30,8 @@ const App = () => (
         <BreadcrumbSchema />
         <FAQSchema />
         <OrganizationSchema />
+        <WebSiteSchema />
+        <HowToSchema />
         <PerformanceOptimizations />
         
         <Routes>

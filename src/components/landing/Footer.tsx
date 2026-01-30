@@ -1,4 +1,4 @@
-import { Twitter, Linkedin, Mail, Github } from "lucide-react";
+import { Mail } from "lucide-react";
 import { Link } from "react-router-dom";
 import { WaitlistForm } from "./WaitlistForm";
 import { motion } from "framer-motion";
@@ -8,13 +8,9 @@ const footerLinks = {
   product: [
     { label: "Features", href: "#features" },
     { label: "How It Works", href: "#how-it-works" },
-    { label: "Pricing", href: "#" },
     { label: "FAQ", href: "#faq" },
   ],
   company: [
-    { label: "About Us", href: "#" },
-    { label: "Blog", href: "#" },
-    { label: "Careers", href: "#" },
     { label: "Contact", href: "/contact", isRoute: true },
   ],
   legal: [
@@ -25,10 +21,7 @@ const footerLinks = {
 };
 
 const socialLinks = [
-  { icon: Twitter, href: "#", label: "Twitter" },
-  { icon: Linkedin, href: "#", label: "LinkedIn" },
-  { icon: Github, href: "#", label: "GitHub" },
-  { icon: Mail, href: "mailto:hello@safespend.com", label: "Email" },
+  { icon: Mail, href: "mailto:hello@gosafespend.com", label: "Email" },
 ];
 
 export const Footer = () => {
@@ -74,7 +67,7 @@ export const Footer = () => {
           {/* Brand column */}
           <div className="col-span-2">
             <div className="flex items-center gap-2 mb-4">
-              <img src={logo} alt="Safe Spend" className="h-9 w-9" />
+              <img src={logo} alt="Safe Spend logo" className="h-9 w-9" width={36} height={36} />
               <span className="text-xl font-bold">Safe Spend</span>
             </div>
             <p className="text-muted-foreground text-sm mb-6 max-w-xs">
@@ -104,12 +97,16 @@ export const Footer = () => {
             <ul className="space-y-3">
               {footerLinks.product.map((link) => (
                 <li key={link.label}>
-                  <button
-                    onClick={() => scrollToSection(link.href)}
+                  <a
+                    href={link.href}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      scrollToSection(link.href);
+                    }}
                     className="text-muted-foreground hover:text-primary transition-colors text-sm"
                   >
                     {link.label}
-                  </button>
+                  </a>
                 </li>
               ))}
             </ul>
