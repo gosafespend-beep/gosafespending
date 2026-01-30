@@ -1,5 +1,6 @@
-import { Wallet, Twitter, Linkedin, Mail } from "lucide-react";
+import { Twitter, Linkedin, Mail } from "lucide-react";
 import { WaitlistForm } from "./WaitlistForm";
+import logo from "@/assets/logo.png";
 
 export const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -24,10 +25,8 @@ export const Footer = () => {
         <div className="flex flex-col md:flex-row justify-between items-center gap-8">
           {/* Logo */}
           <div className="flex items-center gap-2">
-            <div className="h-9 w-9 rounded-lg bg-primary flex items-center justify-center">
-              <Wallet className="h-5 w-5 text-primary-foreground" />
-            </div>
-            <span className="text-xl font-bold">SafeSpend</span>
+            <img src={logo} alt="Safe Spend" className="h-9 w-9" />
+            <span className="text-xl font-bold">Safe Spend</span>
           </div>
 
           {/* Links */}
