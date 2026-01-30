@@ -33,16 +33,16 @@ const PrivacyPolicy = () => {
 
         <h3 className="text-lg font-medium mb-2">Financial Information</h3>
         <p className="mb-4">
-          When you connect your financial accounts, we may access:
+          The financial data you choose to enter may include:
         </p>
         <ul className="list-disc pl-6 mb-4 space-y-2">
-          <li>Transaction history</li>
+          <li>Transaction records</li>
           <li>Account balances</li>
           <li>Account names and types</li>
-          <li>Institution names</li>
+          <li>Budget categories</li>
         </ul>
         <p className="mb-4">
-          <strong>Important:</strong> We use read-only access and cannot move, transfer, or modify your funds.
+          <strong>Important:</strong> Safe Spend is a manual-entry app. You control what data you add, and we never access your bank accounts directly.
         </p>
 
         <h3 className="text-lg font-medium mb-2">Usage Data</h3>
@@ -91,7 +91,6 @@ const PrivacyPolicy = () => {
           We may share your information with trusted third-party service providers who assist us in:
         </p>
         <ul className="list-disc pl-6 mb-4 space-y-2">
-          <li>Financial account aggregation (e.g., Plaid)</li>
           <li>Cloud hosting and data storage</li>
           <li>Analytics and performance monitoring</li>
           <li>Customer support services</li>
@@ -111,7 +110,7 @@ const PrivacyPolicy = () => {
           <li><strong>Deletion:</strong> Request deletion of your personal data</li>
           <li><strong>Export:</strong> Export your data in a machine-readable format</li>
           <li><strong>Opt-out:</strong> Unsubscribe from marketing communications</li>
-          <li><strong>Withdraw consent:</strong> Disconnect financial accounts at any time</li>
+          <li><strong>Delete data:</strong> Remove your financial records at any time</li>
         </ul>
       </section>
 

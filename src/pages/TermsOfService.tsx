@@ -25,7 +25,7 @@ const TermsOfService = () => {
           <li>Set and monitor savings goals</li>
           <li>Plan debt repayment strategies</li>
           <li>View net worth and financial reports</li>
-          <li>Connect and aggregate financial accounts</li>
+          <li>Manually track accounts and organize financial data</li>
         </ul>
       </section>
 

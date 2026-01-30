@@ -28,13 +28,13 @@ const faqs: FAQ[] = [
   },
   {
     question: "How secure is my financial data?",
-    answer: "We use bank-level 256-bit AES encryption for all data at rest and in transit. Your login credentials are never stored on our servers—we use secure tokenized connections through trusted partners.",
+    answer: "We use 256-bit AES encryption for all data at rest and in transit. Your information is stored securely and never shared with third parties. All data stays private between you and your account.",
     category: "security",
     icon: Shield,
   },
   {
-    question: "Will Safe Spend connect to my bank?",
-    answer: "Yes! We support thousands of financial institutions across North America and Europe through secure, read-only connections. We can only view your transactions—we can never move your money.",
+    question: "Do I need to connect my bank account?",
+    answer: "No! Safe Spend is a manual-entry app—you're always in control of what data you add. Simply log your transactions, income, and accounts yourself. This keeps your banking credentials completely private and secure.",
     category: "features",
     icon: Smartphone,
   },

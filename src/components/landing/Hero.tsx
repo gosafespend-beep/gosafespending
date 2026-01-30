@@ -111,7 +111,7 @@ export const Hero = () => {
           >
             <div className="flex items-center gap-2 group">
               <Shield className="h-5 w-5 text-primary group-hover:scale-110 transition-transform" />
-              <span className="text-sm">Bank-level security</span>
+              <span className="text-sm">Enterprise-grade security</span>
             </div>
             <div className="flex items-center gap-2 group">
               <TrendingUp className="h-5 w-5 text-accent group-hover:scale-110 transition-transform" />

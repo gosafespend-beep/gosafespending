@@ -67,7 +67,7 @@ const CookiesPolicy = () => {
             patterns
           </li>
           <li>
-            <strong>Financial data aggregators</strong> (e.g., Plaid) for secure bank connections
+            <strong>Cloud infrastructure providers</strong> for secure data storage
           </li>
           <li>
             <strong>Error tracking services</strong> to help us identify and fix issues

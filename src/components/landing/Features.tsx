@@ -15,7 +15,7 @@ const features = [
   {
     icon: Wallet,
     title: "Expense Tracking",
-    description: "Automatically categorize and track every transaction. Know exactly where your money goes.",
+    description: "Easily log and categorize your transactions. Know exactly where your money goes.",
     color: "text-primary",
     bg: "bg-primary/10",
     stat: "100%",

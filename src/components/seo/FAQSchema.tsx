@@ -12,12 +12,12 @@ const faqData = [
     answer: "Safe Spend offers a free tier with essential features. Premium features like advanced analytics, unlimited accounts, and priority support are available through paid plans.",
   },
   {
-    question: "How does Safe Spend connect to my bank?",
-    answer: "Safe Spend uses read-only bank connections via Plaid, a trusted financial data platform. We never store your bank login credentials, and all connections are encrypted with bank-level security.",
+    question: "Do I need to connect my bank account?",
+    answer: "No! Safe Spend is a manual-entry app—you're always in control of what data you add. Simply log your transactions, income, and accounts yourself. This keeps your banking credentials completely private and secure.",
   },
   {
     question: "Is my financial data secure?",
-    answer: "Absolutely. We use 256-bit AES encryption, the same standard used by major banks. Your data is stored securely and we never sell or share your personal information with third parties.",
+    answer: "Absolutely. We use 256-bit AES encryption for all data at rest and in transit. Your information is stored securely and never shared with third parties. All data stays private between you and your account.",
   },
   {
     question: "Can I use Safe Spend on mobile?",
