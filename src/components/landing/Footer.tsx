@@ -1,4 +1,5 @@
 import { Twitter, Linkedin, Mail } from "lucide-react";
+import { Link } from "react-router-dom";
 import { WaitlistForm } from "./WaitlistForm";
 import logo from "@/assets/logo.png";
 
@@ -14,7 +15,7 @@ export const Footer = () => {
             Ready to Take Control of Your Finances?
           </h2>
           <p className="text-muted-foreground mb-6 max-w-md mx-auto">
-            Join the waitlist and be the first to know when SafeSpend launches.
+            Join the waitlist and be the first to know when Safe Spend launches.
           </p>
           <div className="max-w-md mx-auto">
             <WaitlistForm variant="footer" />
@@ -30,16 +31,19 @@ export const Footer = () => {
           </div>
 
           {/* Links */}
-          <div className="flex items-center gap-6 text-sm text-muted-foreground">
-            <a href="#" className="hover:text-foreground transition-colors">
+          <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-muted-foreground">
+            <Link to="/privacy-policy" className="hover:text-foreground transition-colors">
               Privacy Policy
-            </a>
-            <a href="#" className="hover:text-foreground transition-colors">
+            </Link>
+            <Link to="/terms-of-service" className="hover:text-foreground transition-colors">
               Terms of Service
-            </a>
-            <a href="#" className="hover:text-foreground transition-colors">
+            </Link>
+            <Link to="/cookies-policy" className="hover:text-foreground transition-colors">
+              Cookies Policy
+            </Link>
+            <Link to="/contact" className="hover:text-foreground transition-colors">
               Contact
-            </a>
+            </Link>
           </div>
 
           {/* Social */}
