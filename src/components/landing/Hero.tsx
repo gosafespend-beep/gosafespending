@@ -42,7 +42,7 @@ export const Hero = () => {
             transition={{ duration: 0.5 }}
           >
             <div className="relative">
-              <img src={logo} alt="Safe Spend" className="h-20 w-20 relative z-10" />
+              <img src={logo} alt="Safe Spend logo" className="h-20 w-20 relative z-10" width={80} height={80} />
               <motion.div
                 className="absolute inset-0 rounded-full bg-primary/30 blur-xl"
                 animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
@@ -125,8 +125,12 @@ export const Hero = () => {
         </div>
 
         {/* Scroll indicator */}
-        <motion.button
-          onClick={scrollToFeatures}
+        <motion.a
+          href="#features"
+          onClick={(e) => {
+            e.preventDefault();
+            scrollToFeatures();
+          }}
           className="absolute bottom-8 left-1/2 -translate-x-1/2 text-muted-foreground hover:text-foreground transition-colors"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -134,7 +138,7 @@ export const Hero = () => {
           aria-label="Scroll to features"
         >
           <ChevronDown className="h-8 w-8 animate-bounce-down" />
-        </motion.button>
+        </motion.a>
       </div>
     </section>
   );

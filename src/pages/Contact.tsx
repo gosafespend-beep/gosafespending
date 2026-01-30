@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Mail, Twitter, Linkedin, Send, HelpCircle } from "lucide-react";
+import { ArrowLeft, Mail, Send, HelpCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+import { VisualBreadcrumbs } from "@/components/seo/VisualBreadcrumbs";
 import logo from "@/assets/logo.png";
 
 const Contact = () => {
@@ -39,7 +40,7 @@ const Contact = () => {
       <header className="sticky top-0 z-50 bg-background/95 backdrop-blur-md border-b border-border/50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
-            <img src={logo} alt="Safe Spend" className="h-8 w-8" />
+            <img src={logo} alt="Safe Spend logo" className="h-8 w-8" width={32} height={32} />
             <span className="text-lg font-bold text-foreground">Safe Spend</span>
           </Link>
           <Link
@@ -54,6 +55,7 @@ const Contact = () => {
 
       {/* Content */}
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <VisualBreadcrumbs />
         <div className="text-center mb-12">
           <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">Get in Touch</h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -126,32 +128,30 @@ const Contact = () => {
               </div>
               <p className="text-muted-foreground mb-2">For general inquiries:</p>
               <a
-                href="mailto:hello@safespend.app"
+                href="mailto:hello@gosafespend.com"
                 className="text-primary hover:underline"
               >
-                hello@safespend.app
+                hello@gosafespend.com
               </a>
             </div>
 
-            {/* Social */}
+            {/* FAQ Link */}
             <div className="bg-card border border-border/50 rounded-2xl p-6">
-              <h3 className="font-semibold text-foreground mb-4">Follow Us</h3>
-              <div className="flex gap-3">
-                <a
-                  href="#"
-                  className="p-3 rounded-lg bg-primary/10 hover:bg-primary/20 transition-colors"
-                  aria-label="Twitter"
-                >
-                  <Twitter className="h-5 w-5 text-primary" />
-                </a>
-                <a
-                  href="#"
-                  className="p-3 rounded-lg bg-primary/10 hover:bg-primary/20 transition-colors"
-                  aria-label="LinkedIn"
-                >
-                  <Linkedin className="h-5 w-5 text-primary" />
-                </a>
+              <div className="flex items-center gap-3 mb-3">
+                <div className="p-2 rounded-lg bg-accent/10">
+                  <HelpCircle className="h-5 w-5 text-accent" />
+                </div>
+                <h3 className="font-semibold text-foreground">Check Our FAQ</h3>
               </div>
+              <p className="text-muted-foreground mb-3">
+                Find quick answers to common questions.
+              </p>
+              <Link
+                to="/#faq"
+                className="text-primary hover:underline inline-flex items-center gap-1"
+              >
+                View FAQ →
+              </Link>
             </div>
 
             {/* FAQ Link */}

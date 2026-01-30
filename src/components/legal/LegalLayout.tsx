@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import logo from "@/assets/logo.png";
+import { VisualBreadcrumbs } from "@/components/seo/VisualBreadcrumbs";
 
 interface LegalLayoutProps {
   title: string;
@@ -15,7 +16,7 @@ export const LegalLayout = ({ title, lastUpdated, children }: LegalLayoutProps) 
       <header className="sticky top-0 z-50 bg-background/95 backdrop-blur-md border-b border-border/50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
-            <img src={logo} alt="Safe Spend" className="h-8 w-8" />
+            <img src={logo} alt="Safe Spend logo" className="h-8 w-8" width={32} height={32} />
             <span className="text-lg font-bold text-foreground">Safe Spend</span>
           </Link>
           <Link
@@ -30,6 +31,7 @@ export const LegalLayout = ({ title, lastUpdated, children }: LegalLayoutProps) 
 
       {/* Content */}
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <VisualBreadcrumbs />
         <div className="mb-8">
           <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-2">{title}</h1>
           <p className="text-sm text-muted-foreground">Last updated: {lastUpdated}</p>

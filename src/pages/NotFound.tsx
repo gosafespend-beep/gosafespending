@@ -1,21 +1,28 @@
-import { useLocation, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import { Home } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import logo from "@/assets/logo.png";
 
 const NotFound = () => {
-  const location = useLocation();
-
-  // 404 errors are handled gracefully without exposing internal paths
-  // Error tracking should be done server-side or via error monitoring service
+  // Add noindex meta tag to prevent soft 404s from being indexed
+  useEffect(() => {
+    const meta = document.createElement('meta');
+    meta.name = 'robots';
+    meta.content = 'noindex, nofollow';
+    document.head.appendChild(meta);
+    
+    return () => {
+      document.head.removeChild(meta);
+    };
+  }, []);
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-background px-4">
       <div className="text-center">
         {/* Logo */}
         <div className="flex items-center justify-center gap-2 mb-8">
-          <img src={logo} alt="Safe Spend" className="h-12 w-12" />
+          <img src={logo} alt="Safe Spend logo" className="h-12 w-12" width={48} height={48} />
           <span className="text-2xl font-bold text-foreground">Safe Spend</span>
         </div>
         

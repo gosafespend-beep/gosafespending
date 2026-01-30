@@ -91,21 +91,29 @@ export const Navbar = () => {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
-              <button 
-                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+              <a 
+                href="/"
+                onClick={(e) => {
+                  e.preventDefault();
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
                 className="flex items-center gap-2"
               >
-                <img src={logo} alt="Safe Spend" className="h-9 w-9" />
+                <img src={logo} alt="Safe Spend logo" className="h-9 w-9" width={36} height={36} />
                 <span className="text-xl font-bold text-foreground">Safe Spend</span>
-              </button>
+              </a>
             </motion.div>
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center gap-1">
               {navItems.map((item) => (
-                <button
+                <a
                   key={item.id}
-                  onClick={() => scrollToSection(item.id)}
+                  href={`#${item.id}`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    scrollToSection(item.id);
+                  }}
                   className={`relative px-4 py-2 text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background rounded-md ${
                     activeSection === item.id
                       ? "text-primary"
@@ -120,13 +128,21 @@ export const Navbar = () => {
                       transition={{ type: "spring", stiffness: 380, damping: 30 }}
                     />
                   )}
-                </button>
+                </a>
               ))}
               <Button
-                onClick={() => scrollToSection("waitlist")}
+                asChild
                 className="ml-4 bg-primary hover:bg-primary/90 text-primary-foreground btn-ripple"
               >
-                Join Waitlist
+                <a
+                  href="#waitlist"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    scrollToSection("waitlist");
+                  }}
+                >
+                  Join Waitlist
+                </a>
               </Button>
             </div>
 
@@ -158,9 +174,13 @@ export const Navbar = () => {
         >
           <div className="px-4 py-4 space-y-2">
             {navItems.map((item, index) => (
-              <motion.button
+              <motion.a
                 key={item.id}
-                onClick={() => scrollToSection(item.id)}
+                href={`#${item.id}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollToSection(item.id);
+                }}
                 className={`block w-full text-left py-3 px-4 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-primary ${
                   activeSection === item.id
                     ? "bg-primary/10 text-primary"
@@ -171,7 +191,7 @@ export const Navbar = () => {
                 transition={{ delay: index * 0.05 }}
               >
                 {item.label}
-              </motion.button>
+              </motion.a>
             ))}
             <motion.div
               initial={{ opacity: 0, y: 10 }}
@@ -179,10 +199,18 @@ export const Navbar = () => {
               transition={{ delay: 0.2 }}
             >
               <Button
-                onClick={() => scrollToSection("waitlist")}
+                asChild
                 className="w-full mt-2 bg-primary hover:bg-primary/90 text-primary-foreground"
               >
-                Join Waitlist
+                <a
+                  href="#waitlist"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    scrollToSection("waitlist");
+                  }}
+                >
+                  Join Waitlist
+                </a>
               </Button>
             </motion.div>
           </div>
