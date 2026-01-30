@@ -16,19 +16,19 @@ export const SpendingTrendCard = ({ isInView }: SpendingTrendCardProps) => {
       initial={prefersReducedMotion ? {} : { opacity: 0, y: 10 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.4, delay: 0.5 }}
-      className="bg-card border border-border rounded-lg p-1.5 sm:p-2 flex flex-col"
+      className="bg-card border border-border rounded-lg p-1 sm:p-1.5 md:p-2 flex flex-col h-full"
     >
       {/* Header */}
-      <div className="flex items-center justify-between mb-1">
-        <div>
-          <p className="font-medium text-foreground text-[0.4rem] sm:text-[0.5rem]">Spending Trend</p>
-          <p className="text-muted-foreground text-[0.3rem] sm:text-[0.35rem]">Last 7 days</p>
+      <div className="flex items-center justify-between mb-0.5 sm:mb-1">
+        <div className="min-w-0">
+          <p className="font-medium text-foreground text-[0.3rem] sm:text-[0.4rem] md:text-[0.5rem] truncate">Spending Trend</p>
+          <p className="text-muted-foreground text-[0.2rem] sm:text-[0.3rem] md:text-[0.35rem] hidden sm:block">Last 7 days</p>
         </div>
-        <p className="font-bold text-primary text-[0.5rem] sm:text-[0.6rem]">$2,340</p>
+        <p className="font-bold text-primary text-[0.35rem] sm:text-[0.5rem] md:text-[0.6rem] flex-shrink-0">$2,340</p>
       </div>
 
       {/* CSS Sparkline Chart */}
-      <div className="flex-1 flex items-end gap-[2px] min-h-[20px] sm:min-h-[28px]">
+      <div className="flex-1 flex items-end gap-[1px] sm:gap-[2px] min-h-[16px] sm:min-h-[20px] md:min-h-[28px]">
         {sparkBars.map((height, index) => (
           <motion.div
             key={index}

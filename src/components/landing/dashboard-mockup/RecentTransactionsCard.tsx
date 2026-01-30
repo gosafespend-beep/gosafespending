@@ -22,10 +22,10 @@ export const RecentTransactionsCard = ({ isInView }: RecentTransactionsCardProps
       initial={prefersReducedMotion ? {} : { opacity: 0, y: 10 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.4, delay: 0.55 }}
-      className="bg-card border border-border rounded-lg p-1.5 sm:p-2 flex flex-col h-full"
+      className="bg-card border border-border rounded-lg p-1 sm:p-1.5 md:p-2 flex flex-col h-full"
     >
       {/* Header */}
-      <p className="font-medium text-foreground text-[0.4rem] sm:text-[0.5rem] mb-1">Recent Transactions</p>
+      <p className="font-medium text-foreground text-[0.3rem] sm:text-[0.4rem] md:text-[0.5rem] mb-0.5 sm:mb-1">Recent Transactions</p>
 
       {/* Transactions List */}
       <div className="flex-1 flex flex-col justify-between min-h-0">
@@ -35,19 +35,19 @@ export const RecentTransactionsCard = ({ isInView }: RecentTransactionsCardProps
             initial={prefersReducedMotion ? {} : { opacity: 0, x: -5 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.3, delay: 0.6 + index * 0.05 }}
-            className="flex items-center gap-1 py-0.5"
+            className="flex items-center gap-0.5 sm:gap-1 py-0.5"
           >
             {/* Color dot */}
             <div className={`w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full ${txn.color} flex-shrink-0`} />
             
             {/* Merchant & Category */}
             <div className="flex-1 min-w-0">
-              <p className="text-foreground text-[0.35rem] sm:text-[0.4rem] truncate">{txn.merchant}</p>
-              <p className="text-muted-foreground text-[0.25rem] sm:text-[0.3rem] truncate">{txn.category}</p>
+              <p className="text-foreground text-[0.25rem] sm:text-[0.35rem] md:text-[0.4rem] truncate">{txn.merchant}</p>
+              <p className="text-muted-foreground text-[0.2rem] sm:text-[0.25rem] md:text-[0.3rem] truncate hidden sm:block">{txn.category}</p>
             </div>
 
             {/* Amount */}
-            <p className={`text-[0.35rem] sm:text-[0.4rem] font-medium flex-shrink-0 ${
+            <p className={`text-[0.25rem] sm:text-[0.35rem] md:text-[0.4rem] font-medium flex-shrink-0 ${
               txn.amount > 0 ? "text-emerald-400" : "text-red-400"
             }`}>
               {txn.amount > 0 ? "+" : ""}${Math.abs(txn.amount).toFixed(2)}
