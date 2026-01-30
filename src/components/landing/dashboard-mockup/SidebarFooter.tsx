@@ -15,17 +15,17 @@ export const SidebarFooter = ({ isInView }: SidebarFooterProps) => {
       initial={prefersReducedMotion ? {} : { opacity: 0 }}
       animate={isInView ? { opacity: 1 } : {}}
       transition={{ duration: 0.4, delay: 0.7 }}
-      className="mt-auto pt-2 border-t border-[hsl(200,25%,18%)]"
+      className="mt-auto pt-1 sm:pt-2 border-t border-[hsl(200,25%,18%)]"
     >
       {/* Monthly Budget */}
-      <div className="mb-1.5">
+      <div className="mb-1 sm:mb-1.5">
         <div className="flex items-center justify-between mb-0.5">
-          <p className="text-[0.35rem] sm:text-[0.4rem] text-muted-foreground">Monthly Budget</p>
-          <p className="text-[0.35rem] sm:text-[0.4rem] text-foreground font-medium">{budgetUsed}%</p>
+          <p className="text-[0.25rem] sm:text-[0.35rem] md:text-[0.4rem] text-muted-foreground truncate">Budget</p>
+          <p className="text-[0.25rem] sm:text-[0.35rem] md:text-[0.4rem] text-foreground font-medium">{budgetUsed}%</p>
         </div>
         
         {/* Progress bar */}
-        <div className="w-full h-1 bg-secondary rounded-full overflow-hidden">
+        <div className="w-full h-0.5 sm:h-1 bg-secondary rounded-full overflow-hidden">
           <motion.div
             initial={prefersReducedMotion ? { width: `${budgetUsed}%` } : { width: 0 }}
             animate={isInView ? { width: `${budgetUsed}%` } : {}}
@@ -34,13 +34,13 @@ export const SidebarFooter = ({ isInView }: SidebarFooterProps) => {
           />
         </div>
         
-        <p className="text-[0.3rem] sm:text-[0.35rem] text-primary mt-0.5">${remaining} remaining</p>
+        <p className="text-[0.2rem] sm:text-[0.3rem] md:text-[0.35rem] text-primary mt-0.5 hidden sm:block">${remaining} left</p>
       </div>
 
       {/* Upgrade CTA */}
-      <div className="hidden sm:block">
-        <div className="bg-primary/10 border border-primary/20 rounded-md px-1.5 py-1 text-center">
-          <p className="text-[0.35rem] text-primary font-medium">Upgrade to Pro</p>
+      <div className="hidden md:block">
+        <div className="bg-primary/10 border border-primary/20 rounded-md px-1 sm:px-1.5 py-0.5 sm:py-1 text-center">
+          <p className="text-[0.3rem] md:text-[0.35rem] text-primary font-medium">Upgrade</p>
         </div>
       </div>
     </motion.div>
