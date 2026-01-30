@@ -1,6 +1,7 @@
 import { Star, CheckCircle, ChevronLeft, ChevronRight } from "lucide-react";
 import { useState, useCallback, useEffect } from "react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 import useEmblaCarousel from "embla-carousel-react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -70,7 +71,7 @@ const Avatar = ({ image, fallback, name }: AvatarProps) => {
   return (
     <img
       src={image}
-      alt={name}
+      alt={`${name}'s avatar`}
       className="w-12 h-12 rounded-full bg-primary/20"
       onError={() => setImgError(true)}
     />
@@ -79,6 +80,7 @@ const Avatar = ({ image, fallback, name }: AvatarProps) => {
 
 export const TestimonialsCarousel = () => {
   const { ref, isVisible } = useScrollAnimation();
+  const prefersReducedMotion = useReducedMotion();
   const [emblaRef, emblaApi] = useEmblaCarousel({ 
     loop: true,
     align: "start",
@@ -113,19 +115,23 @@ export const TestimonialsCarousel = () => {
     };
   }, [emblaApi, onSelect]);
 
-  // Auto-scroll
+  // Auto-scroll (disabled for reduced motion)
   useEffect(() => {
-    if (!emblaApi || isPaused) return;
+    if (!emblaApi || isPaused || prefersReducedMotion) return;
     
     const interval = setInterval(() => {
       emblaApi.scrollNext();
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [emblaApi, isPaused]);
+  }, [emblaApi, isPaused, prefersReducedMotion]);
 
   return (
-    <section id="testimonials" className="py-20 px-4 sm:px-6 lg:px-8 bg-card/50 overflow-hidden">
+    <section 
+      id="testimonials" 
+      className="py-20 px-4 sm:px-6 lg:px-8 bg-card/50 overflow-hidden"
+      aria-label="Customer testimonials"
+    >
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div
@@ -146,9 +152,9 @@ export const TestimonialsCarousel = () => {
           
           {/* Aggregate rating */}
           <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
-            <div className="flex gap-0.5">
+            <div className="flex gap-0.5" aria-label="5 out of 5 stars">
               {[...Array(5)].map((_, i) => (
-                <Star key={i} className="h-4 w-4 fill-primary text-primary" />
+                <Star key={i} className="h-4 w-4 fill-primary text-primary" aria-hidden="true" />
               ))}
             </div>
             <span className="font-medium text-foreground">4.9/5</span>
@@ -161,6 +167,8 @@ export const TestimonialsCarousel = () => {
           className="relative"
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
+          role="region"
+          aria-label="Testimonial carousel"
         >
           <div className="overflow-hidden" ref={emblaRef}>
             <div className="flex gap-6">
@@ -168,19 +176,19 @@ export const TestimonialsCarousel = () => {
                 <motion.div
                   key={index}
                   className="flex-[0_0_100%] min-w-0 sm:flex-[0_0_50%] lg:flex-[0_0_33.333%]"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
+                  initial={prefersReducedMotion ? {} : { opacity: 0, y: 20 }}
+                  whileInView={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
+                  transition={prefersReducedMotion ? {} : { delay: index * 0.1 }}
                 >
-                  <div className="h-full bg-card border border-border/50 rounded-2xl p-6 hover:border-primary/30 transition-all duration-300 hover:-translate-y-1 group">
+                  <article className="h-full bg-card border border-border/50 rounded-2xl p-6 hover:border-primary/30 transition-all duration-300 hover:-translate-y-1 group">
                     {/* Quote mark */}
-                    <div className="text-4xl text-primary/20 font-serif leading-none mb-2">"</div>
+                    <div className="text-4xl text-primary/20 font-serif leading-none mb-2" aria-hidden="true">"</div>
                     
                     {/* Stars */}
-                    <div className="flex gap-1 mb-4">
+                    <div className="flex gap-1 mb-4" aria-label="5 star rating">
                       {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="h-4 w-4 fill-primary text-primary" />
+                        <Star key={i} className="h-4 w-4 fill-primary text-primary" aria-hidden="true" />
                       ))}
                     </div>
 
@@ -190,7 +198,7 @@ export const TestimonialsCarousel = () => {
                     </blockquote>
 
                     {/* Author */}
-                    <div className="flex items-center gap-3">
+                    <footer className="flex items-center gap-3">
                       <Avatar
                         image={testimonial.image}
                         fallback={testimonial.avatar}
@@ -198,13 +206,13 @@ export const TestimonialsCarousel = () => {
                       />
                       <div>
                         <div className="flex items-center gap-2">
-                          <p className="font-semibold text-foreground">{testimonial.name}</p>
-                          <CheckCircle className="h-4 w-4 text-primary" />
+                          <cite className="font-semibold text-foreground not-italic">{testimonial.name}</cite>
+                          <CheckCircle className="h-4 w-4 text-primary" aria-label="Verified" />
                         </div>
                         <p className="text-sm text-muted-foreground">{testimonial.role}</p>
                       </div>
-                    </div>
-                  </div>
+                    </footer>
+                  </article>
                 </motion.div>
               ))}
             </div>
@@ -216,21 +224,23 @@ export const TestimonialsCarousel = () => {
             size="icon"
             className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 hidden lg:flex bg-background/80 backdrop-blur-sm border-border/50 hover:bg-primary/10 hover:border-primary/30"
             onClick={scrollPrev}
+            aria-label="Previous testimonial"
           >
-            <ChevronLeft className="h-5 w-5" />
+            <ChevronLeft className="h-5 w-5" aria-hidden="true" />
           </Button>
           <Button
             variant="outline"
             size="icon"
             className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 hidden lg:flex bg-background/80 backdrop-blur-sm border-border/50 hover:bg-primary/10 hover:border-primary/30"
             onClick={scrollNext}
+            aria-label="Next testimonial"
           >
-            <ChevronRight className="h-5 w-5" />
+            <ChevronRight className="h-5 w-5" aria-hidden="true" />
           </Button>
         </div>
 
         {/* Dots */}
-        <div className="flex justify-center gap-2 mt-8">
+        <div className="flex justify-center gap-2 mt-8" role="tablist" aria-label="Testimonial slides">
           {testimonials.map((_, index) => (
             <button
               key={index}
@@ -240,6 +250,8 @@ export const TestimonialsCarousel = () => {
                   : "bg-muted-foreground/30 hover:bg-muted-foreground/50"
               }`}
               onClick={() => scrollTo(index)}
+              role="tab"
+              aria-selected={index === selectedIndex}
               aria-label={`Go to testimonial ${index + 1}`}
             />
           ))}

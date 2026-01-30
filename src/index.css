@@ -105,6 +105,26 @@ All colors MUST be HSL.
   body {
     @apply bg-background text-foreground;
   }
+
+  /* Enhanced focus states for accessibility */
+  :focus-visible {
+    outline: 2px solid hsl(var(--primary));
+    outline-offset: 2px;
+  }
+
+  /* Skip link styles */
+  .skip-link {
+    @apply sr-only;
+  }
+
+  .skip-link:focus {
+    @apply not-sr-only fixed top-4 left-4 z-[100] px-4 py-2 bg-primary text-primary-foreground rounded-md;
+  }
+
+  /* Screen reader only but focusable */
+  .sr-only-focusable:not(:focus):not(:focus-within) {
+    @apply sr-only;
+  }
 }
 
 /* Scroll animations */

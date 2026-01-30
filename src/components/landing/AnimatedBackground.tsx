@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 interface Particle {
   x: number;
@@ -14,8 +15,12 @@ export const AnimatedBackground = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const particlesRef = useRef<Particle[]>([]);
   const animationRef = useRef<number>();
+  const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
+    // Skip canvas animation for reduced motion preference
+    if (prefersReducedMotion) return;
+
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -29,22 +34,33 @@ export const AnimatedBackground = () => {
 
     const createParticles = () => {
       const particles: Particle[] = [];
-      const particleCount = Math.min(50, Math.floor(window.innerWidth / 30));
+      // Reduce particle count for performance
+      const particleCount = Math.min(30, Math.floor(window.innerWidth / 50));
       
       for (let i = 0; i < particleCount; i++) {
         particles.push({
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
           size: Math.random() * 2 + 1,
-          speedX: (Math.random() - 0.5) * 0.5,
-          speedY: (Math.random() - 0.5) * 0.5,
-          opacity: Math.random() * 0.5 + 0.2,
+          speedX: (Math.random() - 0.5) * 0.3,
+          speedY: (Math.random() - 0.5) * 0.3,
+          opacity: Math.random() * 0.4 + 0.1,
         });
       }
       particlesRef.current = particles;
     };
 
-    const animate = () => {
+    let lastTime = 0;
+    const fps = 30; // Limit to 30fps for performance
+    const interval = 1000 / fps;
+
+    const animate = (currentTime: number) => {
+      animationRef.current = requestAnimationFrame(animate);
+
+      const delta = currentTime - lastTime;
+      if (delta < interval) return;
+      lastTime = currentTime - (delta % interval);
+
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       particlesRef.current.forEach((particle) => {
@@ -64,42 +80,65 @@ export const AnimatedBackground = () => {
         ctx.fill();
       });
 
-      // Draw connections
+      // Draw connections (only check nearby particles for performance)
+      const connectionDistance = 120;
       particlesRef.current.forEach((particle, i) => {
-        particlesRef.current.slice(i + 1).forEach((otherParticle) => {
+        for (let j = i + 1; j < Math.min(i + 5, particlesRef.current.length); j++) {
+          const otherParticle = particlesRef.current[j];
           const dx = particle.x - otherParticle.x;
           const dy = particle.y - otherParticle.y;
           const distance = Math.sqrt(dx * dx + dy * dy);
 
-          if (distance < 150) {
+          if (distance < connectionDistance) {
             ctx.beginPath();
             ctx.moveTo(particle.x, particle.y);
             ctx.lineTo(otherParticle.x, otherParticle.y);
-            ctx.strokeStyle = `hsla(168, 76%, 42%, ${0.1 * (1 - distance / 150)})`;
+            ctx.strokeStyle = `hsla(168, 76%, 42%, ${0.08 * (1 - distance / connectionDistance)})`;
             ctx.lineWidth = 0.5;
             ctx.stroke();
           }
-        });
+        }
       });
-
-      animationRef.current = requestAnimationFrame(animate);
     };
 
     resizeCanvas();
     createParticles();
-    animate();
+    animationRef.current = requestAnimationFrame(animate);
 
-    window.addEventListener("resize", () => {
+    const handleResize = () => {
       resizeCanvas();
       createParticles();
-    });
+    };
+
+    window.addEventListener("resize", handleResize);
 
     return () => {
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
       }
+      window.removeEventListener("resize", handleResize);
     };
-  }, []);
+  }, [prefersReducedMotion]);
+
+  // Static fallback for reduced motion
+  if (prefersReducedMotion) {
+    return (
+      <>
+        <div 
+          className="absolute top-20 right-10 w-72 h-72 rounded-full -z-10"
+          style={{
+            background: "radial-gradient(circle, hsla(168, 76%, 42%, 0.15) 0%, transparent 70%)",
+          }}
+        />
+        <div 
+          className="absolute bottom-10 left-10 w-96 h-96 rounded-full -z-10"
+          style={{
+            background: "radial-gradient(circle, hsla(168, 76%, 50%, 0.1) 0%, transparent 70%)",
+          }}
+        />
+      </>
+    );
+  }
 
   return (
     <>
@@ -108,6 +147,7 @@ export const AnimatedBackground = () => {
         ref={canvasRef}
         className="absolute inset-0 -z-10"
         style={{ opacity: 0.6 }}
+        aria-hidden="true"
       />
 
       {/* Gradient mesh orbs */}
@@ -125,6 +165,7 @@ export const AnimatedBackground = () => {
           repeat: Infinity,
           ease: "easeInOut",
         }}
+        aria-hidden="true"
       />
       <motion.div
         className="absolute bottom-10 left-10 w-96 h-96 rounded-full -z-10"
@@ -140,6 +181,7 @@ export const AnimatedBackground = () => {
           repeat: Infinity,
           ease: "easeInOut",
         }}
+        aria-hidden="true"
       />
       <motion.div
         className="absolute top-1/2 left-1/3 w-64 h-64 rounded-full -z-10"
@@ -155,6 +197,7 @@ export const AnimatedBackground = () => {
           repeat: Infinity,
           ease: "easeInOut",
         }}
+        aria-hidden="true"
       />
 
       {/* Grid pattern overlay */}
@@ -165,6 +208,7 @@ export const AnimatedBackground = () => {
                            linear-gradient(90deg, hsl(var(--primary)) 1px, transparent 1px)`,
           backgroundSize: "50px 50px",
         }}
+        aria-hidden="true"
       />
     </>
   );

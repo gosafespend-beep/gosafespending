@@ -13,6 +13,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useWaitlist } from "@/hooks/useWaitlist";
+import { useLiveAnnouncer } from "@/hooks/useLiveAnnouncer";
 
 const waitlistSchema = z.object({
   email: z
@@ -32,6 +33,7 @@ interface WaitlistFormProps {
 export const WaitlistForm = ({ variant = "hero", className = "" }: WaitlistFormProps) => {
   const { joinWaitlist, isLoading } = useWaitlist();
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const { announce } = useLiveAnnouncer();
 
   const form = useForm<WaitlistFormData>({
     resolver: zodResolver(waitlistSchema),
@@ -45,26 +47,33 @@ export const WaitlistForm = ({ variant = "hero", className = "" }: WaitlistFormP
     if (result.success) {
       setIsSubmitted(true);
       form.reset();
+      announce("Success! You've been added to the waitlist.", { politeness: "polite" });
+    } else {
+      announce("Failed to join waitlist. Please try again.", { politeness: "assertive" });
     }
   };
 
   if (isSubmitted) {
     return (
-      <div className={`flex items-center gap-2 text-accent ${className}`}>
-        <CheckCircle className="h-5 w-5" />
+      <div 
+        className={`flex items-center gap-2 text-accent ${className}`}
+        role="status"
+        aria-live="polite"
+      >
+        <CheckCircle className="h-5 w-5" aria-hidden="true" />
         <span className="font-medium">You're on the list!</span>
       </div>
     );
   }
 
   const isHero = variant === "hero";
-  const isFooter = variant === "footer";
 
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className={`flex ${isHero ? "flex-col sm:flex-row" : "flex-row"} gap-3 ${className}`}
+        aria-label="Join waitlist"
       >
         <FormField
           control={form.control}
@@ -75,6 +84,8 @@ export const WaitlistForm = ({ variant = "hero", className = "" }: WaitlistFormP
                 <Input
                   type="email"
                   placeholder="Enter your email"
+                  aria-label="Email address"
+                  aria-describedby={form.formState.errors.email ? "email-error" : undefined}
                   className={`
                     ${isHero ? "h-12 text-base" : "h-10"}
                     bg-background/50 border-border/50 text-foreground placeholder:text-muted-foreground focus:border-primary
@@ -83,7 +94,7 @@ export const WaitlistForm = ({ variant = "hero", className = "" }: WaitlistFormP
                   {...field}
                 />
               </FormControl>
-              <FormMessage />
+              <FormMessage id="email-error" />
             </FormItem>
           )}
         />
@@ -92,15 +103,19 @@ export const WaitlistForm = ({ variant = "hero", className = "" }: WaitlistFormP
           disabled={isLoading}
           className={`
             ${isHero ? "h-12 px-8 text-base" : "h-10 px-6"}
-            bg-primary hover:bg-primary/90 text-primary-foreground
+            bg-primary hover:bg-primary/90 text-primary-foreground btn-ripple
           `}
+          aria-busy={isLoading}
         >
           {isLoading ? (
-            <Loader2 className="h-4 w-4 animate-spin" />
+            <>
+              <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+              <span className="sr-only">Submitting...</span>
+            </>
           ) : (
             <>
               Join Waitlist
-              <ArrowRight className="ml-2 h-4 w-4" />
+              <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
             </>
           )}
         </Button>
