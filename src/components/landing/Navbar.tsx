@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import logo from "@/assets/logo.png";
@@ -14,6 +14,30 @@ export const Navbar = () => {
     setIsOpen(false);
   };
 
+  // Handle escape key to close mobile menu
+  const handleKeyDown = useCallback((e: KeyboardEvent) => {
+    if (e.key === "Escape" && isOpen) {
+      setIsOpen(false);
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [handleKeyDown]);
+
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-border/50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -28,25 +52,25 @@ export const Navbar = () => {
           <div className="hidden md:flex items-center gap-8">
             <button
               onClick={() => scrollToSection("features")}
-              className="text-muted-foreground hover:text-foreground transition-colors"
+              className="text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background rounded-md px-2 py-1"
             >
               Features
             </button>
             <button
               onClick={() => scrollToSection("how-it-works")}
-              className="text-muted-foreground hover:text-foreground transition-colors"
+              className="text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background rounded-md px-2 py-1"
             >
               How it Works
             </button>
             <button
               onClick={() => scrollToSection("testimonials")}
-              className="text-muted-foreground hover:text-foreground transition-colors"
+              className="text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background rounded-md px-2 py-1"
             >
               Testimonials
             </button>
             <button
               onClick={() => scrollToSection("faq")}
-              className="text-muted-foreground hover:text-foreground transition-colors"
+              className="text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background rounded-md px-2 py-1"
             >
               FAQ
             </button>
@@ -60,9 +84,11 @@ export const Navbar = () => {
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden p-2 text-muted-foreground hover:text-foreground"
+            className="md:hidden p-2 text-muted-foreground hover:text-foreground focus:outline-none focus:ring-2 focus:ring-primary rounded-md"
             onClick={() => setIsOpen(!isOpen)}
             aria-label="Toggle menu"
+            aria-expanded={isOpen}
+            aria-controls="mobile-menu"
           >
             {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
@@ -71,29 +97,34 @@ export const Navbar = () => {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden bg-background border-b border-border">
+        <div 
+          id="mobile-menu"
+          role="dialog"
+          aria-modal="true"
+          className="md:hidden bg-background border-b border-border"
+        >
           <div className="px-4 py-4 space-y-3">
             <button
               onClick={() => scrollToSection("features")}
-              className="block w-full text-left py-2 text-muted-foreground hover:text-foreground transition-colors"
+              className="block w-full text-left py-2 text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-primary rounded-md px-2"
             >
               Features
             </button>
             <button
               onClick={() => scrollToSection("how-it-works")}
-              className="block w-full text-left py-2 text-muted-foreground hover:text-foreground transition-colors"
+              className="block w-full text-left py-2 text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-primary rounded-md px-2"
             >
               How it Works
             </button>
             <button
               onClick={() => scrollToSection("testimonials")}
-              className="block w-full text-left py-2 text-muted-foreground hover:text-foreground transition-colors"
+              className="block w-full text-left py-2 text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-primary rounded-md px-2"
             >
               Testimonials
             </button>
             <button
               onClick={() => scrollToSection("faq")}
-              className="block w-full text-left py-2 text-muted-foreground hover:text-foreground transition-colors"
+              className="block w-full text-left py-2 text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-primary rounded-md px-2"
             >
               FAQ
             </button>

@@ -1,10 +1,12 @@
 import { WaitlistForm } from "./WaitlistForm";
 import { Shield, TrendingUp, PiggyBank } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import { useWaitlistCount } from "@/hooks/useWaitlistCount";
 import logo from "@/assets/logo.png";
 
 export const Hero = () => {
   const { ref, isVisible } = useScrollAnimation();
+  const { count, isLoading: countLoading } = useWaitlistCount();
 
   return (
     <section className="relative pt-32 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
@@ -53,7 +55,7 @@ export const Hero = () => {
           <div className="max-w-md mx-auto mb-12" id="waitlist">
             <WaitlistForm variant="hero" />
             <p className="text-sm text-muted-foreground mt-3">
-              Join 1,000+ others waiting for early access. No spam, ever.
+              Join {countLoading ? "..." : count.toLocaleString()}+ others waiting for early access. No spam, ever.
             </p>
           </div>
 
