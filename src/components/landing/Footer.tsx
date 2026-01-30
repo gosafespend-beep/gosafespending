@@ -1,80 +1,172 @@
-import { Twitter, Linkedin, Mail } from "lucide-react";
+import { Twitter, Linkedin, Mail, Github } from "lucide-react";
 import { Link } from "react-router-dom";
 import { WaitlistForm } from "./WaitlistForm";
+import { motion } from "framer-motion";
 import logo from "@/assets/logo.png";
+
+const footerLinks = {
+  product: [
+    { label: "Features", href: "#features" },
+    { label: "How It Works", href: "#how-it-works" },
+    { label: "Pricing", href: "#" },
+    { label: "FAQ", href: "#faq" },
+  ],
+  company: [
+    { label: "About Us", href: "#" },
+    { label: "Blog", href: "#" },
+    { label: "Careers", href: "#" },
+    { label: "Contact", href: "/contact", isRoute: true },
+  ],
+  legal: [
+    { label: "Privacy Policy", href: "/privacy-policy", isRoute: true },
+    { label: "Terms of Service", href: "/terms-of-service", isRoute: true },
+    { label: "Cookies Policy", href: "/cookies-policy", isRoute: true },
+  ],
+};
+
+const socialLinks = [
+  { icon: Twitter, href: "#", label: "Twitter" },
+  { icon: Linkedin, href: "#", label: "LinkedIn" },
+  { icon: Github, href: "#", label: "GitHub" },
+  { icon: Mail, href: "mailto:hello@safespend.com", label: "Email" },
+];
 
 export const Footer = () => {
   const currentYear = new Date().getFullYear();
 
+  const scrollToSection = (href: string) => {
+    if (href.startsWith("#")) {
+      const element = document.getElementById(href.slice(1));
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  };
+
   return (
-    <footer className="bg-card border-t border-border/50 text-foreground py-16 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
+    <footer className="bg-card border-t border-border/50 text-foreground">
+      {/* Animated gradient border */}
+      <div className="h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* CTA Section */}
-        <div className="text-center mb-12 pb-12 border-b border-border/50">
-          <h2 className="text-2xl sm:text-3xl font-bold mb-4">
-            Ready to Take Control of Your Finances?
-          </h2>
-          <p className="text-muted-foreground mb-6 max-w-md mx-auto">
-            Join the waitlist and be the first to know when Safe Spend launches.
+        <div className="py-16 border-b border-border/50">
+          <motion.div
+            className="text-center max-w-2xl mx-auto"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-2xl sm:text-3xl font-bold mb-4">
+              Ready to Take Control of Your <span className="gradient-text">Finances</span>?
+            </h2>
+            <p className="text-muted-foreground mb-6">
+              Join the waitlist and be the first to know when Safe Spend launches.
+            </p>
+            <div className="max-w-md mx-auto">
+              <WaitlistForm variant="footer" />
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Main footer content */}
+        <div className="py-12 grid grid-cols-2 md:grid-cols-5 gap-8">
+          {/* Brand column */}
+          <div className="col-span-2">
+            <div className="flex items-center gap-2 mb-4">
+              <img src={logo} alt="Safe Spend" className="h-9 w-9" />
+              <span className="text-xl font-bold">Safe Spend</span>
+            </div>
+            <p className="text-muted-foreground text-sm mb-6 max-w-xs">
+              Your personal finance companion. Track expenses, build budgets, crush debt, and grow your savings.
+            </p>
+            
+            {/* Social links */}
+            <div className="flex items-center gap-3">
+              {socialLinks.map((social) => (
+                <motion.a
+                  key={social.label}
+                  href={social.href}
+                  className="p-2.5 rounded-lg bg-muted/50 hover:bg-primary/20 text-muted-foreground hover:text-primary transition-all duration-300"
+                  aria-label={social.label}
+                  whileHover={{ scale: 1.1, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <social.icon className="h-5 w-5" />
+                </motion.a>
+              ))}
+            </div>
+          </div>
+
+          {/* Product links */}
+          <div>
+            <h3 className="font-semibold text-foreground mb-4">Product</h3>
+            <ul className="space-y-3">
+              {footerLinks.product.map((link) => (
+                <li key={link.label}>
+                  <button
+                    onClick={() => scrollToSection(link.href)}
+                    className="text-muted-foreground hover:text-primary transition-colors text-sm"
+                  >
+                    {link.label}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Company links */}
+          <div>
+            <h3 className="font-semibold text-foreground mb-4">Company</h3>
+            <ul className="space-y-3">
+              {footerLinks.company.map((link) => (
+                <li key={link.label}>
+                  {link.isRoute ? (
+                    <Link
+                      to={link.href}
+                      className="text-muted-foreground hover:text-primary transition-colors text-sm"
+                    >
+                      {link.label}
+                    </Link>
+                  ) : (
+                    <a
+                      href={link.href}
+                      className="text-muted-foreground hover:text-primary transition-colors text-sm"
+                    >
+                      {link.label}
+                    </a>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Legal links */}
+          <div>
+            <h3 className="font-semibold text-foreground mb-4">Legal</h3>
+            <ul className="space-y-3">
+              {footerLinks.legal.map((link) => (
+                <li key={link.label}>
+                  <Link
+                    to={link.href}
+                    className="text-muted-foreground hover:text-primary transition-colors text-sm"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        {/* Bottom bar */}
+        <div className="py-6 border-t border-border/50 flex flex-col sm:flex-row justify-between items-center gap-4">
+          <p className="text-sm text-muted-foreground">
+            © {currentYear} Safe Spend. Your finances, simplified.
           </p>
-          <div className="max-w-md mx-auto">
-            <WaitlistForm variant="footer" />
+          <div className="flex items-center gap-6 text-sm text-muted-foreground">
+            <span>Made with 💚 for your financial freedom</span>
           </div>
-        </div>
-
-        {/* Footer content */}
-        <div className="flex flex-col md:flex-row justify-between items-center gap-8">
-          {/* Logo */}
-          <div className="flex items-center gap-2">
-            <img src={logo} alt="Safe Spend" className="h-9 w-9" />
-            <span className="text-xl font-bold">Safe Spend</span>
-          </div>
-
-          {/* Links */}
-          <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-muted-foreground">
-            <Link to="/privacy-policy" className="hover:text-foreground transition-colors">
-              Privacy Policy
-            </Link>
-            <Link to="/terms-of-service" className="hover:text-foreground transition-colors">
-              Terms of Service
-            </Link>
-            <Link to="/cookies-policy" className="hover:text-foreground transition-colors">
-              Cookies Policy
-            </Link>
-            <Link to="/contact" className="hover:text-foreground transition-colors">
-              Contact
-            </Link>
-          </div>
-
-          {/* Social */}
-          <div className="flex items-center gap-4">
-            <a
-              href="#"
-              className="p-2 rounded-lg bg-primary/10 hover:bg-primary/20 transition-colors"
-              aria-label="Twitter"
-            >
-              <Twitter className="h-5 w-5" />
-            </a>
-            <a
-              href="#"
-              className="p-2 rounded-lg bg-primary/10 hover:bg-primary/20 transition-colors"
-              aria-label="LinkedIn"
-            >
-              <Linkedin className="h-5 w-5" />
-            </a>
-            <a
-              href="#"
-              className="p-2 rounded-lg bg-primary/10 hover:bg-primary/20 transition-colors"
-              aria-label="Email"
-            >
-              <Mail className="h-5 w-5" />
-            </a>
-          </div>
-        </div>
-
-        {/* Copyright */}
-        <div className="text-center mt-8 pt-8 border-t border-border/50 text-sm text-muted-foreground">
-          © {currentYear} Safe Spend. Your finances, simplified.
         </div>
       </div>
     </footer>
