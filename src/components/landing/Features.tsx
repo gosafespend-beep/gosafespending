@@ -70,7 +70,7 @@ const features = [
 
 export const Features = () => {
   return (
-    <section id="features" className="py-20 px-4 sm:px-6 lg:px-8 bg-muted/30">
+    <section id="features" className="py-20 px-4 sm:px-6 lg:px-8 bg-card/50">
       <div className="max-w-7xl mx-auto">
         {/* Section header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
@@ -88,7 +88,7 @@ export const Features = () => {
           {features.map((feature, index) => (
             <div
               key={index}
-              className="group p-6 bg-card rounded-xl border border-border hover:border-primary/20 hover:shadow-lg transition-all duration-300"
+              className="group p-6 bg-background rounded-xl border border-border/50 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300"
             >
               <div className={`inline-flex p-3 rounded-lg ${feature.bg} mb-4`}>
                 <feature.icon className={`h-6 w-6 ${feature.color}`} />

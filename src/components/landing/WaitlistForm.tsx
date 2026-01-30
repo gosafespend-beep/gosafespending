@@ -77,7 +77,7 @@ export const WaitlistForm = ({ variant = "hero", className = "" }: WaitlistFormP
                   placeholder="Enter your email"
                   className={`
                     ${isHero ? "h-12 text-base" : "h-10"}
-                    ${isFooter ? "bg-muted/10 border-muted/20 text-foreground placeholder:text-muted-foreground" : ""}
+                    bg-background/50 border-border/50 text-foreground placeholder:text-muted-foreground focus:border-primary
                   `}
                   disabled={isLoading}
                   {...field}
