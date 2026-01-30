@@ -6,12 +6,12 @@ const badges = [
   {
     icon: Lock,
     label: "256-bit Encryption",
-    description: "Bank-level security",
+    description: "Enterprise-grade protection",
   },
   {
     icon: Eye,
-    label: "Read-Only Access",
-    description: "We never move your money",
+    label: "Your Data, Secured",
+    description: "Private and encrypted",
   },
   {
     icon: CreditCard,
