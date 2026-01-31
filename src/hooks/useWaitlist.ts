@@ -13,11 +13,12 @@ export const useWaitlist = () => {
 
   const joinWaitlist = async (email: string): Promise<WaitlistResult> => {
     setIsLoading(true);
+    const normalizedEmail = email.toLowerCase();
 
     try {
       const { error } = await supabase
         .from("waitlist")
-        .insert({ email: email.toLowerCase() });
+        .insert({ email: normalizedEmail });
 
       if (error) {
         // Handle duplicate email (unique constraint violation)
@@ -28,10 +29,25 @@ export const useWaitlist = () => {
         throw error;
       }
 
-      toast.success("Thanks for joining Safe Spend! We'll be in touch soon.");
+      // Send confirmation email via edge function
+      try {
+        const { error: emailError } = await supabase.functions.invoke("send-waitlist-email", {
+          body: { email: normalizedEmail },
+        });
+
+        if (emailError) {
+          console.error("Failed to send confirmation email:", emailError);
+          // Don't fail the whole operation if email fails
+        }
+      } catch (emailErr) {
+        console.error("Email service error:", emailErr);
+        // Don't fail the whole operation if email fails
+      }
+
+      toast.success("Thanks for joining Safe Spend! Check your inbox for confirmation.");
       return { success: true, alreadyExists: false };
     } catch (error) {
-      // Error details not logged to client console for security
+      console.error("Waitlist error:", error);
       toast.error("Something went wrong. Please try again.");
       return { success: false, error: error as Error };
     } finally {
