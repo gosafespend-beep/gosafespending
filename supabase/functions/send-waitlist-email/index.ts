@@ -48,33 +48,62 @@ const handler = async (req: Request): Promise<Response> => {
                   <tr>
                     <td style="text-align: center; padding-bottom: 30px;">
                       <h1 style="margin: 0; font-size: 28px; font-weight: 700; color: #18181b;">
-                        Welcome to Safe Spend! 🎉
+                        Welcome to Safe Spend
                       </h1>
                     </td>
                   </tr>
                   <tr>
                     <td style="padding-bottom: 20px;">
                       <p style="margin: 0; font-size: 16px; line-height: 1.6; color: #3f3f46;">
-                        Thanks for joining our waitlist! You're now among the first to know when Safe Spend launches.
+                        Thank you for joining the Safe Spend waitlist. You're now part of a small group that will receive early access before the public launch.
                       </p>
                     </td>
                   </tr>
                   <tr>
                     <td style="padding-bottom: 20px;">
                       <p style="margin: 0; font-size: 16px; line-height: 1.6; color: #3f3f46;">
-                        <strong>What to expect:</strong>
+                        Safe Spend is designed to give you a clear, honest view of your finances — helping you understand where your money goes, plan with intention, and know exactly how much is safe to spend at any moment.
                       </p>
-                      <ul style="margin: 10px 0; padding-left: 20px; color: #3f3f46; font-size: 16px; line-height: 1.8;">
-                        <li>Early access to Safe Spend before the public launch</li>
-                        <li>Exclusive updates on new features</li>
-                        <li>Special launch pricing for waitlist members</li>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding-bottom: 20px;">
+                      <p style="margin: 0 0 10px 0; font-size: 16px; font-weight: 600; color: #18181b;">
+                        What you can expect:
+                      </p>
+                      <ul style="margin: 0; padding-left: 20px; color: #3f3f46; font-size: 16px; line-height: 1.8;">
+                        <li>Early access to Safe Spend before public release</li>
+                        <li>Priority updates as new features are introduced</li>
+                        <li>Preferential launch pricing reserved for waitlist members</li>
                       </ul>
                     </td>
                   </tr>
                   <tr>
-                    <td style="padding-bottom: 30px;">
+                    <td style="padding-bottom: 20px;">
+                      <p style="margin: 0 0 10px 0; font-size: 16px; font-weight: 600; color: #18181b;">
+                        What Safe Spend helps you do:
+                      </p>
+                      <ul style="margin: 0; padding-left: 20px; color: #3f3f46; font-size: 16px; line-height: 1.8;">
+                        <li>Track income and expenses with clear, structured categories</li>
+                        <li>Set practical monthly budgets and spending limits</li>
+                        <li>View accurate monthly and annual financial summaries</li>
+                        <li>Maintain full control over your financial data</li>
+                      </ul>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding-bottom: 20px; background-color: #f0fdf4; border-radius: 8px; padding: 16px;">
+                      <p style="margin: 0; font-size: 15px; line-height: 1.6; color: #166534; text-align: center;">
+                        <strong>Safe Spend requires no bank connections.</strong><br>
+                        There are no hidden calculations, automated imports, or unclear assumptions — just transparency, simplicity, and control.
+                      </p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 20px 0;">
                       <p style="margin: 0; font-size: 16px; line-height: 1.6; color: #3f3f46;">
-                        We're building Safe Spend to help you take control of your finances with confidence—no bank connections required, just complete transparency and simplicity.
+                        We'll notify you as soon as early access becomes available.<br>
+                        Thank you for trusting us with something important.
                       </p>
                     </td>
                   </tr>
@@ -87,7 +116,10 @@ const handler = async (req: Request): Promise<Response> => {
                   </tr>
                   <tr>
                     <td style="border-top: 1px solid #e4e4e7; padding-top: 20px;">
-                      <p style="margin: 0; font-size: 14px; color: #71717a; text-align: center;">
+                      <p style="margin: 0; font-size: 15px; color: #3f3f46; text-align: center;">
+                        <strong>The Safe Spend Team</strong>
+                      </p>
+                      <p style="margin: 10px 0 0 0; font-size: 14px; color: #71717a; text-align: center;">
                         Questions? Reply to this email or contact us at<br>
                         <a href="mailto:info@gosafespend.com" style="color: #16a34a; text-decoration: none;">info@gosafespend.com</a>
                       </p>
