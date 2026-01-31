@@ -29,7 +29,8 @@ const handler = async (req: Request): Promise<Response> => {
     console.log("Sending waitlist confirmation email to:", email);
 
     const emailResponse = await resend.emails.send({
-      from: "Safe Spend <info@gosafespend.com>",
+      from: "Safe Spend <noreply@gosafespend.com>",
+      reply_to: "info@gosafespend.com",
       to: [email],
       subject: "Welcome to the Safe Spend Waitlist! 🎉",
       html: `
@@ -88,7 +89,7 @@ const handler = async (req: Request): Promise<Response> => {
                     <td style="border-top: 1px solid #e4e4e7; padding-top: 20px;">
                       <p style="margin: 0; font-size: 14px; color: #71717a; text-align: center;">
                         Questions? Reply to this email or contact us at<br>
-                        <a href="mailto:hello@gosafespend.com" style="color: #16a34a; text-decoration: none;">hello@gosafespend.com</a>
+                        <a href="mailto:info@gosafespend.com" style="color: #16a34a; text-decoration: none;">info@gosafespend.com</a>
                       </p>
                     </td>
                   </tr>
