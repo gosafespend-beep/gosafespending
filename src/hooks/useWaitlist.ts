@@ -30,21 +30,29 @@ export const useWaitlist = () => {
       }
 
       // Send confirmation email via edge function
+      let emailSent = false;
       try {
-        const { error: emailError } = await supabase.functions.invoke("send-waitlist-email", {
+        console.log("Invoking send-waitlist-email for:", normalizedEmail);
+        
+        const { data, error: emailError } = await supabase.functions.invoke("send-waitlist-email", {
           body: { email: normalizedEmail },
         });
 
         if (emailError) {
           console.error("Failed to send confirmation email:", emailError);
-          // Don't fail the whole operation if email fails
+        } else {
+          console.log("Email sent successfully:", data);
+          emailSent = true;
         }
       } catch (emailErr) {
         console.error("Email service error:", emailErr);
-        // Don't fail the whole operation if email fails
       }
 
-      toast.success("Thanks for joining Safe Spend! Check your inbox for confirmation.");
+      if (emailSent) {
+        toast.success("Thanks for joining Safe Spend! Check your inbox for confirmation.");
+      } else {
+        toast.success("You're on the waitlist! (Confirmation email may be delayed)");
+      }
       return { success: true, alreadyExists: false };
     } catch (error) {
       console.error("Waitlist error:", error);
