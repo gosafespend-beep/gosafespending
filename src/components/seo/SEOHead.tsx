@@ -10,7 +10,7 @@ interface SEOHeadProps {
 }
 
 const BASE_URL = "https://gosafespend.com";
-const DEFAULT_IMAGE = `${BASE_URL}/og-image.png`;
+const DEFAULT_IMAGE = `${BASE_URL}/og-image.png?v=2`;
 const SITE_NAME = "Safe Spend";
 
 const pageMetadata: Record<string, { title: string; description: string }> = {
