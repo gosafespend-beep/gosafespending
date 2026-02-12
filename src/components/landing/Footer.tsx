@@ -44,30 +44,6 @@ export const Footer = () => {
       <div className="h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* CTA Section */}
-        <div className="py-16 border-b border-border/50">
-          <motion.div
-            className="text-center max-w-2xl mx-auto"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-2xl sm:text-3xl font-bold mb-4">
-              Ready to Take Control of Your <span className="gradient-text">Finances</span>?
-            </h2>
-            <p className="text-muted-foreground mb-6">
-              Start tracking your finances today — it's free, no credit card required.
-            </p>
-            <Button
-              asChild
-              size="lg"
-              className="h-12 px-8 text-base bg-primary hover:bg-primary/90 text-primary-foreground btn-ripple"
-            >
-              <a href={APP_URL}>Get Started Free</a>
-            </Button>
-          </motion.div>
-        </div>
-
         {/* Main footer content */}
         <div className="py-12 grid grid-cols-2 md:grid-cols-5 gap-8">
           {/* Brand column */}
