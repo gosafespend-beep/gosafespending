@@ -22,7 +22,7 @@ export const OrganizationSchema = () => {
       contactPoint: {
         "@type": "ContactPoint",
         contactType: "customer service",
-        email: "hello@safespend.app",
+        email: "info@gosafespend.com",
         url: `${BASE_URL}/contact`,
       },
       sameAs: [

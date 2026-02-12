@@ -46,7 +46,7 @@ const Contact = () => {
       console.error("Contact form error:", error);
       toast({
         title: "Something went wrong",
-        description: "Please try again or email us directly at hello@gosafespend.com",
+        description: "Please try again or email us directly at info@gosafespend.com",
         variant: "destructive",
       });
     } finally {
@@ -148,10 +148,10 @@ const Contact = () => {
               </div>
               <p className="text-muted-foreground mb-2">For general inquiries:</p>
               <a
-                href="mailto:hello@gosafespend.com"
+                href="mailto:info@gosafespend.com"
                 className="text-primary hover:underline"
               >
-                hello@gosafespend.com
+                info@gosafespend.com
               </a>
             </div>
 
