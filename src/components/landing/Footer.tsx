@@ -12,8 +12,6 @@ const footerLinks = {
     { label: "How It Works", href: "#how-it-works" },
     { label: "Pricing", href: "#pricing" },
     { label: "FAQ", href: "#faq" },
-    { label: "Sign Up", href: APP_URL, isExternal: true },
-    { label: "Log In", href: APP_URL, isExternal: true },
   ],
   company: [
     { label: "Contact", href: "/contact", isRoute: true },
@@ -104,25 +102,16 @@ export const Footer = () => {
             <ul className="space-y-3">
               {footerLinks.product.map((link) => (
                 <li key={link.label}>
-                  {link.isExternal ? (
-                    <a
-                      href={link.href}
-                      className="text-muted-foreground hover:text-primary transition-colors text-sm"
-                    >
-                      {link.label}
-                    </a>
-                  ) : (
-                    <a
-                      href={link.href}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        scrollToSection(link.href);
-                      }}
-                      className="text-muted-foreground hover:text-primary transition-colors text-sm"
-                    >
-                      {link.label}
-                    </a>
-                  )}
+                  <a
+                    href={link.href}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      scrollToSection(link.href);
+                    }}
+                    className="text-muted-foreground hover:text-primary transition-colors text-sm"
+                  >
+                    {link.label}
+                  </a>
                 </li>
               ))}
             </ul>
