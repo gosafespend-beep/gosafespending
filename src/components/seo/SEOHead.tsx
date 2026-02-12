@@ -15,8 +15,8 @@ const SITE_NAME = "Safe Spend";
 
 const pageMetadata: Record<string, { title: string; description: string }> = {
   "/": {
-    title: "Safe Spend - Take Control of Your Money",
-    description: "Take control of your money with Safe Spend. Track expenses, build budgets, crush debt, and grow your savings — all in one beautiful dashboard. Start free today.",
+    title: "Safe Spend - Personal Finance Tracker",
+    description: "Track your spending, budgets, and savings goals with Safe Spend. Privacy-first, AI-powered personal finance tracker. Start your free trial today.",
   },
   "/contact": {
     title: "Contact Us - Safe Spend",

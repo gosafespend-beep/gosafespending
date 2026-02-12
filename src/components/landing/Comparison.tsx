@@ -14,12 +14,15 @@ interface ComparisonRow {
 const rows: ComparisonRow[] = [
   { feature: "No bank connection required", safeSpend: true, spreadsheets: true, otherApps: false },
   { feature: "100% data privacy", safeSpend: true, spreadsheets: true, otherApps: false },
-  { feature: "Free plan available", safeSpend: true, spreadsheets: true, otherApps: "partial" },
+  { feature: "Free trial available", safeSpend: true, spreadsheets: true, otherApps: "partial" },
   { feature: "Beautiful dashboard & charts", safeSpend: true, spreadsheets: false, otherApps: true },
+  { feature: "AI-powered categorization", safeSpend: true, spreadsheets: false, otherApps: "partial" },
   { feature: "Debt payoff planner", safeSpend: true, spreadsheets: false, otherApps: "partial" },
   { feature: "Savings goals tracking", safeSpend: true, spreadsheets: false, otherApps: "partial" },
   { feature: "Bill reminders", safeSpend: true, spreadsheets: false, otherApps: true },
+  { feature: "Works offline (PWA)", safeSpend: true, spreadsheets: "partial", otherApps: "partial" },
   { feature: "Net worth tracking", safeSpend: true, spreadsheets: "partial", otherApps: "partial" },
+  { feature: "Recurring transaction automation", safeSpend: true, spreadsheets: false, otherApps: "partial" },
   { feature: "Mobile friendly", safeSpend: true, spreadsheets: false, otherApps: true },
   { feature: "No formula errors", safeSpend: true, spreadsheets: false, otherApps: true },
 ];

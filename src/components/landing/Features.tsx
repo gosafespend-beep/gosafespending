@@ -7,6 +7,10 @@ import {
   Calendar,
   BarChart3,
   Sparkles,
+  Brain,
+  Smartphone,
+  RefreshCw,
+  Globe,
 } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { motion } from "framer-motion";
@@ -22,11 +26,20 @@ const features = [
     statLabel: "visibility",
   },
   {
-    icon: PieChart,
-    title: "Smart Budgeting",
-    description: "Get personalized 50/30/20 budget suggestions based on your income and spending patterns.",
+    icon: Brain,
+    title: "AI Categorization",
+    description: "Smart auto-categorization powered by AI. Spend less time logging, more time living.",
     color: "text-accent",
     bg: "bg-accent/10",
+    stat: "AI",
+    statLabel: "powered",
+  },
+  {
+    icon: PieChart,
+    title: "Smart Budgeting",
+    description: "Needs vs Wants classification, budget rollover, and AI suggestions based on your spending history.",
+    color: "text-primary",
+    bg: "bg-primary/10",
     stat: "50/30/20",
     statLabel: "rule",
   },
@@ -34,46 +47,73 @@ const features = [
     icon: Target,
     title: "Savings Goals",
     description: "Set goals for vacation, emergency fund, or anything else. Watch your progress grow.",
-    color: "text-primary",
-    bg: "bg-primary/10",
+    color: "text-accent",
+    bg: "bg-accent/10",
     stat: "∞",
     statLabel: "goals",
   },
   {
     icon: CreditCard,
     title: "Debt Payoff Planner",
-    description: "Strategically eliminate debt with snowball or avalanche methods. See your payoff date.",
-    color: "text-accent",
-    bg: "bg-accent/10",
+    description: "Eliminate debt with Snowball or Avalanche strategies. See your projected payoff date.",
+    color: "text-primary",
+    bg: "bg-primary/10",
     stat: "2x",
     statLabel: "faster payoff",
   },
   {
     icon: TrendingUp,
     title: "Net Worth Dashboard",
-    description: "Track assets and liabilities over time. Visualize your complete financial picture.",
-    color: "text-primary",
-    bg: "bg-primary/10",
+    description: "Track assets and liabilities with snapshots over time. Visualize your complete financial picture.",
+    color: "text-accent",
+    bg: "bg-accent/10",
     stat: "360°",
     statLabel: "view",
   },
   {
     icon: Calendar,
     title: "Bill Calendar",
-    description: "Never miss a payment. Get reminders for upcoming bills and subscriptions.",
-    color: "text-accent",
-    bg: "bg-accent/10",
+    description: "Never miss a payment. Get email reminders for upcoming bills and subscriptions.",
+    color: "text-primary",
+    bg: "bg-primary/10",
     stat: "0",
     statLabel: "missed bills",
   },
   {
     icon: BarChart3,
     title: "Reports & Analytics",
-    description: "Beautiful charts and insights that help you understand your money habits.",
-    color: "text-primary",
-    bg: "bg-primary/10",
+    description: "Cash flow forecasts, year-over-year comparisons, and drilldown charts for deep insights.",
+    color: "text-accent",
+    bg: "bg-accent/10",
     stat: "12+",
     statLabel: "report types",
+  },
+  {
+    icon: Smartphone,
+    title: "Install Anywhere (PWA)",
+    description: "Install on iPhone, Android, or desktop. Works offline — no app store needed.",
+    color: "text-primary",
+    bg: "bg-primary/10",
+    stat: "3+",
+    statLabel: "platforms",
+  },
+  {
+    icon: Globe,
+    title: "Multi-Currency",
+    description: "Track finances across multiple currencies. Perfect for travelers and global citizens.",
+    color: "text-accent",
+    bg: "bg-accent/10",
+    stat: "🌍",
+    statLabel: "global",
+  },
+  {
+    icon: RefreshCw,
+    title: "Recurring Transactions",
+    description: "Automate repeating expenses and income. Set it once, track it forever.",
+    color: "text-primary",
+    bg: "bg-primary/10",
+    stat: "∞",
+    statLabel: "automation",
   },
   {
     icon: Sparkles,
@@ -120,13 +160,12 @@ export const Features = () => {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
+              transition={{ delay: index * 0.05 }}
               whileHover={{ 
                 y: -5,
                 boxShadow: "0 20px 40px -20px hsl(var(--primary) / 0.2)",
               }}
             >
-              {/* Icon with animation */}
               <motion.div 
                 className={`inline-flex p-3 rounded-lg ${feature.bg} mb-4`}
                 whileHover={{ scale: 1.1, rotate: 5 }}
@@ -135,17 +174,14 @@ export const Features = () => {
                 <feature.icon className={`h-6 w-6 ${feature.color}`} />
               </motion.div>
               
-              {/* Title */}
               <h3 className="text-lg font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
                 {feature.title}
               </h3>
               
-              {/* Description */}
               <p className="text-muted-foreground text-sm leading-relaxed mb-4">
                 {feature.description}
               </p>
 
-              {/* Stat badge */}
               <div className="flex items-baseline gap-1 pt-4 border-t border-border/50">
                 <span className={`text-2xl font-bold ${feature.color}`}>{feature.stat}</span>
                 <span className="text-xs text-muted-foreground">{feature.statLabel}</span>

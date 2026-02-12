@@ -1,4 +1,4 @@
-import { Briefcase, GraduationCap, Home, Store, ArrowRight } from "lucide-react";
+import { Briefcase, GraduationCap, Home, ShieldCheck, ArrowRight } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -17,7 +17,7 @@ const personas = [
     icon: GraduationCap,
     title: "Students & Young Professionals",
     pain: "Just starting out and unsure where your money goes?",
-    solution: "Build smart money habits early with simple expense tracking and savings goals that grow with you.",
+    solution: "Build smart money habits early with a free 7-day trial. Simple expense tracking and savings goals that grow with you.",
     keywords: "budgeting app for students",
   },
   {
@@ -28,11 +28,11 @@ const personas = [
     keywords: "family budget tracker",
   },
   {
-    icon: Store,
-    title: "Small Business Owners",
-    pain: "Personal and business finances getting tangled up.",
-    solution: "Separate accounts, track expenses by category, and keep a clear picture of your personal finances.",
-    keywords: "personal finance for entrepreneurs",
+    icon: ShieldCheck,
+    title: "Privacy-Conscious Users",
+    pain: "Don't want to hand over your bank login to an app?",
+    solution: "Safe Spend never asks for bank credentials. Manual entry means you stay in full control — your data is protected by Row Level Security.",
+    keywords: "privacy first budget app no bank connection",
   },
 ];
 
@@ -80,7 +80,7 @@ export const UseCases = () => {
                 href={APP_URL}
                 className="inline-flex items-center text-sm text-primary hover:text-accent transition-colors font-medium"
               >
-                Get Started
+                Start Free Trial
                 <ArrowRight className="ml-1 h-3.5 w-3.5" />
               </a>
             </motion.div>

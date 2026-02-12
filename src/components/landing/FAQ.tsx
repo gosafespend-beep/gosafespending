@@ -8,7 +8,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { motion } from "framer-motion";
-import { Search, Shield, DollarSign, Smartphone, HelpCircle } from "lucide-react";
+import { Search, Shield, DollarSign, Smartphone, HelpCircle, Brain, CreditCard } from "lucide-react";
 
 type FAQCategory = "all" | "security" | "pricing" | "features" | "general";
 
@@ -22,27 +22,45 @@ interface FAQ {
 const faqs: FAQ[] = [
   {
     question: "Is Safe Spend free to use?",
-    answer: "Yes! Safe Spend offers a generous free tier with core features like expense tracking, budgeting, and basic reports. Premium features like advanced analytics, debt payoff planning, and unlimited accounts are available with our Pro plan.",
+    answer: "Safe Spend offers a 7-day free trial with full access to all features — no credit card required. After your trial, you can subscribe for $9.99/month or $89.99/year (~25% savings). If you don't subscribe, you'll retain read-only access to all your data.",
     category: "pricing",
     icon: DollarSign,
   },
   {
+    question: "What happens after my free trial?",
+    answer: "After your 7-day trial, you'll still have read-only access to all your data — nothing is ever deleted. To regain full editing access, simply subscribe to a paid plan. You can pick up right where you left off.",
+    category: "pricing",
+    icon: DollarSign,
+  },
+  {
+    question: "What payment methods do you accept?",
+    answer: "We use Paystack for secure payments. You can pay with credit/debit cards, bank transfers, and mobile money. Paystack supports payments across Africa and globally.",
+    category: "pricing",
+    icon: CreditCard,
+  },
+  {
     question: "How secure is my financial data?",
-    answer: "We use 256-bit AES encryption for all data at rest and in transit. Your information is stored securely and never shared with third parties. All data stays private between you and your account.",
+    answer: "We use 256-bit AES encryption for all data at rest and in transit. Every user's data is isolated at the database level with Row Level Security (RLS) — no user can ever access another's data. Your information is never shared with third parties.",
     category: "security",
     icon: Shield,
   },
   {
     question: "Do I need to connect my bank account?",
-    answer: "No! Safe Spend is a manual-entry app—you're always in control of what data you add. Simply log your transactions, income, and accounts yourself. This keeps your banking credentials completely private and secure.",
+    answer: "No! Safe Spend is a manual-entry app — you're always in control of what data you add. Simply log your transactions, income, and accounts yourself. This keeps your banking credentials completely private and secure.",
     category: "features",
     icon: Smartphone,
   },
   {
     question: "Is there a mobile app?",
-    answer: "Safe Spend is a fully responsive web app that works great on any mobile browser. Native iOS and Android apps are on our roadmap — stay tuned!",
+    answer: "Safe Spend is a Progressive Web App (PWA) — you can install it directly on your iPhone, Android phone, or desktop. It works offline too. No app store needed — just open the app in your browser and tap 'Install' or 'Add to Home Screen'.",
     category: "features",
     icon: Smartphone,
+  },
+  {
+    question: "How does AI categorization work?",
+    answer: "When you log a transaction, Safe Spend's AI automatically suggests the most likely category based on your description and past spending patterns. You can always override the suggestion — the AI learns and improves over time.",
+    category: "features",
+    icon: Brain,
   },
   {
     question: "Can I export my data?",
@@ -52,7 +70,7 @@ const faqs: FAQ[] = [
   },
   {
     question: "What makes Safe Spend different?",
-    answer: "We focus on simplicity and actionable insights rather than overwhelming you with data. Our clean interface helps you understand your finances at a glance, and our smart suggestions help you make better decisions.",
+    answer: "We're privacy-first: no bank connections, no data selling, and Row Level Security for every user. Plus, we offer AI-powered categorization, offline PWA support, and a comprehensive suite of tools — from debt payoff planners to net worth tracking — all in one beautiful interface.",
     category: "general",
     icon: HelpCircle,
   },

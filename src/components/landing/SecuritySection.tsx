@@ -1,4 +1,4 @@
-import { Shield, Lock, Eye, FileCheck, Server } from "lucide-react";
+import { Shield, Lock, Eye, FileCheck, Server, Database } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { motion } from "framer-motion";
 
@@ -16,7 +16,12 @@ const securityFeatures = [
   {
     icon: Shield,
     title: "Your Data Stays Private",
-    description: "We don't sell, share, or monetize your personal financial information. Period.",
+    description: "We don't sell, share, or monetize your personal financial information. Your data is user-owned and protected.",
+  },
+  {
+    icon: Database,
+    title: "Row Level Security",
+    description: "Every user's data is isolated at the database level with Row Level Security. No user can ever access another's data.",
   },
   {
     icon: FileCheck,

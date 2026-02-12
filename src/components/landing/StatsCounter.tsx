@@ -52,7 +52,7 @@ const stats = [
   },
   {
     icon: DollarSign,
-    prefix: "R",
+    prefix: "$",
     value: 5000000,
     suffix: "+",
     label: "Money Tracked",
