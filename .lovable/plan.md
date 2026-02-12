@@ -1,177 +1,158 @@
 
 
-# Fix All 10 Identified Issues
+# Advanced SEO Audit -- Fixes
 
-## Issue 1: Fix StatsCounter Animation Error (Critical Bug)
+## Audit Summary
 
-The `Counter` component calls `useMotionValue()` inside an `IntersectionObserver` callback, which violates React's Rules of Hooks and causes a runtime crash.
+After reviewing all SEO-related files, I found **12 actionable issues** ranging from critical schema mismatches to missing metadata for new pages.
 
-**Fix:** Remove `useMotionValue` entirely. Use `framer-motion`'s `animate` function with a plain starting value (not a hook) and just update state via `onUpdate`. The `animate` function from framer-motion can animate raw values without needing `useMotionValue`.
+---
 
-**File:** `src/components/landing/StatsCounter.tsx`
+## Issue 1: FAQSchema Data is Stale (Critical)
 
+`src/components/seo/FAQSchema.tsx` contains **old FAQ data** that doesn't match the updated `FAQ.tsx` component. The schema still mentions "waitlist," "free tier," and "native iOS/Android apps on our roadmap" -- all incorrect per the current brief.
+
+**Fix:** Replace the hardcoded `faqData` array in `FAQSchema.tsx` with the exact questions/answers from `FAQ.tsx` (trial model, PWA, AI categorization, Paystack).
+
+---
+
+## Issue 2: Sitemap Missing New Pages (Critical)
+
+`public/sitemap.xml` only lists 5 pages. Missing:
+- `/about`
+- `/blog`
+- `/tools/budget-calculator`
+
+**Fix:** Add all 3 new URLs to `sitemap.xml` with appropriate priorities and `lastmod` dates (2026-02-12).
+
+---
+
+## Issue 3: SEOHead Missing Metadata for New Pages (Critical)
+
+`src/components/seo/SEOHead.tsx` `pageMetadata` only covers 5 routes. The `/about`, `/blog`, and `/tools/budget-calculator` pages fall back to the homepage metadata, meaning they all share the same title/description/canonical -- very bad for SEO.
+
+**Fix:** Add entries for all 3 new routes:
+- `/about` -- "About Us - Safe Spend" + mission-focused description
+- `/blog` -- "Blog - Safe Spend" + content hub description  
+- `/tools/budget-calculator` -- "Free 50/30/20 Budget Calculator - Safe Spend" + tool-focused description with keywords
+
+---
+
+## Issue 4: BreadcrumbSchema Missing New Pages
+
+`src/components/seo/BreadcrumbSchema.tsx` `breadcrumbNames` doesn't include `/about`, `/blog`, or `/tools/budget-calculator`. These pages will show "Page" as their breadcrumb name in search results.
+
+**Fix:** Add entries:
+- `/about` -> "About"
+- `/blog` -> "Blog"
+- `/tools/budget-calculator` -> "Budget Calculator"
+
+Also handle nested path: for `/tools/budget-calculator`, create a 3-level breadcrumb (Home > Tools > Budget Calculator).
+
+---
+
+## Issue 5: VisualBreadcrumbs Missing Labels
+
+`src/components/seo/VisualBreadcrumbs.tsx` `pathLabels` doesn't include `about`, `blog`, or `budget-calculator`. These pages will show raw URL segments as labels.
+
+**Fix:** Add:
+- `"about"` -> "About"
+- `"blog"` -> "Blog"
+- `"tools"` -> "Tools"
+- `"budget-calculator"` -> "Budget Calculator"
+
+---
+
+## Issue 6: Footer Navigation Broken on Subpages
+
+The "Product" column links in `Footer.tsx` use `e.preventDefault()` + `scrollToSection()`. When a user is on `/about` or `/blog` and clicks "Features," nothing happens -- it tries to scroll to `#features` on the current page which doesn't exist.
+
+**Fix:** Change Product links to navigate to `/#features`, `/#how-it-works`, etc. using proper `<Link>` or `<a>` tags that navigate to the homepage first. Remove `e.preventDefault()` for these links when not on the homepage.
+
+---
+
+## Issue 7: Navbar Logo Link Broken on Subpages
+
+The logo `<a href="/">` in `Navbar.tsx` uses `e.preventDefault()` + `window.scrollTo()`. From any subpage, clicking the logo does nothing -- it just scrolls the current page to top instead of navigating home.
+
+**Fix:** Use React Router's `<Link to="/">` or conditionally navigate: if on homepage, scroll to top; otherwise, navigate to `/`.
+
+---
+
+## Issue 8: Missing Open Graph Image Dimensions
+
+`index.html` and `SEOHead.tsx` set `og:image` but never set `og:image:width` and `og:image:height`. Social platforms render previews faster and more reliably when dimensions are provided.
+
+**Fix:** Add to `index.html`:
+```html
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
 ```
-const Counter = ({ target, suffix = "", prefix = "", duration = 2 }: CounterProps) => {
-  const [count, setCount] = useState(0);
-  const ref = useRef<HTMLSpanElement>(null);
-  const [hasAnimated, setHasAnimated] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !hasAnimated) {
-          setHasAnimated(true);
-          const controls = animate(0, target, {
-            duration,
-            onUpdate: (v) => setCount(Math.floor(v)),
-          });
-          return () => controls.stop();
-        }
-      },
-      { threshold: 0.3 }
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, [target, duration, hasAnimated]);
-  // ...
-};
-```
-
-Also remove the unused `useMotionValue` and `useTransform` imports.
+Also add these in `SEOHead.tsx` dynamically.
 
 ---
 
-## Issue 2: Fix Logo Visibility in Hero
+## Issue 9: Missing `twitter:creator` Tag
 
-The Hero references `src/assets/logo.png` but the brief specifies the logo should be at `src/assets/safespend-logo-3d.png` (3D glossy teal shield). The current `logo.png` file exists but may not be rendering visibly against the dark background.
+`index.html` has `twitter:site` (@SafeSpend) but no `twitter:creator`. Both should be set for proper Twitter card attribution.
 
-**Fix:** Since we don't have `safespend-logo-3d.png` uploaded yet, ensure the current logo is visible by adding a subtle background or fallback. Also check if the image is actually loading. If the user uploads a new logo later, the path can be updated.
-
-No code change needed here unless the user uploads the 3D logo. The current `logo.png` exists and is imported correctly. The glow effect behind it should make it visible. This is likely a content issue (the PNG itself may be transparent with dark content).
-
-**Action:** Flag to user that they should upload `safespend-logo-3d.png` to `src/assets/` if they have it.
+**Fix:** Add `<meta name="twitter:creator" content="@SafeSpend" />` to `index.html`.
 
 ---
 
-## Issue 3: Add Twitter/X Social Link to Footer
+## Issue 10: Static JSON-LD Renders on All Pages
 
-The footer only has an email social link. The brief specifies `@SafeSpend` on Twitter/X.
+The `SoftwareApplication` JSON-LD in `index.html` is always present -- even on `/privacy-policy` or `/tools/budget-calculator`. This is semantically incorrect; the schema should only appear on the homepage or a dedicated product page.
 
-**Fix in:** `src/components/landing/Footer.tsx`
-- Import or create a Twitter/X icon (lucide-react has `Twitter` icon)
-- Add `{ icon: Twitter, href: "https://x.com/SafeSpend", label: "Twitter" }` to the `socialLinks` array
+**Fix:** Move the `SoftwareApplication` schema from `index.html` into a React component (e.g., `SoftwareAppSchema.tsx`) that only renders on `/`. This follows the same pattern as `FAQSchema`, `HowToSchema`, etc.
 
 ---
 
-## Issue 4: Update OrganizationSchema with Twitter/X
+## Issue 11: Budget Calculator Missing Structured Data
 
-The `sameAs` array in `OrganizationSchema.tsx` has commented-out social links.
+The `/tools/budget-calculator` page has no JSON-LD schema. It's a perfect candidate for a `WebApplication` or `HowTo` schema to appear as a rich result.
 
-**Fix in:** `src/components/seo/OrganizationSchema.tsx`
-- Uncomment and update: `"https://x.com/SafeSpend"`
-
----
-
-## Issue 5: Add "About Us" link to Footer
-
-The Company column only has "Contact". Adding an About page link improves E-E-A-T.
-
-**Fix in:** `src/components/landing/Footer.tsx`
-- Add `{ label: "About", href: "/about", isRoute: true }` to `footerLinks.company`
-
-**New file:** `src/pages/About.tsx`
-- Create a simple About page with mission statement, values, and the Safe Spend story
-- Use the existing `LegalLayout` wrapper for consistent styling
-
-**Fix in:** `src/App.tsx`
-- Add route: `<Route path="/about" element={<About />} />`
+**Fix:** Add a small JSON-LD `HowTo` schema specific to the budget calculator page (e.g., "How to calculate your 50/30/20 budget").
 
 ---
 
-## Issue 6: Fix Sticky Bar competing with Hero CTA
+## Issue 12: `robots.txt` Has Ineffective Directives
 
-The `useStickyBar` hook already uses IntersectionObserver on the `#hero` element to only show after scrolling past it. The logic looks correct. However, the `isDismissed` state in the observer callback uses a stale closure.
+- `Crawl-delay` is ignored by Googlebot (use Search Console instead)
+- `/*.json$` and `/*?*utm_` use regex-like patterns that aren't supported by all crawlers (robots.txt only supports simple path prefix matching and `*` wildcards, not `$` anchors)
 
-**Fix in:** `src/hooks/useStickyBar.ts`
-- Use a ref for `isDismissed` to avoid stale closure in the observer callback
-- This ensures the bar correctly hides when dismissed even if the observer fires again
-
----
-
-## Issue 7: Fix framer-motion scroll container warning
-
-The console shows: "Please ensure that the container has a non-static position." This is from framer-motion's scroll-linked animations.
-
-**Fix:** Add `position: relative` to any parent container that framer-motion scroll animations reference. Check `AppPreview.tsx` or whichever component uses `useScroll` with a container ref.
+**Fix:** Clean up `robots.txt`:
+- Remove `Crawl-delay` for Googlebot (it's ignored)
+- Fix pattern syntax: `/*.json` (remove `$`), keep UTM pattern as-is (the `*` wildcard works)
 
 ---
 
-## Issue 8: Fix ref warnings on StickyWaitlistBar and Sonner
+## Files to Modify
 
-Console shows "Function components cannot be given refs" for `StickyWaitlistBar` and `Toaster`. These are React warnings about passing refs to function components.
+| File | Changes |
+|------|---------|
+| `src/components/seo/FAQSchema.tsx` | Sync FAQ data with current FAQ.tsx content |
+| `public/sitemap.xml` | Add /about, /blog, /tools/budget-calculator |
+| `src/components/seo/SEOHead.tsx` | Add metadata for 3 new pages |
+| `src/components/seo/BreadcrumbSchema.tsx` | Add breadcrumb names for new pages, handle nested paths |
+| `src/components/seo/VisualBreadcrumbs.tsx` | Add path labels for new segments |
+| `src/components/landing/Footer.tsx` | Fix Product links to work from subpages |
+| `src/components/landing/Navbar.tsx` | Fix logo link to navigate home from subpages |
+| `index.html` | Add og:image dimensions, twitter:creator, remove static JSON-LD |
+| `public/robots.txt` | Clean up ineffective directives |
 
-**Fix:** These are harmless warnings from React's internal validation. The `StickyWaitlistBar` doesn't actually receive a ref — this is React checking during rendering. No action needed unless we want to suppress by wrapping with `forwardRef`, which is unnecessary here.
+## Files to Create
 
----
+| File | Purpose |
+|------|---------|
+| `src/components/seo/SoftwareAppSchema.tsx` | Homepage-only SoftwareApplication JSON-LD (moved from index.html) |
+| `src/components/seo/BudgetCalculatorSchema.tsx` | HowTo schema for the calculator page |
 
-## Issue 9: Add a simple Blog infrastructure placeholder
+## Files to Update (routing)
 
-A blog/content hub would drive organic SEO traffic. For now, create a placeholder page.
-
-**New file:** `src/pages/Blog.tsx`
-- Create a "Coming Soon" blog page with a brief message
-- Style consistently with the rest of the site
-
-**Fix in:** `src/App.tsx`
-- Add route: `<Route path="/blog" element={<Blog />} />`
-
-**Fix in:** `src/components/landing/Footer.tsx`
-- Add `{ label: "Blog", href: "/blog", isRoute: true }` to `footerLinks.company`
-
----
-
-## Issue 10: Add interactive Budget Calculator tool
-
-A 50/30/20 budget calculator would attract organic traffic and demonstrate value.
-
-**New file:** `src/pages/BudgetCalculator.tsx`
-- Simple interactive calculator: user inputs monthly income
-- Shows Needs (50%), Wants (30%), Savings (20%) breakdown
-- CTA to "Start tracking with Safe Spend"
-- Clean, responsive design matching site theme
-
-**Fix in:** `src/App.tsx`
-- Add route: `<Route path="/tools/budget-calculator" element={<BudgetCalculator />} />`
-
-**Fix in:** `src/components/landing/Footer.tsx`
-- Add a "Tools" column or add to Product: `{ label: "Budget Calculator", href: "/tools/budget-calculator", isRoute: true }`
-
----
-
-## Summary of All Changes
-
-| # | Issue | File(s) | Type |
-|---|-------|---------|------|
-| 1 | StatsCounter crash | `StatsCounter.tsx` | Bug fix |
-| 2 | Logo visibility | Flag to user | Content |
-| 3 | Twitter/X in footer | `Footer.tsx` | Enhancement |
-| 4 | Twitter/X in schema | `OrganizationSchema.tsx` | SEO |
-| 5 | About Us page | `About.tsx`, `Footer.tsx`, `App.tsx` | New page |
-| 6 | Sticky bar stale closure | `useStickyBar.ts` | Bug fix |
-| 7 | Scroll container warning | Investigate container | Bug fix |
-| 8 | Ref warnings | No action needed | N/A |
-| 9 | Blog placeholder | `Blog.tsx`, `Footer.tsx`, `App.tsx` | New page |
-| 10 | Budget Calculator | `BudgetCalculator.tsx`, `Footer.tsx`, `App.tsx` | New page |
-
-### Files to Create (3)
-- `src/pages/About.tsx`
-- `src/pages/Blog.tsx`
-- `src/pages/BudgetCalculator.tsx`
-
-### Files to Modify (5)
-- `src/components/landing/StatsCounter.tsx` -- fix hook violation
-- `src/components/landing/Footer.tsx` -- add Twitter/X, About, Blog, Calculator links
-- `src/components/seo/OrganizationSchema.tsx` -- uncomment Twitter/X
-- `src/hooks/useStickyBar.ts` -- fix stale closure
-- `src/App.tsx` -- add 3 new routes
+| File | Changes |
+|------|---------|
+| `src/App.tsx` | Import and render new schema components |
+| `src/pages/BudgetCalculator.tsx` | Import and render BudgetCalculatorSchema |
+| `src/components/seo/index.ts` | Export new schema components |
 
