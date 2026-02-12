@@ -153,6 +153,22 @@ export const Features = () => {
             </motion.div>
           ))}
         </div>
+
+        {/* Bottom CTA */}
+        <motion.div
+          className="text-center mt-12"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+        >
+          <a
+            href="https://app.gosafespend.com"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary hover:bg-primary/90 text-primary-foreground font-medium transition-colors btn-ripple"
+          >
+            See All Features in Action
+            <span aria-hidden="true">→</span>
+          </a>
+        </motion.div>
       </div>
     </section>
   );

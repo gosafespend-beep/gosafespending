@@ -125,6 +125,19 @@ export const Pricing = () => {
             </motion.div>
           ))}
         </div>
+
+        {/* Cancel anytime badge */}
+        <motion.div
+          className="text-center mt-8"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.3 }}
+        >
+          <p className="text-sm text-muted-foreground">
+            ✨ Cancel anytime · No hidden fees · 14-day free trial on Pro
+          </p>
+        </motion.div>
       </div>
     </section>
   );

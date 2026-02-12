@@ -78,13 +78,23 @@ export const Hero = () => {
 
           {/* Subheadline */}
           <motion.p 
-            className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-8"
+            className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-4"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
           >
             Safe Spend is your personal finance companion. Track expenses, build budgets, 
             crush debt, and grow your savings — all in one beautiful dashboard.
+          </motion.p>
+
+          {/* Privacy line */}
+          <motion.p
+            className="text-sm text-primary font-medium mb-8"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.45 }}
+          >
+            No bank connection required. 100% private.
           </motion.p>
 
           {/* CTA Buttons */}
