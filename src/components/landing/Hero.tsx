@@ -1,14 +1,14 @@
-import { WaitlistForm } from "./WaitlistForm";
-import { Shield, TrendingUp, PiggyBank, ChevronDown } from "lucide-react";
+import { Shield, TrendingUp, PiggyBank, ChevronDown, ArrowRight } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-import { useWaitlistCount } from "@/hooks/useWaitlistCount";
 import { AnimatedBackground } from "./AnimatedBackground";
+import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import logo from "@/assets/logo.png";
 
+const APP_URL = "https://app.gosafespend.com";
+
 export const Hero = () => {
   const { ref, isVisible } = useScrollAnimation();
-  const { count, isLoading: countLoading } = useWaitlistCount();
 
   const scrollToFeatures = () => {
     const element = document.getElementById("features");
@@ -20,10 +20,9 @@ export const Hero = () => {
   return (
     <section 
       id="hero" 
-      aria-label="Introduction and waitlist signup"
+      aria-label="Introduction"
       className="relative pt-32 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden min-h-screen flex flex-col justify-center"
     >
-      {/* Animated Background */}
       <div className="absolute inset-0 bg-gradient-to-b from-[hsl(var(--safespend-primary-light))] via-background to-background -z-20" />
       <AnimatedBackground />
 
@@ -62,10 +61,10 @@ export const Hero = () => {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75" />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-accent" />
             </span>
-            Coming Soon — Join the Waitlist
+            Now Available — Start for Free
           </motion.div>
 
-          {/* Headline with gradient text */}
+          {/* Headline */}
           <motion.h1 
             className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground leading-tight mb-6"
             initial={{ opacity: 0, y: 20 }}
@@ -88,18 +87,33 @@ export const Hero = () => {
             crush debt, and grow your savings — all in one beautiful dashboard.
           </motion.p>
 
-          {/* Waitlist Form */}
+          {/* CTA Buttons */}
           <motion.div 
-            className="max-w-md mx-auto mb-12" 
-            id="waitlist"
+            className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
           >
-            <WaitlistForm variant="hero" />
-            <p className="text-sm text-muted-foreground mt-3">
-              Join {countLoading ? "..." : count.toLocaleString()}+ others waiting for early access. No spam, ever.
-            </p>
+            <Button
+              asChild
+              size="lg"
+              className="h-12 px-8 text-base bg-primary hover:bg-primary/90 text-primary-foreground btn-ripple"
+            >
+              <a href={APP_URL}>
+                Get Started Free
+                <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+              </a>
+            </Button>
+            <Button
+              asChild
+              variant="outline"
+              size="lg"
+              className="h-12 px-8 text-base border-border/50 text-foreground hover:bg-muted/50"
+            >
+              <a href={APP_URL}>
+                Sign In
+              </a>
+            </Button>
           </motion.div>
 
           {/* Trust indicators */}

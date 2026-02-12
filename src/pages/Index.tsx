@@ -5,6 +5,7 @@ import { TrustBadges } from "@/components/landing/TrustBadges";
 import { Features } from "@/components/landing/Features";
 import { HowItWorks } from "@/components/landing/HowItWorks";
 import { TestimonialsCarousel } from "@/components/landing/TestimonialsCarousel";
+import { Pricing } from "@/components/landing/Pricing";
 import { FAQ } from "@/components/landing/FAQ";
 import { Footer } from "@/components/landing/Footer";
 import { StickyWaitlistBar } from "@/components/landing/StickyWaitlistBar";
@@ -13,20 +14,11 @@ import { Toaster } from "@/components/ui/sonner";
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
-      {/* Skip to main content link for accessibility */}
       <a
         href="#main"
         className="skip-link"
       >
         Skip to main content
-      </a>
-      
-      {/* Skip to waitlist form */}
-      <a
-        href="#waitlist"
-        className="skip-link"
-      >
-        Skip to waitlist
       </a>
       
       <Navbar />
@@ -37,6 +29,7 @@ const Index = () => {
         <Features />
         <HowItWorks />
         <TestimonialsCarousel />
+        <Pricing />
         <FAQ />
       </main>
       <Footer />

@@ -1,4 +1,5 @@
 import { UserPlus, LineChart, Rocket } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
@@ -142,6 +143,24 @@ export const HowItWorks = () => {
             ))}
           </div>
         </div>
+
+        {/* Bottom CTA */}
+        <motion.div
+          className="text-center mt-16"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+        >
+          <Button
+            asChild
+            size="lg"
+            className="h-12 px-8 text-base bg-primary hover:bg-primary/90 text-primary-foreground btn-ripple"
+          >
+            <a href="https://app.gosafespend.com">
+              Start Now — It's Free
+            </a>
+          </Button>
+        </motion.div>
       </div>
     </section>
   );

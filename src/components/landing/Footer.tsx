@@ -1,14 +1,19 @@
 import { Mail } from "lucide-react";
 import { Link } from "react-router-dom";
-import { WaitlistForm } from "./WaitlistForm";
+import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import logo from "@/assets/logo.png";
+
+const APP_URL = "https://app.gosafespend.com";
 
 const footerLinks = {
   product: [
     { label: "Features", href: "#features" },
     { label: "How It Works", href: "#how-it-works" },
+    { label: "Pricing", href: "#pricing" },
     { label: "FAQ", href: "#faq" },
+    { label: "Sign Up", href: APP_URL, isExternal: true },
+    { label: "Log In", href: APP_URL, isExternal: true },
   ],
   company: [
     { label: "Contact", href: "/contact", isRoute: true },
@@ -38,7 +43,6 @@ export const Footer = () => {
 
   return (
     <footer className="bg-card border-t border-border/50 text-foreground">
-      {/* Animated gradient border */}
       <div className="h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -54,11 +58,15 @@ export const Footer = () => {
               Ready to Take Control of Your <span className="gradient-text">Finances</span>?
             </h2>
             <p className="text-muted-foreground mb-6">
-              Join the waitlist and be the first to know when Safe Spend launches.
+              Start tracking your finances today — it's free, no credit card required.
             </p>
-            <div className="max-w-md mx-auto">
-              <WaitlistForm variant="footer" />
-            </div>
+            <Button
+              asChild
+              size="lg"
+              className="h-12 px-8 text-base bg-primary hover:bg-primary/90 text-primary-foreground btn-ripple"
+            >
+              <a href={APP_URL}>Get Started Free</a>
+            </Button>
           </motion.div>
         </div>
 
@@ -74,7 +82,6 @@ export const Footer = () => {
               Your personal finance companion. Track expenses, build budgets, crush debt, and grow your savings.
             </p>
             
-            {/* Social links */}
             <div className="flex items-center gap-3">
               {socialLinks.map((social) => (
                 <motion.a
@@ -97,16 +104,25 @@ export const Footer = () => {
             <ul className="space-y-3">
               {footerLinks.product.map((link) => (
                 <li key={link.label}>
-                  <a
-                    href={link.href}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      scrollToSection(link.href);
-                    }}
-                    className="text-muted-foreground hover:text-primary transition-colors text-sm"
-                  >
-                    {link.label}
-                  </a>
+                  {link.isExternal ? (
+                    <a
+                      href={link.href}
+                      className="text-muted-foreground hover:text-primary transition-colors text-sm"
+                    >
+                      {link.label}
+                    </a>
+                  ) : (
+                    <a
+                      href={link.href}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        scrollToSection(link.href);
+                      }}
+                      className="text-muted-foreground hover:text-primary transition-colors text-sm"
+                    >
+                      {link.label}
+                    </a>
+                  )}
                 </li>
               ))}
             </ul>

@@ -22,7 +22,7 @@ interface FAQ {
 const faqs: FAQ[] = [
   {
     question: "Is Safe Spend free to use?",
-    answer: "We offer a generous free tier with core features like expense tracking, budgeting, and basic reports. Premium features like advanced analytics, debt payoff planning, and unlimited accounts are available with our Pro plan.",
+    answer: "Yes! Safe Spend offers a generous free tier with core features like expense tracking, budgeting, and basic reports. Premium features like advanced analytics, debt payoff planning, and unlimited accounts are available with our Pro plan.",
     category: "pricing",
     icon: DollarSign,
   },
@@ -40,7 +40,7 @@ const faqs: FAQ[] = [
   },
   {
     question: "Is there a mobile app?",
-    answer: "Mobile apps for iOS and Android are coming soon after our initial launch. Join the waitlist to be notified when they're available.",
+    answer: "Safe Spend is a fully responsive web app that works great on any mobile browser. Native iOS and Android apps are on our roadmap — stay tuned!",
     category: "features",
     icon: Smartphone,
   },
