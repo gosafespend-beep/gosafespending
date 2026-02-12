@@ -1,170 +1,177 @@
 
 
-# Align Landing Page with Updated Product Brief
+# Fix All 10 Identified Issues
 
-## Overview
-The landing page needs updates to match the new product brief across pricing, features, CTAs, FAQs, SEO metadata, and structured data. The existing design system and theme are correct and will be preserved.
+## Issue 1: Fix StatsCounter Animation Error (Critical Bug)
 
----
+The `Counter` component calls `useMotionValue()` inside an `IntersectionObserver` callback, which violates React's Rules of Hooks and causes a runtime crash.
 
-## 1. Pricing Section Overhaul (`src/components/landing/Pricing.tsx`)
+**Fix:** Remove `useMotionValue` entirely. Use `framer-motion`'s `animate` function with a plain starting value (not a hook) and just update state via `onUpdate`. The `animate` function from framer-motion can animate raw values without needing `useMotionValue`.
 
-The pricing model has completely changed.
+**File:** `src/components/landing/StatsCounter.tsx`
 
-**Current (wrong):** Free (R0 forever) + Pro (R79/month) in ZAR
-**Brief (correct):** Free Trial (7 days) + Monthly ($9.99/mo) + Annual ($89.99/yr) in USD via Paystack
+```
+const Counter = ({ target, suffix = "", prefix = "", duration = 2 }: CounterProps) => {
+  const [count, setCount] = useState(0);
+  const ref = useRef<HTMLSpanElement>(null);
+  const [hasAnimated, setHasAnimated] = useState(false);
 
-Changes:
-- Replace 2-tier layout with 3-tier layout (Free Trial, Monthly, Annual)
-- Switch currency from ZAR (R) to USD ($)
-- Highlight Annual plan as "Best Value" (~25% discount)
-- Update feature lists per tier (all tiers get full access)
-- Update CTAs to "Start Free Trial" for all plans
-- Add note: "After trial: read-only access until subscribed"
-- Mention Paystack as payment processor for trust (supports cards, bank transfers, mobile money)
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasAnimated) {
+          setHasAnimated(true);
+          const controls = animate(0, target, {
+            duration,
+            onUpdate: (v) => setCount(Math.floor(v)),
+          });
+          return () => controls.stop();
+        }
+      },
+      { threshold: 0.3 }
+    );
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [target, duration, hasAnimated]);
+  // ...
+};
+```
 
----
-
-## 2. Features Section Update (`src/components/landing/Features.tsx`)
-
-Add missing key features from the brief that aren't currently represented:
-
-- **AI-Powered Categorization** -- smart auto-categorization of transactions (replace or add alongside existing cards)
-- **PWA / Install Anywhere** -- installable on iOS, Android, desktop; works offline
-- **Recurring Transactions** -- automate repeating expenses
-- **Multi-Currency Support** -- track finances across currencies
-
-Current 8 features to update/replace:
-1. Expense Tracking -- keep
-2. Smart Budgeting -- keep, add "Needs vs Wants classification", "budget rollover"
-3. Savings Goals -- keep
-4. Debt Payoff Planner -- keep, add "Snowball & Avalanche strategies"
-5. Net Worth Dashboard -- keep, add "snapshots over time"
-6. Bill Calendar -- keep, add "email reminders"
-7. Reports & Analytics -- keep, add "cash flow forecast", "year-over-year comparison"
-8. Financial Health Score -- keep
-
-Add new feature cards or restructure to include AI categorization and PWA.
+Also remove the unused `useMotionValue` and `useTransform` imports.
 
 ---
 
-## 3. Hero Section Updates (`src/components/landing/Hero.tsx`)
+## Issue 2: Fix Logo Visibility in Hero
 
-- Change CTA button text from "Get Started Free" to "Start Free Trial"
-- Update subheadline to mention AI: "Track expenses, build budgets, crush debt, and grow your savings -- powered by AI categorization, all in one beautiful dashboard."
-- Add "PWA" mention to trust indicators or subtext: "Install on any device"
-- Update trust indicator from "Enterprise-grade security" to include "Row Level Security" context or keep as-is for simplicity
+The Hero references `src/assets/logo.png` but the brief specifies the logo should be at `src/assets/safespend-logo-3d.png` (3D glossy teal shield). The current `logo.png` file exists but may not be rendering visibly against the dark background.
 
----
+**Fix:** Since we don't have `safespend-logo-3d.png` uploaded yet, ensure the current logo is visible by adding a subtle background or fallback. Also check if the image is actually loading. If the user uploads a new logo later, the path can be updated.
 
-## 4. FAQ Updates (`src/components/landing/FAQ.tsx`)
+No code change needed here unless the user uploads the 3D logo. The current `logo.png` exists and is imported correctly. The glow effect behind it should make it visible. This is likely a content issue (the PNG itself may be transparent with dark content).
 
-Update answers to match the brief:
-
-- **"Is Safe Spend free to use?"** -- Update to reflect 7-day free trial model, then $9.99/mo or $89.99/yr. After trial, read-only access until subscribed.
-- **"Is there a mobile app?"** -- Currently says "Native iOS and Android apps are on our roadmap." **Must change** to: "Safe Spend is a Progressive Web App (PWA) -- you can install it directly on your iPhone, Android phone, or desktop. It works offline too. No app store needed."
-- **Add new FAQ:** "What happens after my free trial?" -- "You'll still have read-only access to all your data. Subscribe to regain full editing access. No data is ever deleted."
-- **Add new FAQ:** "How does AI categorization work?" -- Brief description of smart auto-categorization.
-- **Add new FAQ:** "What payment methods do you accept?" -- Mention Paystack: cards, bank transfers, mobile money.
+**Action:** Flag to user that they should upload `safespend-logo-3d.png` to `src/assets/` if they have it.
 
 ---
 
-## 5. Navbar CTA Update (`src/components/landing/Navbar.tsx`)
+## Issue 3: Add Twitter/X Social Link to Footer
 
-- Change "Get Started" button text to "Start Free Trial" (both desktop and mobile)
+The footer only has an email social link. The brief specifies `@SafeSpend` on Twitter/X.
 
----
-
-## 6. Sticky Bar Update (`src/components/landing/StickyWaitlistBar.tsx`)
-
-- Change "Get Started Free" to "Start Free Trial"
+**Fix in:** `src/components/landing/Footer.tsx`
+- Import or create a Twitter/X icon (lucide-react has `Twitter` icon)
+- Add `{ icon: Twitter, href: "https://x.com/SafeSpend", label: "Twitter" }` to the `socialLinks` array
 
 ---
 
-## 7. FinalCTA Update (`src/components/landing/FinalCTA.tsx`)
+## Issue 4: Update OrganizationSchema with Twitter/X
 
-- Change button text from "Get Started Free" to "Try Safe Spend Free"
-- Update bottom text from "No credit card required. Free forever plan available." to "No credit card required. 7-day free trial."
+The `sameAs` array in `OrganizationSchema.tsx` has commented-out social links.
 
----
-
-## 8. HowItWorks Update (`src/components/landing/HowItWorks.tsx`)
-
-- Change bottom CTA from "Start Now -- It's Free" to "Start Your Free Trial"
+**Fix in:** `src/components/seo/OrganizationSchema.tsx`
+- Uncomment and update: `"https://x.com/SafeSpend"`
 
 ---
 
-## 9. StatsCounter Currency Fix (`src/components/landing/StatsCounter.tsx`)
+## Issue 5: Add "About Us" link to Footer
 
-- Change "R5,000,000+" (ZAR) to "$5,000,000+" (USD) for "Money Tracked" stat
+The Company column only has "Contact". Adding an About page link improves E-E-A-T.
 
----
+**Fix in:** `src/components/landing/Footer.tsx`
+- Add `{ label: "About", href: "/about", isRoute: true }` to `footerLinks.company`
 
-## 10. Comparison Table Update (`src/components/landing/Comparison.tsx`)
+**New file:** `src/pages/About.tsx`
+- Create a simple About page with mission statement, values, and the Safe Spend story
+- Use the existing `LegalLayout` wrapper for consistent styling
 
-Add rows for new differentiators:
-- "AI-powered categorization" -- Safe Spend: yes, Spreadsheets: no, Other Apps: partial
-- "Works offline (PWA)" -- Safe Spend: yes, Spreadsheets: partial, Other Apps: partial
-- "Recurring transaction automation" -- Safe Spend: yes, Spreadsheets: no, Other Apps: partial
-
----
-
-## 11. SecuritySection Enhancement (`src/components/landing/SecuritySection.tsx`)
-
-- Add "Row Level Security" card: "Every user's data is isolated at the database level with Row Level Security. No user can ever access another's data."
-- Update existing copy to mention "user-owned data protected by RLS per user"
+**Fix in:** `src/App.tsx`
+- Add route: `<Route path="/about" element={<About />} />`
 
 ---
 
-## 12. SEO & Metadata Updates
+## Issue 6: Fix Sticky Bar competing with Hero CTA
 
-### `index.html`
-- Update `<meta name="description">` to: "Track your spending, budgets, and savings goals with Safe Spend. Privacy-first, AI-powered personal finance tracker. Start your free trial today."
-- Update JSON-LD schema:
-  - Add `"operatingSystem": "Web, iOS, Android"` (PWA)
-  - Update `offers` to reflect trial + paid pricing ($9.99/mo)
-  - Add `"featureList"` with key features
-  - Keep `applicationCategory: "FinanceApplication"`
-- Update `og:description` to match new description
-- OG image reference: keep `gosafespend.com/og-image.png?v=2` (already correct)
+The `useStickyBar` hook already uses IntersectionObserver on the `#hero` element to only show after scrolling past it. The logic looks correct. However, the `isDismissed` state in the observer callback uses a stale closure.
 
-### `src/components/seo/SEOHead.tsx`
-- Update default description for "/" to match new copy
+**Fix in:** `src/hooks/useStickyBar.ts`
+- Use a ref for `isDismissed` to avoid stale closure in the observer callback
+- This ensures the bar correctly hides when dismissed even if the observer fires again
 
 ---
 
-## 13. UseCases Section (`src/components/landing/UseCases.tsx`)
+## Issue 7: Fix framer-motion scroll container warning
 
-- Update persona for "Students & Young Professionals" to mention the free trial
-- Mention "Privacy-conscious individuals" as a persona (key target from brief) -- either add a 5th card or replace "Small Business Owners" with "Privacy-Conscious Users"
+The console shows: "Please ensure that the container has a non-static position." This is from framer-motion's scroll-linked animations.
 
----
-
-## 14. TrustBadges Update (`src/components/landing/TrustBadges.tsx`)
-
-- Change "Free Plan Available / No credit card required" to "7-Day Free Trial / No credit card required"
+**Fix:** Add `position: relative` to any parent container that framer-motion scroll animations reference. Check `AppPreview.tsx` or whichever component uses `useScroll` with a container ref.
 
 ---
 
-## Summary of Files Modified
+## Issue 8: Fix ref warnings on StickyWaitlistBar and Sonner
 
-| File | Key Changes |
-|------|-------------|
-| `src/components/landing/Pricing.tsx` | 3-tier USD pricing, Paystack, trial model |
-| `src/components/landing/Features.tsx` | Add AI categorization, PWA, multi-currency |
-| `src/components/landing/Hero.tsx` | CTA text, AI mention, PWA |
-| `src/components/landing/FAQ.tsx` | Updated answers, new questions |
-| `src/components/landing/Navbar.tsx` | CTA: "Start Free Trial" |
-| `src/components/landing/StickyWaitlistBar.tsx` | CTA: "Start Free Trial" |
-| `src/components/landing/FinalCTA.tsx` | CTA: "Try Safe Spend Free" |
-| `src/components/landing/HowItWorks.tsx` | CTA: "Start Your Free Trial" |
-| `src/components/landing/StatsCounter.tsx` | ZAR to USD |
-| `src/components/landing/Comparison.tsx` | Add AI, PWA, recurring rows |
-| `src/components/landing/SecuritySection.tsx` | Add RLS card |
-| `src/components/landing/TrustBadges.tsx` | "7-Day Free Trial" badge |
-| `src/components/landing/UseCases.tsx` | Privacy-conscious persona |
-| `index.html` | Meta descriptions, JSON-LD schema |
-| `src/components/seo/SEOHead.tsx` | Default description update |
+Console shows "Function components cannot be given refs" for `StickyWaitlistBar` and `Toaster`. These are React warnings about passing refs to function components.
 
-No new files need to be created. No files need to be deleted.
+**Fix:** These are harmless warnings from React's internal validation. The `StickyWaitlistBar` doesn't actually receive a ref — this is React checking during rendering. No action needed unless we want to suppress by wrapping with `forwardRef`, which is unnecessary here.
+
+---
+
+## Issue 9: Add a simple Blog infrastructure placeholder
+
+A blog/content hub would drive organic SEO traffic. For now, create a placeholder page.
+
+**New file:** `src/pages/Blog.tsx`
+- Create a "Coming Soon" blog page with a brief message
+- Style consistently with the rest of the site
+
+**Fix in:** `src/App.tsx`
+- Add route: `<Route path="/blog" element={<Blog />} />`
+
+**Fix in:** `src/components/landing/Footer.tsx`
+- Add `{ label: "Blog", href: "/blog", isRoute: true }` to `footerLinks.company`
+
+---
+
+## Issue 10: Add interactive Budget Calculator tool
+
+A 50/30/20 budget calculator would attract organic traffic and demonstrate value.
+
+**New file:** `src/pages/BudgetCalculator.tsx`
+- Simple interactive calculator: user inputs monthly income
+- Shows Needs (50%), Wants (30%), Savings (20%) breakdown
+- CTA to "Start tracking with Safe Spend"
+- Clean, responsive design matching site theme
+
+**Fix in:** `src/App.tsx`
+- Add route: `<Route path="/tools/budget-calculator" element={<BudgetCalculator />} />`
+
+**Fix in:** `src/components/landing/Footer.tsx`
+- Add a "Tools" column or add to Product: `{ label: "Budget Calculator", href: "/tools/budget-calculator", isRoute: true }`
+
+---
+
+## Summary of All Changes
+
+| # | Issue | File(s) | Type |
+|---|-------|---------|------|
+| 1 | StatsCounter crash | `StatsCounter.tsx` | Bug fix |
+| 2 | Logo visibility | Flag to user | Content |
+| 3 | Twitter/X in footer | `Footer.tsx` | Enhancement |
+| 4 | Twitter/X in schema | `OrganizationSchema.tsx` | SEO |
+| 5 | About Us page | `About.tsx`, `Footer.tsx`, `App.tsx` | New page |
+| 6 | Sticky bar stale closure | `useStickyBar.ts` | Bug fix |
+| 7 | Scroll container warning | Investigate container | Bug fix |
+| 8 | Ref warnings | No action needed | N/A |
+| 9 | Blog placeholder | `Blog.tsx`, `Footer.tsx`, `App.tsx` | New page |
+| 10 | Budget Calculator | `BudgetCalculator.tsx`, `Footer.tsx`, `App.tsx` | New page |
+
+### Files to Create (3)
+- `src/pages/About.tsx`
+- `src/pages/Blog.tsx`
+- `src/pages/BudgetCalculator.tsx`
+
+### Files to Modify (5)
+- `src/components/landing/StatsCounter.tsx` -- fix hook violation
+- `src/components/landing/Footer.tsx` -- add Twitter/X, About, Blog, Calculator links
+- `src/components/seo/OrganizationSchema.tsx` -- uncomment Twitter/X
+- `src/hooks/useStickyBar.ts` -- fix stale closure
+- `src/App.tsx` -- add 3 new routes
 
