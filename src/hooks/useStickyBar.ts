@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 
 interface UseStickyBarResult {
   showBar: boolean;
@@ -7,13 +7,12 @@ interface UseStickyBarResult {
 
 export const useStickyBar = (heroId: string = "waitlist"): UseStickyBarResult => {
   const [showBar, setShowBar] = useState(false);
-  const [isDismissed, setIsDismissed] = useState(false);
+  const isDismissedRef = useRef(false);
 
   useEffect(() => {
-    // Check if already dismissed in this session
     const dismissed = sessionStorage.getItem("stickyBarDismissed");
     if (dismissed) {
-      setIsDismissed(true);
+      isDismissedRef.current = true;
       return;
     }
 
@@ -22,8 +21,7 @@ export const useStickyBar = (heroId: string = "waitlist"): UseStickyBarResult =>
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        // Show bar when hero section is not visible (scrolled past it)
-        setShowBar(!entry.isIntersecting && !isDismissed);
+        setShowBar(!entry.isIntersecting && !isDismissedRef.current);
       },
       { threshold: 0, rootMargin: "-100px 0px 0px 0px" }
     );
@@ -31,11 +29,11 @@ export const useStickyBar = (heroId: string = "waitlist"): UseStickyBarResult =>
     observer.observe(heroElement);
 
     return () => observer.disconnect();
-  }, [heroId, isDismissed]);
+  }, [heroId]);
 
   const dismissBar = useCallback(() => {
     setShowBar(false);
-    setIsDismissed(true);
+    isDismissedRef.current = true;
     sessionStorage.setItem("stickyBarDismissed", "true");
   }, []);
 

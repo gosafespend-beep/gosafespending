@@ -1,5 +1,5 @@
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-import { motion, useMotionValue, useTransform, animate } from "framer-motion";
+import { motion, animate } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { Users, DollarSign, Star, Globe } from "lucide-react";
 
@@ -20,8 +20,7 @@ const Counter = ({ target, suffix = "", prefix = "", duration = 2 }: CounterProp
       ([entry]) => {
         if (entry.isIntersecting && !hasAnimated) {
           setHasAnimated(true);
-          const motionVal = useMotionValue(0);
-          const controls = animate(motionVal, target, {
+          const controls = animate(0, target, {
             duration,
             onUpdate: (v) => setCount(Math.floor(v)),
           });

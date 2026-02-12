@@ -9,6 +9,9 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
 import CookiesPolicy from "./pages/CookiesPolicy";
 import Contact from "./pages/Contact";
+import About from "./pages/About";
+import Blog from "./pages/Blog";
+import BudgetCalculator from "./pages/BudgetCalculator";
 import { SEOHead } from "./components/seo/SEOHead";
 import { BreadcrumbSchema } from "./components/seo/BreadcrumbSchema";
 import { FAQSchema } from "./components/seo/FAQSchema";
@@ -40,6 +43,9 @@ const App = () => (
           <Route path="/terms-of-service" element={<TermsOfService />} />
           <Route path="/cookies-policy" element={<CookiesPolicy />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/tools/budget-calculator" element={<BudgetCalculator />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
