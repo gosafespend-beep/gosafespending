@@ -4,9 +4,12 @@ import { Button } from "@/components/ui/button";
 import { motion, useScroll, useSpring } from "framer-motion";
 import logo from "@/assets/logo.png";
 
+const APP_URL = "https://app.gosafespend.com";
+
 const navItems = [
   { id: "features", label: "Features" },
   { id: "how-it-works", label: "How it Works" },
+  { id: "pricing", label: "Pricing" },
   { id: "testimonials", label: "Testimonials" },
   { id: "faq", label: "FAQ" },
 ];
@@ -29,7 +32,6 @@ export const Navbar = () => {
     setIsOpen(false);
   };
 
-  // Handle escape key to close mobile menu
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
     if (e.key === "Escape" && isOpen) {
       setIsOpen(false);
@@ -41,7 +43,6 @@ export const Navbar = () => {
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [handleKeyDown]);
 
-  // Prevent body scroll when mobile menu is open
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -53,7 +54,6 @@ export const Navbar = () => {
     };
   }, [isOpen]);
 
-  // Scroll spy for active section
   useEffect(() => {
     const handleScroll = () => {
       const sections = navItems.map((item) => document.getElementById(item.id));
@@ -70,13 +70,12 @@ export const Navbar = () => {
     };
 
     window.addEventListener("scroll", handleScroll);
-    handleScroll(); // Initial check
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
     <>
-      {/* Scroll progress bar */}
       <motion.div
         className="fixed top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary via-accent to-primary origin-left z-[60]"
         style={{ scaleX }}
@@ -130,18 +129,18 @@ export const Navbar = () => {
                   )}
                 </a>
               ))}
+              <a
+                href={APP_URL}
+                className="ml-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Log In
+              </a>
               <Button
                 asChild
-                className="ml-4 bg-primary hover:bg-primary/90 text-primary-foreground btn-ripple"
+                className="ml-2 bg-primary hover:bg-primary/90 text-primary-foreground btn-ripple"
               >
-                <a
-                  href="#waitlist"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    scrollToSection("waitlist");
-                  }}
-                >
-                  Join Waitlist
+                <a href={APP_URL}>
+                  Get Started
                 </a>
               </Button>
             </div>
@@ -194,23 +193,23 @@ export const Navbar = () => {
               </motion.a>
             ))}
             <motion.div
+              className="flex gap-2 mt-2"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: isOpen ? 1 : 0, y: isOpen ? 0 : 10 }}
               transition={{ delay: 0.2 }}
             >
               <Button
                 asChild
-                className="w-full mt-2 bg-primary hover:bg-primary/90 text-primary-foreground"
+                variant="outline"
+                className="flex-1 border-border/50 text-foreground"
               >
-                <a
-                  href="#waitlist"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    scrollToSection("waitlist");
-                  }}
-                >
-                  Join Waitlist
-                </a>
+                <a href={APP_URL}>Log In</a>
+              </Button>
+              <Button
+                asChild
+                className="flex-1 bg-primary hover:bg-primary/90 text-primary-foreground"
+              >
+                <a href={APP_URL}>Get Started</a>
               </Button>
             </motion.div>
           </div>

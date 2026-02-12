@@ -56,6 +56,63 @@ export type Database = {
         }
         Relationships: []
       }
+      admin_audit_log: {
+        Row: {
+          action: string
+          admin_user_id: string
+          created_at: string
+          details: Json | null
+          id: string
+          target_id: string
+          target_type: string
+        }
+        Insert: {
+          action: string
+          admin_user_id: string
+          created_at?: string
+          details?: Json | null
+          id?: string
+          target_id: string
+          target_type: string
+        }
+        Update: {
+          action?: string
+          admin_user_id?: string
+          created_at?: string
+          details?: Json | null
+          id?: string
+          target_id?: string
+          target_type?: string
+        }
+        Relationships: []
+      }
+      admin_user_notes: {
+        Row: {
+          admin_id: string
+          created_at: string
+          id: string
+          note: string
+          tag: string | null
+          user_id: string
+        }
+        Insert: {
+          admin_id: string
+          created_at?: string
+          id?: string
+          note: string
+          tag?: string | null
+          user_id: string
+        }
+        Update: {
+          admin_id?: string
+          created_at?: string
+          id?: string
+          note?: string
+          tag?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       assets: {
         Row: {
           category: string
@@ -416,6 +473,8 @@ export type Database = {
           is_recurring: boolean
           note: string | null
           reference_number: string | null
+          source_id: string | null
+          source_type: string | null
           updated_at: string
           user_id: string
         }
@@ -429,6 +488,8 @@ export type Database = {
           is_recurring?: boolean
           note?: string | null
           reference_number?: string | null
+          source_id?: string | null
+          source_type?: string | null
           updated_at?: string
           user_id: string
         }
@@ -442,6 +503,8 @@ export type Database = {
           is_recurring?: boolean
           note?: string | null
           reference_number?: string | null
+          source_id?: string | null
+          source_type?: string | null
           updated_at?: string
           user_id?: string
         }
@@ -538,6 +601,8 @@ export type Database = {
           note: string | null
           reference_number: string | null
           source: string
+          source_id: string | null
+          source_type: string | null
           updated_at: string
           user_id: string
         }
@@ -552,6 +617,8 @@ export type Database = {
           note?: string | null
           reference_number?: string | null
           source: string
+          source_id?: string | null
+          source_type?: string | null
           updated_at?: string
           user_id: string
         }
@@ -566,6 +633,8 @@ export type Database = {
           note?: string | null
           reference_number?: string | null
           source?: string
+          source_id?: string | null
+          source_type?: string | null
           updated_at?: string
           user_id?: string
         }
@@ -612,6 +681,33 @@ export type Database = {
         }
         Relationships: []
       }
+      networth_goals: {
+        Row: {
+          created_at: string | null
+          id: string
+          target_amount: number
+          target_date: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          target_amount: number
+          target_date: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          target_amount?: number
+          target_date?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       networth_snapshots: {
         Row: {
           created_at: string
@@ -638,6 +734,63 @@ export type Database = {
           net_worth?: number
           total_assets?: number
           total_liabilities?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
+      notification_log: {
+        Row: {
+          id: string
+          notification_type: string
+          reference_id: string
+          reference_period: string
+          sent_at: string
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          notification_type: string
+          reference_id: string
+          reference_period: string
+          sent_at?: string
+          user_id: string
+        }
+        Update: {
+          id?: string
+          notification_type?: string
+          reference_id?: string
+          reference_period?: string
+          sent_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      notification_preferences: {
+        Row: {
+          bill_reminders: boolean
+          budget_alerts: boolean
+          created_at: string
+          id: string
+          marketing_emails: boolean
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          bill_reminders?: boolean
+          budget_alerts?: boolean
+          created_at?: string
+          id?: string
+          marketing_emails?: boolean
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          bill_reminders?: boolean
+          budget_alerts?: boolean
+          created_at?: string
+          id?: string
+          marketing_emails?: boolean
+          updated_at?: string
           user_id?: string
         }
         Relationships: []
@@ -793,6 +946,57 @@ export type Database = {
           },
         ]
       }
+      subscriptions: {
+        Row: {
+          cancelled_at: string | null
+          created_at: string
+          current_period_end: string | null
+          current_period_start: string | null
+          id: string
+          paystack_customer_code: string | null
+          paystack_email_token: string | null
+          paystack_subscription_code: string | null
+          plan_type: string | null
+          status: string
+          trial_end: string
+          trial_start: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          cancelled_at?: string | null
+          created_at?: string
+          current_period_end?: string | null
+          current_period_start?: string | null
+          id?: string
+          paystack_customer_code?: string | null
+          paystack_email_token?: string | null
+          paystack_subscription_code?: string | null
+          plan_type?: string | null
+          status?: string
+          trial_end?: string
+          trial_start?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          cancelled_at?: string | null
+          created_at?: string
+          current_period_end?: string | null
+          current_period_start?: string | null
+          id?: string
+          paystack_customer_code?: string | null
+          paystack_email_token?: string | null
+          paystack_subscription_code?: string | null
+          plan_type?: string | null
+          status?: string
+          trial_end?: string
+          trial_start?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       transfers: {
         Row: {
           amount: number
@@ -846,6 +1050,30 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
       }
       user_settings: {
         Row: {
@@ -912,6 +1140,44 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      admin_account_types: {
+        Args: never
+        Returns: {
+          account_type: string
+          count: number
+        }[]
+      }
+      admin_monthly_transaction_stats: {
+        Args: never
+        Returns: {
+          expense_count: number
+          expense_total: number
+          income_count: number
+          income_total: number
+          month_key: string
+          month_label: string
+        }[]
+      }
+      admin_overview_stats: { Args: never; Returns: Json }
+      admin_recent_activity: {
+        Args: { p_limit?: number }
+        Returns: {
+          amount: number
+          created_at: string
+          date: string
+          description: string
+          id: string
+          type: string
+          user_id: string
+        }[]
+      }
+      admin_top_categories: {
+        Args: { p_limit?: number }
+        Returns: {
+          category: string
+          total_amount: number
+        }[]
+      }
       get_next_ref_number: {
         Args: { p_prefix: string; p_table_name: string; p_user_id: string }
         Returns: string
@@ -926,9 +1192,31 @@ export type Database = {
         Returns: string
       }
       get_waitlist_count: { Args: never; Returns: number }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      is_admin: { Args: never; Returns: boolean }
+      list_user_sessions: {
+        Args: { p_user_id: string }
+        Returns: {
+          created_at: string
+          ip: unknown
+          session_id: string
+          updated_at: string
+          user_agent: string
+        }[]
+      }
+      revoke_user_session: {
+        Args: { p_session_id: string; p_user_id: string }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "moderator" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1055,6 +1343,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "moderator", "user"],
+    },
   },
 } as const

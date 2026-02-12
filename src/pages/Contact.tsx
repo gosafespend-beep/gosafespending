@@ -174,24 +174,6 @@ const Contact = () => {
               </Link>
             </div>
 
-            {/* FAQ Link */}
-            <div className="bg-card border border-border/50 rounded-2xl p-6">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="p-2 rounded-lg bg-accent/10">
-                  <HelpCircle className="h-5 w-5 text-accent" />
-                </div>
-                <h3 className="font-semibold text-foreground">Check Our FAQ</h3>
-              </div>
-              <p className="text-muted-foreground mb-3">
-                Find quick answers to common questions.
-              </p>
-              <Link
-                to="/#faq"
-                className="text-primary hover:underline inline-flex items-center gap-1"
-              >
-                View FAQ →
-              </Link>
-            </div>
           </div>
         </div>
       </main>

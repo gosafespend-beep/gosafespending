@@ -15,8 +15,8 @@ const badges = [
   },
   {
     icon: CreditCard,
-    label: "No Card Required",
-    description: "Free to join waitlist",
+    label: "Free Plan Available",
+    description: "No credit card required",
   },
   {
     icon: Shield,
