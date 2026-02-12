@@ -22,6 +22,18 @@ const pageMetadata: Record<string, { title: string; description: string }> = {
     title: "Contact Us - Safe Spend",
     description: "Get in touch with the Safe Spend team. We'd love to hear from you about questions, feedback, or partnership opportunities.",
   },
+  "/about": {
+    title: "About Us - Safe Spend",
+    description: "Learn about Safe Spend's mission to make personal finance simple, private, and accessible for everyone.",
+  },
+  "/blog": {
+    title: "Blog - Safe Spend",
+    description: "Tips, guides, and insights on budgeting, saving, and managing your money. Learn smart personal finance strategies.",
+  },
+  "/tools/budget-calculator": {
+    title: "Free 50/30/20 Budget Calculator - Safe Spend",
+    description: "Calculate your ideal budget breakdown with our free 50/30/20 rule calculator. Split your income into needs, wants, and savings instantly.",
+  },
   "/privacy-policy": {
     title: "Privacy Policy - Safe Spend",
     description: "Learn how Safe Spend protects your personal and financial data with industry-leading security practices.",
@@ -83,6 +95,10 @@ export const SEOHead = ({
     updateMetaTag('meta[name="twitter:title"]', finalTitle);
     updateMetaTag('meta[name="twitter:description"]', finalDescription);
     updateMetaTag('meta[name="twitter:image"]', image);
+
+    // Update OG image dimensions
+    updateMetaTag('meta[property="og:image:width"]', "1200");
+    updateMetaTag('meta[property="og:image:height"]', "630");
 
     // Update canonical URL
     let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement;

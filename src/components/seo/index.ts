@@ -5,4 +5,6 @@ export { OrganizationSchema } from "./OrganizationSchema";
 export { PerformanceOptimizations } from "./PerformanceOptimizations";
 export { WebSiteSchema } from "./WebSiteSchema";
 export { HowToSchema } from "./HowToSchema";
+export { SoftwareAppSchema } from "./SoftwareAppSchema";
+export { BudgetCalculatorSchema } from "./BudgetCalculatorSchema";
 export { VisualBreadcrumbs } from "./VisualBreadcrumbs";

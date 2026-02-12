@@ -3,7 +3,6 @@
 
 User-agent: Googlebot
 Allow: /
-Crawl-delay: 1
 
 User-agent: Bingbot
 Allow: /
@@ -30,6 +29,6 @@ Sitemap: https://gosafespend.com/sitemap.xml
 
 # Disallow patterns
 Disallow: /api/
-Disallow: /*.json$
+Disallow: /*.json
 Disallow: /*?*utm_
 Disallow: /*?*ref=

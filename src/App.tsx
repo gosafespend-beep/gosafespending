@@ -19,6 +19,7 @@ import { OrganizationSchema } from "./components/seo/OrganizationSchema";
 import { PerformanceOptimizations } from "./components/seo/PerformanceOptimizations";
 import { WebSiteSchema } from "./components/seo/WebSiteSchema";
 import { HowToSchema } from "./components/seo/HowToSchema";
+import { SoftwareAppSchema } from "./components/seo/SoftwareAppSchema";
 
 const queryClient = new QueryClient();
 
@@ -35,6 +36,7 @@ const App = () => (
         <OrganizationSchema />
         <WebSiteSchema />
         <HowToSchema />
+        <SoftwareAppSchema />
         <PerformanceOptimizations />
         
         <Routes>

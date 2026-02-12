@@ -1,5 +1,5 @@
 import { Mail, Twitter } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import logo from "@/assets/logo.png";
@@ -35,12 +35,17 @@ const socialLinks = [
 
 export const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  const scrollToSection = (href: string) => {
+  const handleProductLink = (href: string) => {
     if (href.startsWith("#")) {
-      const element = document.getElementById(href.slice(1));
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
+      const sectionId = href.slice(1);
+      if (location.pathname === "/") {
+        const element = document.getElementById(sectionId);
+        if (element) element.scrollIntoView({ behavior: "smooth" });
+      } else {
+        navigate("/" + href);
       }
     }
   };
@@ -85,10 +90,10 @@ export const Footer = () => {
               {footerLinks.product.map((link) => (
                 <li key={link.label}>
                   <a
-                    href={link.href}
+                    href={`/${link.href}`}
                     onClick={(e) => {
                       e.preventDefault();
-                      scrollToSection(link.href);
+                      handleProductLink(link.href);
                     }}
                     className="text-muted-foreground hover:text-primary transition-colors text-sm"
                   >
