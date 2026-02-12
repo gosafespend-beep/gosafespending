@@ -61,7 +61,7 @@ export const Hero = () => {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75" />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-accent" />
             </span>
-            Now Available — Start for Free
+            Now Available — Start Your Free Trial
           </motion.div>
 
           {/* Headline */}
@@ -84,7 +84,7 @@ export const Hero = () => {
             transition={{ delay: 0.4 }}
           >
             Safe Spend is your personal finance companion. Track expenses, build budgets, 
-            crush debt, and grow your savings — all in one beautiful dashboard.
+            crush debt, and grow your savings — powered by AI categorization, all in one beautiful dashboard.
           </motion.p>
 
           {/* Privacy line */}
@@ -110,7 +110,7 @@ export const Hero = () => {
               className="h-12 px-8 text-base bg-primary hover:bg-primary/90 text-primary-foreground btn-ripple"
             >
               <a href={APP_URL}>
-                Get Started Free
+                Start Free Trial
                 <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
               </a>
             </Button>

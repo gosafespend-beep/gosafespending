@@ -1,4 +1,4 @@
-import { Check, ArrowRight, Sparkles } from "lucide-react";
+import { Check, ArrowRight, Sparkles, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { motion } from "framer-motion";
@@ -7,38 +7,55 @@ const APP_URL = "https://app.gosafespend.com";
 
 const plans = [
   {
-    name: "Free",
-    price: "R0",
-    period: "forever",
-    description: "Everything you need to start managing your money.",
+    name: "Free Trial",
+    price: "$0",
+    period: "for 7 days",
+    description: "Full access to everything. No credit card required.",
     features: [
-      "Expense & income tracking",
-      "Up to 3 accounts",
-      "Monthly budgets",
-      "Basic reports & insights",
-      "Bill reminders",
-      "CSV export",
+      "All features unlocked",
+      "Unlimited transactions",
+      "AI-powered categorization",
+      "Reports & analytics",
+      "Savings goals & debt tracker",
+      "Works offline (PWA)",
     ],
-    cta: "Get Started Free",
+    cta: "Start Free Trial",
     highlighted: false,
+    badge: null,
   },
   {
-    name: "Pro",
-    price: "R79",
+    name: "Monthly",
+    price: "$9.99",
     period: "/month",
-    description: "Advanced tools for serious financial planning.",
+    description: "Continue with full access after your trial ends.",
     features: [
-      "Everything in Free",
+      "Everything in Free Trial",
       "Unlimited accounts",
-      "Debt payoff planner",
-      "Savings goals tracking",
-      "Advanced analytics",
       "Net worth tracking",
+      "Advanced analytics",
       "Priority support",
-      "PDF reports",
+      "PDF & CSV reports",
+    ],
+    cta: "Start Free Trial",
+    highlighted: false,
+    badge: null,
+  },
+  {
+    name: "Annual",
+    price: "$89.99",
+    period: "/year",
+    description: "Best value — save ~25% compared to monthly.",
+    features: [
+      "Everything in Monthly",
+      "Save ~$30/year",
+      "All future features included",
+      "Priority support",
+      "Extended data exports",
+      "Early access to new features",
     ],
     cta: "Start Free Trial",
     highlighted: true,
+    badge: "Best Value",
   },
 ];
 
@@ -47,7 +64,7 @@ export const Pricing = () => {
 
   return (
     <section id="pricing" className="py-20 px-4 sm:px-6 lg:px-8 bg-background">
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div
           ref={ref}
@@ -62,12 +79,12 @@ export const Pricing = () => {
             Simple, <span className="gradient-text">Transparent</span> Pricing
           </h2>
           <p className="text-lg text-muted-foreground">
-            Start free, upgrade when you're ready. No hidden fees, cancel anytime.
+            Start with a free 7-day trial. No credit card required. Cancel anytime.
           </p>
         </div>
 
         {/* Plans */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
           {plans.map((plan, index) => (
             <motion.div
               key={plan.name}
@@ -82,11 +99,11 @@ export const Pricing = () => {
               transition={{ delay: index * 0.15, duration: 0.5 }}
               whileHover={{ y: -4 }}
             >
-              {plan.highlighted && (
+              {plan.badge && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                   <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-primary text-primary-foreground text-xs font-semibold">
                     <Sparkles className="h-3 w-3" />
-                    Most Popular
+                    {plan.badge}
                   </span>
                 </div>
               )}
@@ -126,16 +143,19 @@ export const Pricing = () => {
           ))}
         </div>
 
-        {/* Cancel anytime badge */}
+        {/* Bottom notes */}
         <motion.div
-          className="text-center mt-8"
+          className="text-center mt-8 space-y-2"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ delay: 0.3 }}
         >
           <p className="text-sm text-muted-foreground">
-            ✨ Cancel anytime · No hidden fees · 14-day free trial on Pro
+            ✨ Cancel anytime · No hidden fees · 7-day free trial on all plans
+          </p>
+          <p className="text-xs text-muted-foreground/70">
+            After trial: read-only access until subscribed · Payments via Paystack (cards, bank transfers, mobile money)
           </p>
         </motion.div>
       </div>

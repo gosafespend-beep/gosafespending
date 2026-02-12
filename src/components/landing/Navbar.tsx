@@ -134,7 +134,7 @@ export const Navbar = () => {
                 className="ml-4 bg-primary hover:bg-primary/90 text-primary-foreground btn-ripple"
               >
                 <a href={APP_URL}>
-                  Get Started
+                  Start Free Trial
                 </a>
               </Button>
             </div>
@@ -195,7 +195,7 @@ export const Navbar = () => {
                 asChild
                 className="w-full mt-2 bg-primary hover:bg-primary/90 text-primary-foreground"
               >
-                <a href={APP_URL}>Get Started</a>
+                <a href={APP_URL}>Start Free Trial</a>
               </Button>
             </motion.div>
           </div>

@@ -34,7 +34,7 @@ export const StickyWaitlistBar = () => {
                 className="whitespace-nowrap btn-ripple"
               >
                 <a href={APP_URL}>
-                  Get Started Free
+                  Start Free Trial
                   <ArrowRight className="ml-1 h-3 w-3" aria-hidden="true" />
                 </a>
               </Button>

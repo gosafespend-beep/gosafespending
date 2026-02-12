@@ -157,7 +157,7 @@ export const HowItWorks = () => {
             className="h-12 px-8 text-base bg-primary hover:bg-primary/90 text-primary-foreground btn-ripple"
           >
             <a href="https://app.gosafespend.com">
-              Start Now — It's Free
+              Start Your Free Trial
             </a>
           </Button>
         </motion.div>

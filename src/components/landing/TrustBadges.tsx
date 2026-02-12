@@ -15,7 +15,7 @@ const badges = [
   },
   {
     icon: CreditCard,
-    label: "Free Plan Available",
+    label: "7-Day Free Trial",
     description: "No credit card required",
   },
   {

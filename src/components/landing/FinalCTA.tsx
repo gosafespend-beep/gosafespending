@@ -45,13 +45,13 @@ export const FinalCTA = () => {
           className="h-14 px-10 text-lg bg-primary hover:bg-primary/90 text-primary-foreground btn-ripple"
         >
           <a href={APP_URL}>
-            Get Started Free
+            Try Safe Spend Free
             <ArrowRight className="ml-2 h-5 w-5" aria-hidden="true" />
           </a>
         </Button>
 
         <p className="mt-4 text-sm text-muted-foreground">
-          No credit card required. Free forever plan available.
+          No credit card required. 7-day free trial.
         </p>
       </motion.div>
     </section>
