@@ -6,6 +6,10 @@ const pathLabels: Record<string, string> = {
   "terms-of-service": "Terms of Service",
   "cookies-policy": "Cookies Policy",
   "contact": "Contact",
+  "about": "About",
+  "blog": "Blog",
+  "tools": "Tools",
+  "budget-calculator": "Budget Calculator",
 };
 
 export const VisualBreadcrumbs = () => {

@@ -6,6 +6,9 @@ const BASE_URL = "https://gosafespend.com";
 const breadcrumbNames: Record<string, string> = {
   "/": "Home",
   "/contact": "Contact",
+  "/about": "About",
+  "/blog": "Blog",
+  "/tools/budget-calculator": "Budget Calculator",
   "/privacy-policy": "Privacy Policy",
   "/terms-of-service": "Terms of Service",
   "/cookies-policy": "Cookies Policy",
@@ -26,6 +29,7 @@ export const BreadcrumbSchema = () => {
     // Don't add breadcrumb for home page
     if (pathname === "/") return;
 
+    const segments = pathname.split("/").filter(Boolean);
     const breadcrumbItems = [
       {
         "@type": "ListItem",
@@ -33,13 +37,27 @@ export const BreadcrumbSchema = () => {
         name: "Home",
         item: BASE_URL,
       },
-      {
+    ];
+
+    // Handle nested paths like /tools/budget-calculator
+    if (segments.length > 1) {
+      segments.forEach((_, index) => {
+        const partialPath = "/" + segments.slice(0, index + 1).join("/");
+        breadcrumbItems.push({
+          "@type": "ListItem",
+          position: index + 2,
+          name: breadcrumbNames[partialPath] || segments[index].replace(/-/g, " "),
+          item: `${BASE_URL}${partialPath}`,
+        });
+      });
+    } else {
+      breadcrumbItems.push({
         "@type": "ListItem",
         position: 2,
         name: breadcrumbNames[pathname] || "Page",
         item: `${BASE_URL}${pathname}`,
-      },
-    ];
+      });
+    }
 
     const schema = {
       "@context": "https://schema.org",

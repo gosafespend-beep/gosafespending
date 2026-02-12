@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ArrowRight, PiggyBank, ShoppingBag, Home } from "lucide-react";
+import { BudgetCalculatorSchema } from "@/components/seo/BudgetCalculatorSchema";
 
 const APP_URL = "https://app.gosafespend.com";
 
@@ -44,6 +45,7 @@ const BudgetCalculator = () => {
 
   return (
     <LegalLayout title="50/30/20 Budget Calculator" lastUpdated="February 2026">
+      <BudgetCalculatorSchema />
       <div className="max-w-lg mx-auto">
         <p className="text-muted-foreground text-base mb-8 leading-relaxed">
           The 50/30/20 rule is a simple budgeting method: spend 50% of your after-tax income on needs, 30% on wants, and put 20% toward savings and debt repayment.
