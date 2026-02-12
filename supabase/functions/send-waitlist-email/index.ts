@@ -29,7 +29,7 @@ const handler = async (req: Request): Promise<Response> => {
     console.log("Sending waitlist confirmation email to:", email);
 
     const emailResponse = await resend.emails.send({
-      from: "Safe Spend <noreply@gosafespend.com>",
+      from: "Safe Spend <info@gosafespend.com>",
       reply_to: "info@gosafespend.com",
       to: [email],
       subject: "Welcome to the Safe Spend Waitlist! 🎉",

@@ -24,7 +24,7 @@ const footerLinks = {
 };
 
 const socialLinks = [
-  { icon: Mail, href: "mailto:hello@gosafespend.com", label: "Email" },
+  { icon: Mail, href: "mailto:info@gosafespend.com", label: "Email" },
 ];
 
 export const Footer = () => {

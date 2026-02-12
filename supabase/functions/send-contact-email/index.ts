@@ -33,7 +33,7 @@ const handler = async (req: Request): Promise<Response> => {
     // Send notification to the team
     const teamEmailResponse = await resend.emails.send({
       from: "Safe Spend Contact <info@gosafespend.com>",
-      to: ["hello@gosafespend.com"],
+      to: ["info@gosafespend.com"],
       reply_to: email,
       subject: `New Contact Form Message from ${name}`,
       html: `
