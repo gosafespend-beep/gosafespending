@@ -104,16 +104,6 @@ export const Hero = () => {
                 <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
               </a>
             </Button>
-            <Button
-              asChild
-              variant="outline"
-              size="lg"
-              className="h-12 px-8 text-base border-border/50 text-foreground hover:bg-muted/50"
-            >
-              <a href={APP_URL}>
-                Sign In
-              </a>
-            </Button>
           </motion.div>
 
           {/* Trust indicators */}

@@ -129,15 +129,9 @@ export const Navbar = () => {
                   )}
                 </a>
               ))}
-              <a
-                href={APP_URL}
-                className="ml-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-              >
-                Log In
-              </a>
               <Button
                 asChild
-                className="ml-2 bg-primary hover:bg-primary/90 text-primary-foreground btn-ripple"
+                className="ml-4 bg-primary hover:bg-primary/90 text-primary-foreground btn-ripple"
               >
                 <a href={APP_URL}>
                   Get Started
@@ -193,21 +187,13 @@ export const Navbar = () => {
               </motion.a>
             ))}
             <motion.div
-              className="flex gap-2 mt-2"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: isOpen ? 1 : 0, y: isOpen ? 0 : 10 }}
               transition={{ delay: 0.2 }}
             >
               <Button
                 asChild
-                variant="outline"
-                className="flex-1 border-border/50 text-foreground"
-              >
-                <a href={APP_URL}>Log In</a>
-              </Button>
-              <Button
-                asChild
-                className="flex-1 bg-primary hover:bg-primary/90 text-primary-foreground"
+                className="w-full mt-2 bg-primary hover:bg-primary/90 text-primary-foreground"
               >
                 <a href={APP_URL}>Get Started</a>
               </Button>
