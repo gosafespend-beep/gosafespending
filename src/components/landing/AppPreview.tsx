@@ -18,7 +18,7 @@ export const AppPreview = () => {
   const opacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0.5, 1, 1, 0.5]);
 
   return (
-    <section ref={containerRef} className="py-16 px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <section ref={containerRef} className="relative py-16 px-4 sm:px-6 lg:px-8 overflow-hidden">
       <div className="max-w-6xl mx-auto">
         <div
           ref={ref}

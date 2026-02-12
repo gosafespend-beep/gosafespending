@@ -1,4 +1,4 @@
-import { Mail } from "lucide-react";
+import { Mail, Twitter } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
@@ -14,7 +14,12 @@ const footerLinks = {
     { label: "FAQ", href: "#faq" },
   ],
   company: [
+    { label: "About", href: "/about", isRoute: true },
+    { label: "Blog", href: "/blog", isRoute: true },
     { label: "Contact", href: "/contact", isRoute: true },
+  ],
+  tools: [
+    { label: "Budget Calculator", href: "/tools/budget-calculator", isRoute: true },
   ],
   legal: [
     { label: "Privacy Policy", href: "/privacy-policy", isRoute: true },
@@ -24,6 +29,7 @@ const footerLinks = {
 };
 
 const socialLinks = [
+  { icon: Twitter, href: "https://x.com/SafeSpend", label: "Twitter" },
   { icon: Mail, href: "mailto:info@gosafespend.com", label: "Email" },
 ];
 
@@ -45,7 +51,7 @@ export const Footer = () => {
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Main footer content */}
-        <div className="py-12 grid grid-cols-2 md:grid-cols-5 gap-8">
+        <div className="py-12 grid grid-cols-2 md:grid-cols-6 gap-8">
           {/* Brand column */}
           <div className="col-span-2">
             <div className="flex items-center gap-2 mb-4">
@@ -114,6 +120,23 @@ export const Footer = () => {
                       {link.label}
                     </a>
                   )}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Tools links */}
+          <div>
+            <h3 className="font-semibold text-foreground mb-4">Tools</h3>
+            <ul className="space-y-3">
+              {footerLinks.tools.map((link) => (
+                <li key={link.label}>
+                  <Link
+                    to={link.href}
+                    className="text-muted-foreground hover:text-primary transition-colors text-sm"
+                  >
+                    {link.label}
+                  </Link>
                 </li>
               ))}
             </ul>

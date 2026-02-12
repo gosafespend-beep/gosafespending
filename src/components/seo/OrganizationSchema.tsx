@@ -26,9 +26,7 @@ export const OrganizationSchema = () => {
         url: `${BASE_URL}/contact`,
       },
       sameAs: [
-        // Add social media URLs when available
-        // "https://twitter.com/SafeSpend",
-        // "https://linkedin.com/company/safespend",
+        "https://x.com/SafeSpend",
       ],
     };
 
