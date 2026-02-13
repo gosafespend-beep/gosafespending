@@ -57,7 +57,7 @@ export const Footer = () => {
   };
 
   return (
-    <footer className="bg-card border-t border-border/50 text-foreground">
+    <footer className="bg-card border-t border-border/50 text-foreground pb-16 sm:pb-0">
       <div className="h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
