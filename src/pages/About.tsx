@@ -1,5 +1,6 @@
+import { Link } from "react-router-dom";
 import { LegalLayout } from "@/components/legal/LegalLayout";
-import { Shield, Heart, Target, Users } from "lucide-react";
+import { Shield, Heart, Target, Users, ArrowRight } from "lucide-react";
 
 const values = [
   {
@@ -52,7 +53,7 @@ const About = () => {
         </div>
       </section>
 
-      <section>
+      <section className="mb-12">
         <h2 className="text-2xl font-semibold text-foreground mb-4">Our Story</h2>
         <p className="text-muted-foreground text-base leading-relaxed mb-4">
           Founded in 2026, Safe Spend started as a side project by a small team who were frustrated with the existing personal finance tools on the market. We wanted something that respected our privacy, worked beautifully on any device, and actually helped us build better money habits.
@@ -60,6 +61,21 @@ const About = () => {
         <p className="text-muted-foreground text-base leading-relaxed">
           Today, Safe Spend is used by thousands of people across 50+ countries to track expenses, manage budgets, pay down debt, and grow their savings. And we're just getting started.
         </p>
+      </section>
+
+      <section>
+        <h2 className="text-2xl font-semibold text-foreground mb-4">Get Involved</h2>
+        <div className="flex flex-wrap gap-3">
+          <Link to="/blog" className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-card border border-border/50 text-sm font-medium text-muted-foreground hover:text-foreground hover:border-primary/30 transition-colors">
+            Read Our Blog <ArrowRight className="h-3.5 w-3.5" />
+          </Link>
+          <Link to="/tools/budget-calculator" className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-card border border-border/50 text-sm font-medium text-muted-foreground hover:text-foreground hover:border-primary/30 transition-colors">
+            Try Free Tools <ArrowRight className="h-3.5 w-3.5" />
+          </Link>
+          <Link to="/contact" className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-card border border-border/50 text-sm font-medium text-muted-foreground hover:text-foreground hover:border-primary/30 transition-colors">
+            Contact Us <ArrowRight className="h-3.5 w-3.5" />
+          </Link>
+        </div>
       </section>
     </LegalLayout>
   );

@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ArrowRight, Zap, Snowflake, Calendar, DollarSign } from "lucide-react";
 import { DebtPayoffSchema } from "@/components/seo/DebtPayoffSchema";
+import { ExploreMoreTools } from "@/components/shared/ExploreMoreTools";
 
 const APP_URL = "https://app.gosafespend.com";
 
@@ -220,6 +221,8 @@ const DebtPayoffCalculator = () => {
             )}
           </div>
         )}
+
+        <ExploreMoreTools currentPath="/tools/debt-payoff-calculator" />
 
         <div className="text-center pt-4 border-t border-border/50">
           <p className="text-muted-foreground text-sm mb-4">Track every payment and watch your debt shrink with Safe Spend.</p>

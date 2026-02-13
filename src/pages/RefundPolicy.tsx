@@ -117,7 +117,11 @@ const RefundPolicy = () => {
         <h2 className="text-xl font-semibold mb-4">10. Contact Information</h2>
         <p className="mb-4">
           For questions about this Refund Policy, email us at{" "}
-          <a href="mailto:info@gosafespend.com" className="text-primary hover:underline">info@gosafespend.com</a>.
+          <a href="mailto:info@gosafespend.com" className="text-primary hover:underline">info@gosafespend.com</a>{" "}
+          or visit our <a href="/contact" className="text-primary hover:underline">Contact page</a>.
+        </p>
+        <p className="text-sm text-muted-foreground">
+          See also: <a href="/privacy-policy" className="text-primary hover:underline">Privacy Policy</a> · <a href="/terms-of-service" className="text-primary hover:underline">Terms of Service</a>
         </p>
       </section>
     </LegalLayout>

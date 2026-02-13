@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ArrowRight, PiggyBank, ShoppingBag, Home } from "lucide-react";
 import { BudgetCalculatorSchema } from "@/components/seo/BudgetCalculatorSchema";
+import { ExploreMoreTools } from "@/components/shared/ExploreMoreTools";
 
 const APP_URL = "https://app.gosafespend.com";
 
@@ -93,6 +94,8 @@ const BudgetCalculator = () => {
             })}
           </div>
         )}
+
+        <ExploreMoreTools currentPath="/tools/budget-calculator" />
 
         <div className="text-center pt-4 border-t border-border/50">
           <p className="text-muted-foreground text-sm mb-4">

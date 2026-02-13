@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ArrowRight, Shield, Target, Clock, Wallet } from "lucide-react";
 import { EmergencyFundSchema } from "@/components/seo/EmergencyFundSchema";
+import { ExploreMoreTools } from "@/components/shared/ExploreMoreTools";
 
 const APP_URL = "https://app.gosafespend.com";
 
@@ -106,6 +107,8 @@ const EmergencyFundCalculator = () => {
             )}
           </div>
         )}
+
+        <ExploreMoreTools currentPath="/tools/emergency-fund-calculator" />
 
         <div className="text-center pt-4 border-t border-border/50">
           <p className="text-muted-foreground text-sm mb-4">Build your emergency fund with automatic savings tracking in Safe Spend.</p>

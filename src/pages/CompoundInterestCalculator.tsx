@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ArrowRight, TrendingUp, DollarSign, Calendar, Percent } from "lucide-react";
 import { CompoundInterestSchema } from "@/components/seo/CompoundInterestSchema";
+import { ExploreMoreTools } from "@/components/shared/ExploreMoreTools";
 
 const APP_URL = "https://app.gosafespend.com";
 
@@ -118,6 +119,8 @@ const CompoundInterestCalculator = () => {
             )}
           </div>
         )}
+
+        <ExploreMoreTools currentPath="/tools/compound-interest-calculator" />
 
         <div className="text-center pt-4 border-t border-border/50">
           <p className="text-muted-foreground text-sm mb-4">Track your investments and savings goals with Safe Spend.</p>

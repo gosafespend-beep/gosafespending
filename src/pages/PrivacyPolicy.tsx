@@ -132,6 +132,13 @@ const PrivacyPolicy = () => {
         </p>
       </section>
 
+      <section className="mb-8">
+        <h2 className="text-xl font-semibold mb-4">Related Policies</h2>
+        <p>
+          Please also review our <a href="/cookies-policy" className="text-primary hover:underline">Cookies Policy</a> to understand how we use cookies and similar technologies, and our <a href="/terms-of-service" className="text-primary hover:underline">Terms of Service</a> for the full terms governing your use of Safe Spend.
+        </p>
+      </section>
+
       <section>
         <h2 className="text-xl font-semibold mb-4">Contact Us</h2>
         <p className="mb-4">
