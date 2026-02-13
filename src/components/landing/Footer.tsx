@@ -30,6 +30,7 @@ const footerLinks = {
     { label: "Privacy Policy", href: "/privacy-policy", isRoute: true },
     { label: "Terms of Service", href: "/terms-of-service", isRoute: true },
     { label: "Cookies Policy", href: "/cookies-policy", isRoute: true },
+    { label: "Refund Policy", href: "/refund-policy", isRoute: true },
   ],
 };
 
