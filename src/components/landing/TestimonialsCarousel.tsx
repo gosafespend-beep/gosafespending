@@ -248,20 +248,22 @@ export const TestimonialsCarousel = () => {
         </div>
 
         {/* Dots */}
-        <div className="flex justify-center gap-2 mt-8" role="tablist" aria-label="Testimonial slides">
+        <div className="flex justify-center gap-1 mt-8" role="tablist" aria-label="Testimonial slides">
           {testimonials.map((_, index) => (
             <button
               key={index}
-              className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                index === selectedIndex
-                  ? "bg-primary w-6"
-                  : "bg-muted-foreground/30 hover:bg-muted-foreground/50"
-              }`}
+              className="p-2 flex items-center justify-center min-w-[44px] min-h-[44px]"
               onClick={() => scrollTo(index)}
               role="tab"
               aria-selected={index === selectedIndex}
               aria-label={`Go to testimonial ${index + 1}`}
-            />
+            >
+              <span className={`block h-2 rounded-full transition-all duration-300 ${
+                index === selectedIndex
+                  ? "bg-primary w-6"
+                  : "bg-muted-foreground/30 hover:bg-muted-foreground/50 w-2"
+              }`} />
+            </button>
           ))}
         </div>
       </div>

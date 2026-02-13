@@ -98,7 +98,7 @@ export const StatsCounter = () => {
               <div className="inline-flex p-3 rounded-xl bg-primary/10 mb-4 group-hover:bg-primary/20 transition-colors">
                 <stat.icon className="h-6 w-6 text-primary" />
               </div>
-              <div className="text-3xl sm:text-4xl font-bold text-foreground mb-1">
+              <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-1 truncate">
                 {stat.isDecimal ? (
                   <span>{stat.value}</span>
                 ) : (

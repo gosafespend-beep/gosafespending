@@ -56,43 +56,45 @@ export const Comparison = () => {
           </p>
         </div>
 
-        <motion.div
-          className="rounded-xl border border-border/50 overflow-hidden bg-background"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
-          {/* Header */}
-          <div className="grid grid-cols-4 gap-0 bg-card border-b border-border/50">
-            <div className="p-4 text-sm font-medium text-muted-foreground">Feature</div>
-            <div className="p-4 text-sm font-bold text-primary text-center bg-primary/5">Safe Spend</div>
-            <div className="p-4 text-sm font-medium text-muted-foreground text-center">Spreadsheets</div>
-            <div className="p-4 text-sm font-medium text-muted-foreground text-center">Other Apps</div>
-          </div>
+        <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
+          <motion.div
+            className="rounded-xl border border-border/50 overflow-hidden bg-background min-w-[520px] sm:min-w-0"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            {/* Header */}
+            <div className="grid grid-cols-4 gap-0 bg-card border-b border-border/50">
+              <div className="p-4 text-sm font-medium text-muted-foreground">Feature</div>
+              <div className="p-4 text-sm font-bold text-primary text-center bg-primary/5">Safe Spend</div>
+              <div className="p-4 text-sm font-medium text-muted-foreground text-center">Spreadsheets</div>
+              <div className="p-4 text-sm font-medium text-muted-foreground text-center">Other Apps</div>
+            </div>
 
-          {/* Rows */}
-          {rows.map((row, index) => (
-            <motion.div
-              key={row.feature}
-              className="grid grid-cols-4 gap-0 border-b border-border/30 last:border-0 hover:bg-card/50 transition-colors"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.03 }}
-            >
-              <div className="p-4 text-sm text-foreground flex items-center">{row.feature}</div>
-              <div className="p-4 flex justify-center items-center bg-primary/5">
-                <StatusIcon status={row.safeSpend} />
-              </div>
-              <div className="p-4 flex justify-center items-center">
-                <StatusIcon status={row.spreadsheets} />
-              </div>
-              <div className="p-4 flex justify-center items-center">
-                <StatusIcon status={row.otherApps} />
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
+            {/* Rows */}
+            {rows.map((row, index) => (
+              <motion.div
+                key={row.feature}
+                className="grid grid-cols-4 gap-0 border-b border-border/30 last:border-0 hover:bg-card/50 transition-colors"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.03 }}
+              >
+                <div className="p-4 text-sm text-foreground flex items-center">{row.feature}</div>
+                <div className="p-4 flex justify-center items-center bg-primary/5">
+                  <StatusIcon status={row.safeSpend} />
+                </div>
+                <div className="p-4 flex justify-center items-center">
+                  <StatusIcon status={row.spreadsheets} />
+                </div>
+                <div className="p-4 flex justify-center items-center">
+                  <StatusIcon status={row.otherApps} />
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
       </div>
     </section>
   );
