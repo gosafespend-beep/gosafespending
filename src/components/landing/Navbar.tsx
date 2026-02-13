@@ -15,6 +15,11 @@ const navItems = [
   { id: "faq", label: "FAQ" },
 ];
 
+const pageLinks = [
+  { path: "/blog", label: "Blog" },
+  { path: "/tools/budget-calculator", label: "Tools" },
+];
+
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<string>("");
@@ -118,7 +123,12 @@ export const Navbar = () => {
                   href={`#${item.id}`}
                   onClick={(e) => {
                     e.preventDefault();
-                    scrollToSection(item.id);
+                    if (location.pathname !== "/") {
+                      navigate("/");
+                      setTimeout(() => scrollToSection(item.id), 100);
+                    } else {
+                      scrollToSection(item.id);
+                    }
                   }}
                   className={`relative px-4 py-2 text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background rounded-md ${
                     activeSection === item.id
@@ -134,6 +144,19 @@ export const Navbar = () => {
                       transition={{ type: "spring", stiffness: 380, damping: 30 }}
                     />
                   )}
+                </a>
+              ))}
+              {pageLinks.map((link) => (
+                <a
+                  key={link.path}
+                  href={link.path}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigate(link.path);
+                  }}
+                  className="relative px-4 py-2 text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background rounded-md text-muted-foreground hover:text-foreground"
+                >
+                  {link.label}
                 </a>
               ))}
               <Button
@@ -179,7 +202,12 @@ export const Navbar = () => {
                 href={`#${item.id}`}
                 onClick={(e) => {
                   e.preventDefault();
-                  scrollToSection(item.id);
+                  if (location.pathname !== "/") {
+                    navigate("/");
+                    setTimeout(() => scrollToSection(item.id), 100);
+                  } else {
+                    scrollToSection(item.id);
+                  }
                 }}
                 className={`block w-full text-left py-3 px-4 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-primary ${
                   activeSection === item.id
@@ -191,6 +219,23 @@ export const Navbar = () => {
                 transition={{ delay: index * 0.05 }}
               >
                 {item.label}
+              </motion.a>
+            ))}
+            {pageLinks.map((link, index) => (
+              <motion.a
+                key={link.path}
+                href={link.path}
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigate(link.path);
+                  setIsOpen(false);
+                }}
+                className="block w-full text-left py-3 px-4 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-primary text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: isOpen ? 1 : 0, x: isOpen ? 0 : -20 }}
+                transition={{ delay: (navItems.length + index) * 0.05 }}
+              >
+                {link.label}
               </motion.a>
             ))}
             <motion.div

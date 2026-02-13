@@ -58,6 +58,12 @@ export const LegalLayout = ({ title, lastUpdated, children }: LegalLayoutProps) 
             <Link to="/refund-policy" className="hover:text-foreground transition-colors">
               Refund Policy
             </Link>
+            <Link to="/blog" className="hover:text-foreground transition-colors">
+              Blog
+            </Link>
+            <Link to="/tools/budget-calculator" className="hover:text-foreground transition-colors">
+              Free Tools
+            </Link>
             <Link to="/contact" className="hover:text-foreground transition-colors">
               Contact
             </Link>

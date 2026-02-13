@@ -150,6 +150,13 @@ const TermsOfService = () => {
         </p>
       </section>
 
+      <section className="mb-8">
+        <h2 className="text-xl font-semibold mb-4">Related Policies</h2>
+        <p>
+          Please also review our <a href="/privacy-policy" className="text-primary hover:underline">Privacy Policy</a> and <a href="/refund-policy" className="text-primary hover:underline">Refund Policy</a>, which are incorporated into these Terms by reference.
+        </p>
+      </section>
+
       <section>
         <h2 className="text-xl font-semibold mb-4">Contact Us</h2>
         <p className="mb-4">

@@ -4,7 +4,8 @@ import { LegalLayout } from "@/components/legal/LegalLayout";
 import { BlogCard } from "@/components/blog/BlogCard";
 import { BlogFilters } from "@/components/blog/BlogFilters";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Newspaper } from "lucide-react";
+import { Newspaper, Calculator, TrendingUp, CreditCard, Shield } from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface BlogPost {
   id: string;
@@ -94,6 +95,29 @@ const BlogList = () => {
                 authorName={post.author_name}
               />
             ))}
+          </div>
+
+          {/* Free Tools Callout */}
+          <div className="mt-12 p-6 rounded-xl bg-card border border-border/50">
+            <h3 className="text-lg font-semibold text-foreground mb-1">Free Financial Tools</h3>
+            <p className="text-sm text-muted-foreground mb-4">Put what you've learned into practice with our free calculators.</p>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              {[
+                { path: "/tools/budget-calculator", label: "Budget Calculator", icon: Calculator },
+                { path: "/tools/compound-interest-calculator", label: "Compound Interest", icon: TrendingUp },
+                { path: "/tools/debt-payoff-calculator", label: "Debt Payoff", icon: CreditCard },
+                { path: "/tools/emergency-fund-calculator", label: "Emergency Fund", icon: Shield },
+              ].map((tool) => (
+                <Link
+                  key={tool.path}
+                  to={tool.path}
+                  className="flex items-center gap-2 p-2.5 rounded-lg hover:bg-muted/50 transition-colors group"
+                >
+                  <tool.icon className="h-4 w-4 text-primary shrink-0" />
+                  <span className="text-xs font-medium text-muted-foreground group-hover:text-foreground transition-colors">{tool.label}</span>
+                </Link>
+              ))}
+            </div>
           </div>
         </>
       )}

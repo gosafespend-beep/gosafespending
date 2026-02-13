@@ -132,6 +132,13 @@ const CookiesPolicy = () => {
         </p>
       </section>
 
+      <section className="mb-8">
+        <h2 className="text-xl font-semibold mb-4">Related Policies</h2>
+        <p>
+          For more details on how we handle your data, please see our <a href="/privacy-policy" className="text-primary hover:underline">Privacy Policy</a>.
+        </p>
+      </section>
+
       <section>
         <h2 className="text-xl font-semibold mb-4">Contact Us</h2>
         <p className="mb-4">
