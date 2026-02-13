@@ -7,21 +7,6 @@ const RefundPolicy = () => {
       <SEOHead />
 
       <section className="mb-8">
-        <div className="bg-muted/30 border border-border rounded-lg p-4 mb-4">
-          <p className="text-sm font-medium text-foreground mb-1">TL;DR</p>
-          <p className="text-sm text-muted-foreground">
-            We offer a 7-day free trial so you can try Safe Spend risk-free. After the trial, all payments are final. You can cancel anytime from your account settings — your access continues until the end of your billing period. If there's a billing error, contact us within 14 days and we'll make it right.
-          </p>
-        </div>
-
-        <p className="mb-4">
-          <strong>Website:</strong>{" "}
-          <a href="https://gosafespend.com" className="text-primary hover:underline">https://gosafespend.com</a>
-          <br />
-          <strong>Contact:</strong>{" "}
-          <a href="mailto:info@gosafespend.com" className="text-primary hover:underline">info@gosafespend.com</a>
-        </p>
-
         <p>
           This Refund Policy forms part of the{" "}
           <a href="/terms-of-service" className="text-primary hover:underline">Terms of Service</a>{" "}
