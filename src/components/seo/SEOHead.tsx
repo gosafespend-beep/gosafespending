@@ -58,6 +58,10 @@ const pageMetadata: Record<string, { title: string; description: string }> = {
     title: "Cookies Policy - Safe Spend",
     description: "Understand how Safe Spend uses cookies and similar technologies to improve your experience.",
   },
+  "/refund-policy": {
+    title: "Refund Policy - Safe Spend",
+    description: "Understand Safe Spend's refund policy, including free trial terms, cancellation, and billing dispute procedures.",
+  },
 };
 
 export const SEOHead = ({ 
