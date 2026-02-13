@@ -179,90 +179,90 @@ export const Navbar = () => {
             >
               {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
-          </div>
         </div>
-
-        {/* Mobile Menu Backdrop */}
-        {isOpen && (
-          <div 
-            className="fixed inset-0 bg-black/50 z-40 md:hidden" 
-            onClick={() => setIsOpen(false)}
-            aria-hidden="true"
-          />
-        )}
-
-        {/* Mobile Menu */}
-        <motion.div
-          id="mobile-menu"
-          role="dialog"
-          aria-modal="true"
-          className="md:hidden fixed top-[66px] inset-x-0 bottom-0 bg-background z-50 overflow-y-auto"
-          initial={false}
-          animate={{
-            x: isOpen ? 0 : "100%",
-            opacity: isOpen ? 1 : 0,
-          }}
-          transition={{ duration: 0.2, ease: "easeInOut" }}
-          style={{ pointerEvents: isOpen ? "auto" : "none" }}
-        >
-          <div className="px-4 py-4 space-y-2">
-            {navItems.map((item, index) => (
-              <motion.a
-                key={item.id}
-                href={`#${item.id}`}
-                onClick={(e) => {
-                  e.preventDefault();
-                  if (location.pathname !== "/") {
-                    navigate("/");
-                    setTimeout(() => scrollToSection(item.id), 100);
-                  } else {
-                    scrollToSection(item.id);
-                  }
-                }}
-                className={`block w-full text-left py-3 px-4 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-primary min-h-[44px] ${
-                  activeSection === item.id
-                    ? "bg-primary/10 text-primary"
-                    : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
-                }`}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: isOpen ? 1 : 0, x: isOpen ? 0 : -20 }}
-                transition={{ delay: index * 0.05 }}
-              >
-                {item.label}
-              </motion.a>
-            ))}
-            {pageLinks.map((link, index) => (
-              <motion.a
-                key={link.path}
-                href={link.path}
-                onClick={(e) => {
-                  e.preventDefault();
-                  navigate(link.path);
-                  setIsOpen(false);
-                }}
-                className="block w-full text-left py-3 px-4 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-primary text-muted-foreground hover:text-foreground hover:bg-muted/50 min-h-[44px]"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: isOpen ? 1 : 0, x: isOpen ? 0 : -20 }}
-                transition={{ delay: (navItems.length + index) * 0.05 }}
-              >
-                {link.label}
-              </motion.a>
-            ))}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: isOpen ? 1 : 0, y: isOpen ? 0 : 10 }}
-              transition={{ delay: 0.2 }}
-            >
-              <Button
-                asChild
-                className="w-full mt-2 bg-primary hover:bg-primary/90 text-primary-foreground min-h-[44px]"
-              >
-                <a href={APP_URL}>Start Free Trial</a>
-              </Button>
-            </motion.div>
-          </div>
-        </motion.div>
+        </div>
       </nav>
+
+      {/* Mobile Menu Backdrop - outside nav to avoid backdrop-blur containing block */}
+      {isOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-[51] md:hidden" 
+          onClick={() => setIsOpen(false)}
+          aria-hidden="true"
+        />
+      )}
+
+      {/* Mobile Menu - outside nav to avoid backdrop-blur containing block */}
+      <motion.div
+        id="mobile-menu"
+        role="dialog"
+        aria-modal="true"
+        className="md:hidden fixed top-[66px] inset-x-0 bottom-0 bg-background z-[52] overflow-y-auto"
+        initial={false}
+        animate={{
+          x: isOpen ? 0 : "100%",
+          opacity: isOpen ? 1 : 0,
+        }}
+        transition={{ duration: 0.2, ease: "easeInOut" }}
+        style={{ pointerEvents: isOpen ? "auto" : "none" }}
+      >
+        <div className="px-4 py-4 space-y-2">
+          {navItems.map((item, index) => (
+            <motion.a
+              key={item.id}
+              href={`#${item.id}`}
+              onClick={(e) => {
+                e.preventDefault();
+                if (location.pathname !== "/") {
+                  navigate("/");
+                  setTimeout(() => scrollToSection(item.id), 100);
+                } else {
+                  scrollToSection(item.id);
+                }
+              }}
+              className={`block w-full text-left py-3 px-4 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-primary min-h-[44px] ${
+                activeSection === item.id
+                  ? "bg-primary/10 text-primary"
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+              }`}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: isOpen ? 1 : 0, x: isOpen ? 0 : -20 }}
+              transition={{ delay: index * 0.05 }}
+            >
+              {item.label}
+            </motion.a>
+          ))}
+          {pageLinks.map((link, index) => (
+            <motion.a
+              key={link.path}
+              href={link.path}
+              onClick={(e) => {
+                e.preventDefault();
+                navigate(link.path);
+                setIsOpen(false);
+              }}
+              className="block w-full text-left py-3 px-4 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-primary text-muted-foreground hover:text-foreground hover:bg-muted/50 min-h-[44px]"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: isOpen ? 1 : 0, x: isOpen ? 0 : -20 }}
+              transition={{ delay: (navItems.length + index) * 0.05 }}
+            >
+              {link.label}
+            </motion.a>
+          ))}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: isOpen ? 1 : 0, y: isOpen ? 0 : 10 }}
+            transition={{ delay: 0.2 }}
+          >
+            <Button
+              asChild
+              className="w-full mt-2 bg-primary hover:bg-primary/90 text-primary-foreground min-h-[44px]"
+            >
+              <a href={APP_URL}>Start Free Trial</a>
+            </Button>
+          </motion.div>
+        </div>
+      </motion.div>
     </>
   );
 };
