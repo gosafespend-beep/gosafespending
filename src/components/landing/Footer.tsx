@@ -20,6 +20,9 @@ const footerLinks = {
   ],
   tools: [
     { label: "Budget Calculator", href: "/tools/budget-calculator", isRoute: true },
+    { label: "Compound Interest", href: "/tools/compound-interest-calculator", isRoute: true },
+    { label: "Debt Payoff", href: "/tools/debt-payoff-calculator", isRoute: true },
+    { label: "Emergency Fund", href: "/tools/emergency-fund-calculator", isRoute: true },
     { label: "Studily", href: "https://getstudily.com", isExternal: true },
     { label: "Humanize AI Text", href: "https://aifreetextpro.com", isExternal: true },
   ],

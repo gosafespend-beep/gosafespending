@@ -13,6 +13,9 @@ import About from "./pages/About";
 import Blog from "./pages/Blog";
 import BlogArticle from "./pages/BlogArticle";
 import BudgetCalculator from "./pages/BudgetCalculator";
+import CompoundInterestCalculator from "./pages/CompoundInterestCalculator";
+import DebtPayoffCalculator from "./pages/DebtPayoffCalculator";
+import EmergencyFundCalculator from "./pages/EmergencyFundCalculator";
 import { SEOHead } from "./components/seo/SEOHead";
 import { BreadcrumbSchema } from "./components/seo/BreadcrumbSchema";
 import { FAQSchema } from "./components/seo/FAQSchema";
@@ -50,6 +53,9 @@ const App = () => (
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogArticle />} />
           <Route path="/tools/budget-calculator" element={<BudgetCalculator />} />
+          <Route path="/tools/compound-interest-calculator" element={<CompoundInterestCalculator />} />
+          <Route path="/tools/debt-payoff-calculator" element={<DebtPayoffCalculator />} />
+          <Route path="/tools/emergency-fund-calculator" element={<EmergencyFundCalculator />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
