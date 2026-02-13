@@ -20,6 +20,8 @@ const footerLinks = {
   ],
   tools: [
     { label: "Budget Calculator", href: "/tools/budget-calculator", isRoute: true },
+    { label: "Studily", href: "https://getstudily.com", isExternal: true },
+    { label: "Humanize AI Text", href: "https://aifreetextpro.com", isExternal: true },
   ],
   legal: [
     { label: "Privacy Policy", href: "/privacy-policy", isRoute: true },
@@ -136,12 +138,23 @@ export const Footer = () => {
             <ul className="space-y-3">
               {footerLinks.tools.map((link) => (
                 <li key={link.label}>
-                  <Link
-                    to={link.href}
-                    className="text-muted-foreground hover:text-primary transition-colors text-sm"
-                  >
-                    {link.label}
-                  </Link>
+                  {'isExternal' in link && link.isExternal ? (
+                    <a
+                      href={link.href}
+                      target="_blank"
+                      rel="dofollow noopener"
+                      className="text-muted-foreground hover:text-primary transition-colors text-sm"
+                    >
+                      {link.label}
+                    </a>
+                  ) : (
+                    <Link
+                      to={link.href}
+                      className="text-muted-foreground hover:text-primary transition-colors text-sm"
+                    >
+                      {link.label}
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>
