@@ -116,7 +116,7 @@ export const Navbar = () => {
             </motion.div>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center gap-1">
+            <div className="hidden md:flex items-center gap-0">
               {navItems.map((item) => (
                 <a
                   key={item.id}
@@ -130,7 +130,7 @@ export const Navbar = () => {
                       scrollToSection(item.id);
                     }
                   }}
-                  className={`relative px-4 py-2 text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background rounded-md ${
+                  className={`relative px-3 py-2 text-xs font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background rounded-md ${
                     activeSection === item.id
                       ? "text-primary"
                       : "text-muted-foreground hover:text-foreground"
@@ -154,14 +154,15 @@ export const Navbar = () => {
                     e.preventDefault();
                     navigate(link.path);
                   }}
-                  className="relative px-4 py-2 text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background rounded-md text-muted-foreground hover:text-foreground"
+                  className="relative px-3 py-2 text-xs font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background rounded-md text-muted-foreground hover:text-foreground"
                 >
                   {link.label}
                 </a>
               ))}
               <Button
                 asChild
-                className="ml-4 bg-primary hover:bg-primary/90 text-primary-foreground btn-ripple"
+                size="sm"
+                className="ml-3 bg-primary hover:bg-primary/90 text-primary-foreground btn-ripple text-xs"
               >
                 <a href={APP_URL}>
                   Start Free Trial
