@@ -34,6 +34,18 @@ const pageMetadata: Record<string, { title: string; description: string }> = {
     title: "Free 50/30/20 Budget Calculator - Safe Spend",
     description: "Calculate your ideal budget breakdown with our free 50/30/20 rule calculator. Split your income into needs, wants, and savings instantly.",
   },
+  "/tools/compound-interest-calculator": {
+    title: "Free Compound Interest Calculator - Safe Spend",
+    description: "See how your savings grow over time with our free compound interest calculator. Enter your investment, contributions, and rate to project future value.",
+  },
+  "/tools/debt-payoff-calculator": {
+    title: "Free Debt Payoff Calculator - Snowball vs Avalanche - Safe Spend",
+    description: "Compare snowball and avalanche debt payoff strategies. Find the fastest, cheapest way to become debt-free with our free calculator.",
+  },
+  "/tools/emergency-fund-calculator": {
+    title: "Free Emergency Fund Calculator - Safe Spend",
+    description: "Calculate how much you need in your emergency fund. See 3, 6, and 9 month targets with progress tracking and timeline estimates.",
+  },
   "/privacy-policy": {
     title: "Privacy Policy - Safe Spend",
     description: "Learn how Safe Spend protects your personal and financial data with industry-leading security practices.",
@@ -64,10 +76,8 @@ export const SEOHead = ({
   const canonicalUrl = `${BASE_URL}${pathname === "/" ? "" : pathname}`;
 
   useEffect(() => {
-    // Update document title
     document.title = finalTitle;
 
-    // Helper to update or create meta tags
     const updateMetaTag = (selector: string, content: string, attribute = "content") => {
       let element = document.querySelector(selector) as HTMLMetaElement;
       if (!element) {
@@ -81,26 +91,18 @@ export const SEOHead = ({
       element.setAttribute(attribute, content);
     };
 
-    // Update meta description
     updateMetaTag('meta[name="description"]', finalDescription);
-
-    // Update Open Graph tags
     updateMetaTag('meta[property="og:title"]', finalTitle);
     updateMetaTag('meta[property="og:description"]', finalDescription);
     updateMetaTag('meta[property="og:url"]', canonicalUrl);
     updateMetaTag('meta[property="og:image"]', image);
     updateMetaTag('meta[property="og:type"]', type);
-
-    // Update Twitter tags
     updateMetaTag('meta[name="twitter:title"]', finalTitle);
     updateMetaTag('meta[name="twitter:description"]', finalDescription);
     updateMetaTag('meta[name="twitter:image"]', image);
-
-    // Update OG image dimensions
     updateMetaTag('meta[property="og:image:width"]', "1200");
     updateMetaTag('meta[property="og:image:height"]', "630");
 
-    // Update canonical URL
     let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement;
     if (!canonical) {
       canonical = document.createElement("link");
@@ -109,7 +111,6 @@ export const SEOHead = ({
     }
     canonical.href = canonicalUrl;
 
-    // Handle noindex
     let robots = document.querySelector('meta[name="robots"]') as HTMLMetaElement;
     if (noIndex) {
       if (!robots) {
