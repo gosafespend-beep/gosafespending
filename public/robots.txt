@@ -26,6 +26,7 @@ Crawl-delay: 2
 
 # Sitemap location
 Sitemap: https://gosafespend.com/sitemap.xml
+Sitemap: https://qeogqvjqvafbzufanwki.supabase.co/functions/v1/generate-sitemap
 
 # Disallow patterns
 Disallow: /api/
