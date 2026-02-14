@@ -29,6 +29,7 @@ Sitemap: https://gosafespend.com/sitemap.xml
 
 # Disallow patterns
 Disallow: /api/
-Disallow: /*.json
+Disallow: /*.json$
 Disallow: /*?*utm_
 Disallow: /*?*ref=
+Disallow: /404
