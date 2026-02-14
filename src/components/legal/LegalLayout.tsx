@@ -32,10 +32,12 @@ export const LegalLayout = ({ title, lastUpdated, children }: LegalLayoutProps) 
       {/* Content */}
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <VisualBreadcrumbs />
-        <div className="mb-8">
-          <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-2">{title}</h1>
-          <p className="text-sm text-muted-foreground">Last updated: {lastUpdated}</p>
-        </div>
+        {(title || lastUpdated) && (
+          <div className="mb-8">
+            {title && <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-2">{title}</h1>}
+            {lastUpdated && <p className="text-sm text-muted-foreground">Last updated: {lastUpdated}</p>}
+          </div>
+        )}
 
         <div className="prose prose-invert prose-sm max-w-none prose-headings:text-foreground prose-p:text-muted-foreground prose-strong:text-foreground prose-li:text-muted-foreground">
           {children}
