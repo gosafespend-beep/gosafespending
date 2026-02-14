@@ -1,6 +1,6 @@
 project_id = "qeogqvjqvafbzufanwki"
 
-[functions.send-waitlist-email]
+[functions.send-newsletter-email]
 verify_jwt = false
 
 [functions.send-contact-email]
