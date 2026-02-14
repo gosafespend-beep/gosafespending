@@ -11,6 +11,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Calendar, Clock, ArrowLeft, User } from "lucide-react";
 import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
+import { TableOfContents } from "@/components/blog/TableOfContents";
 
 interface BlogPost {
   id: string;
@@ -111,65 +112,74 @@ const BlogArticle = () => {
       />
 
       <LegalLayout title="" lastUpdated="">
-        <div className="max-w-3xl mx-auto">
-          {/* Back link */}
-          <Link
-            to="/blog"
-            className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to Blog
-          </Link>
+        <div className="max-w-3xl mx-auto xl:max-w-none xl:grid xl:grid-cols-[1fr_220px] xl:gap-12">
+          <div className="max-w-3xl">
+            {/* Back link */}
+            <Link
+              to="/blog"
+              className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Back to Blog
+            </Link>
 
-          {/* Header */}
-          <header className="mb-8">
-            {post.category && (
-              <span className="inline-block text-xs font-medium text-primary bg-primary/10 px-2.5 py-1 rounded-full mb-4">
-                {post.category}
-              </span>
-            )}
-            <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-4 leading-tight">
-              {post.title}
-            </h1>
-            <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
-              <span className="flex items-center gap-1.5">
-                <User className="h-4 w-4" />
-                {post.author_name}
-              </span>
-              {post.published_at && (
-                <span className="flex items-center gap-1.5">
-                  <Calendar className="h-4 w-4" />
-                  {format(new Date(post.published_at), "MMMM d, yyyy")}
+            {/* Header */}
+            <header className="mb-8">
+              {post.category && (
+                <span className="inline-block text-xs font-medium text-primary bg-primary/10 px-2.5 py-1 rounded-full mb-4">
+                  {post.category}
                 </span>
               )}
-              <span className="flex items-center gap-1.5">
-                <Clock className="h-4 w-4" />
-                {post.reading_time_minutes} min read
-              </span>
+              <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-4 leading-tight">
+                {post.title}
+              </h1>
+              <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+                <span className="flex items-center gap-1.5">
+                  <User className="h-4 w-4" />
+                  {post.author_name}
+                </span>
+                {post.published_at && (
+                  <span className="flex items-center gap-1.5">
+                    <Calendar className="h-4 w-4" />
+                    {format(new Date(post.published_at), "MMMM d, yyyy")}
+                  </span>
+                )}
+                <span className="flex items-center gap-1.5">
+                  <Clock className="h-4 w-4" />
+                  {post.reading_time_minutes} min read
+                </span>
+              </div>
+            </header>
+
+            {/* Featured image */}
+            {post.featured_image && (
+              <div className="mb-10 rounded-xl overflow-hidden border border-border">
+                <img
+                  src={post.featured_image}
+                  alt={post.title}
+                  className="w-full object-cover"
+                />
+              </div>
+            )}
+
+            {/* Content */}
+            {post.content && <ArticleContent content={post.content} />}
+
+            {/* Share */}
+            <div className="mt-12 pt-8 border-t border-border">
+              <ShareButtons title={post.title} slug={post.slug} />
             </div>
-          </header>
 
-          {/* Featured image */}
-          {post.featured_image && (
-            <div className="mb-10 rounded-xl overflow-hidden border border-border">
-              <img
-                src={post.featured_image}
-                alt={post.title}
-                className="w-full object-cover"
-              />
-            </div>
-          )}
-
-          {/* Content */}
-          {post.content && <ArticleContent content={post.content} />}
-
-          {/* Share */}
-          <div className="mt-12 pt-8 border-t border-border">
-            <ShareButtons title={post.title} slug={post.slug} />
+            {/* Related */}
+            <RelatedPosts currentSlug={post.slug} category={post.category} />
           </div>
 
-          {/* Related */}
-          <RelatedPosts currentSlug={post.slug} category={post.category} />
+          {/* Desktop TOC */}
+          {post.content && (
+            <aside className="hidden xl:block">
+              <TableOfContents content={post.content} />
+            </aside>
+          )}
         </div>
       </LegalLayout>
     </>

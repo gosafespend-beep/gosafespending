@@ -28,13 +28,13 @@ export const ShareButtons = ({ title, slug }: ShareButtonsProps) => {
   };
 
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
       <span className="text-sm text-muted-foreground">Share:</span>
-      <Button variant="outline" size="sm" onClick={shareOnTwitter} className="gap-2">
+      <Button variant="outline" onClick={shareOnTwitter} className="gap-2 w-full sm:w-auto">
         <Twitter className="h-4 w-4" />
         Twitter
       </Button>
-      <Button variant="outline" size="sm" onClick={copyLink} className="gap-2">
+      <Button variant="outline" onClick={copyLink} className="gap-2 w-full sm:w-auto">
         {copied ? <Check className="h-4 w-4 text-primary" /> : <LinkIcon className="h-4 w-4" />}
         {copied ? "Copied!" : "Copy Link"}
       </Button>

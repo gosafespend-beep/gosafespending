@@ -7,7 +7,7 @@ interface ArticleContentProps {
 
 export const ArticleContent = ({ content }: ArticleContentProps) => {
   return (
-    <article className="prose prose-invert prose-lg max-w-none
+    <article className="prose prose-invert md:prose-lg max-w-none
       prose-headings:text-foreground prose-headings:font-bold
       prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4
       prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3
@@ -25,7 +25,23 @@ export const ArticleContent = ({ content }: ArticleContentProps) => {
       prose-td:border-border
       prose-hr:border-border
     ">
-      <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
+      <ReactMarkdown
+        remarkPlugins={[remarkGfm]}
+        components={{
+          h2: ({ children, ...props }) => {
+            const text = typeof children === 'string' ? children : String(children);
+            const id = text.toLowerCase().replace(/[^\w]+/g, '-').replace(/^-|-$/g, '');
+            return <h2 id={id} {...props}>{children}</h2>;
+          },
+          h3: ({ children, ...props }) => {
+            const text = typeof children === 'string' ? children : String(children);
+            const id = text.toLowerCase().replace(/[^\w]+/g, '-').replace(/^-|-$/g, '');
+            return <h3 id={id} {...props}>{children}</h3>;
+          },
+        }}
+      >
+        {content}
+      </ReactMarkdown>
     </article>
   );
 };
