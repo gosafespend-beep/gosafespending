@@ -28,7 +28,7 @@ const handler = async (req: Request): Promise<Response> => {
       throw new Error("Name, email, and message are required");
     }
 
-    console.log("Sending contact form emails for:", email);
+    console.log("Processing contact form submission");
 
     // Send notification to the team
     const teamEmailResponse = await resend.emails.send({
@@ -91,7 +91,7 @@ const handler = async (req: Request): Promise<Response> => {
       `,
     });
 
-    console.log("Team notification email sent:", teamEmailResponse);
+    console.log("Team notification email sent");
 
     // Send confirmation to the user
     const userEmailResponse = await resend.emails.send({
@@ -177,7 +177,7 @@ const handler = async (req: Request): Promise<Response> => {
       `,
     });
 
-    console.log("User confirmation email sent:", userEmailResponse);
+    console.log("User confirmation email sent");
 
     return new Response(
       JSON.stringify({ 
@@ -190,7 +190,7 @@ const handler = async (req: Request): Promise<Response> => {
       }
     );
   } catch (error: unknown) {
-    console.error("Error sending contact emails:", error);
+    console.error("Error sending contact emails:", error instanceof Error ? error.message : "Unknown error");
     const errorMessage = error instanceof Error ? error.message : "Unknown error";
     return new Response(
       JSON.stringify({ success: false, error: errorMessage }),
