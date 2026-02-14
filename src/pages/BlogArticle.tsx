@@ -112,8 +112,8 @@ const BlogArticle = () => {
       />
 
       <LegalLayout title="" lastUpdated="">
-        <div className="max-w-3xl mx-auto xl:max-w-none xl:grid xl:grid-cols-[1fr_220px] xl:gap-12">
-          <div className="max-w-3xl">
+        <div className="max-w-3xl mx-auto">
+          <div>
             {/* Back link */}
             <Link
               to="/blog"
@@ -173,13 +173,6 @@ const BlogArticle = () => {
             {/* Related */}
             <RelatedPosts currentSlug={post.slug} category={post.category} />
           </div>
-
-          {/* Desktop TOC */}
-          {post.content && (
-            <aside className="hidden xl:block">
-              <TableOfContents content={post.content} />
-            </aside>
-          )}
         </div>
       </LegalLayout>
     </>
