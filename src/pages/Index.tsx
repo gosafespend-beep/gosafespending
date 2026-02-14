@@ -12,6 +12,7 @@ import { SecuritySection } from "@/components/landing/SecuritySection";
 import { Pricing } from "@/components/landing/Pricing";
 import { FAQ } from "@/components/landing/FAQ";
 import { FinalCTA } from "@/components/landing/FinalCTA";
+import { NewsletterSignup } from "@/components/landing/NewsletterSignup";
 import { Footer } from "@/components/landing/Footer";
 import { StickyWaitlistBar } from "@/components/landing/StickyWaitlistBar";
 import { Toaster } from "@/components/ui/sonner";
@@ -41,6 +42,7 @@ const Index = () => {
         <Pricing />
         <FAQ />
         <FinalCTA />
+        <NewsletterSignup />
       </main>
       <Footer />
       <StickyWaitlistBar />
