@@ -25,7 +25,7 @@ const handler = async (req: Request): Promise<Response> => {
       throw new Error("Email is required");
     }
 
-    console.log("Sending newsletter confirmation email to:", email);
+    console.log("Sending newsletter confirmation email");
 
     const emailResponse = await resend.emails.send({
       from: "Safe Spend <info@gosafespend.com>",
@@ -89,14 +89,14 @@ const handler = async (req: Request): Promise<Response> => {
       `,
     });
 
-    console.log("Newsletter email sent successfully:", emailResponse);
+    console.log("Newsletter email sent successfully");
 
     return new Response(JSON.stringify({ success: true, data: emailResponse }), {
       status: 200,
       headers: { "Content-Type": "application/json", ...corsHeaders },
     });
   } catch (error: unknown) {
-    console.error("Error sending newsletter email:", error);
+    console.error("Error sending newsletter email:", error instanceof Error ? error.message : "Unknown error");
     const errorMessage = error instanceof Error ? error.message : "Unknown error";
     return new Response(
       JSON.stringify({ success: false, error: errorMessage }),
