@@ -5,7 +5,14 @@ interface ArticleContentProps {
   content: string;
 }
 
+const stripSeoMetadata = (content: string): string => {
+  // Remove SEO notes that start with **Primary Keyword or similar markers
+  return content.replace(/\n\*\*Primary Keyword[\s\S]*$/i, '').trim();
+};
+
 export const ArticleContent = ({ content }: ArticleContentProps) => {
+  const cleanContent = stripSeoMetadata(content);
+
   return (
     <article className="prose prose-invert md:prose-lg max-w-none
       prose-headings:text-foreground prose-headings:font-bold
@@ -17,6 +24,7 @@ export const ArticleContent = ({ content }: ArticleContentProps) => {
       prose-ul:text-muted-foreground prose-ol:text-muted-foreground
       prose-li:marker:text-primary
       prose-blockquote:border-primary prose-blockquote:text-muted-foreground
+      prose-blockquote:bg-primary/5 prose-blockquote:pl-6 prose-blockquote:py-4 prose-blockquote:pr-4 prose-blockquote:rounded-lg prose-blockquote:italic prose-blockquote:not-italic
       prose-code:text-primary prose-code:bg-muted prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded
       prose-pre:bg-muted prose-pre:border prose-pre:border-border
       prose-img:rounded-xl prose-img:border prose-img:border-border
@@ -38,9 +46,14 @@ export const ArticleContent = ({ content }: ArticleContentProps) => {
             const id = text.toLowerCase().replace(/[^\w]+/g, '-').replace(/^-|-$/g, '');
             return <h3 id={id} {...props}>{children}</h3>;
           },
+          blockquote: ({ children, ...props }) => (
+            <blockquote {...props} className="italic">
+              {children}
+            </blockquote>
+          ),
         }}
       >
-        {content}
+        {cleanContent}
       </ReactMarkdown>
     </article>
   );
