@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useParams, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { LegalLayout } from "@/components/legal/LegalLayout";
@@ -8,7 +8,7 @@ import { RelatedPosts } from "@/components/blog/RelatedPosts";
 import { BlogArticleSchema } from "@/components/seo/BlogArticleSchema";
 import { SEOHead } from "@/components/seo/SEOHead";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Calendar, Clock, ArrowLeft, User } from "lucide-react";
+import { Calendar, Clock, ArrowLeft, ArrowUp, User } from "lucide-react";
 import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { TableOfContents } from "@/components/blog/TableOfContents";
@@ -28,6 +28,10 @@ interface BlogPost {
   og_image: string | null;
   meta_title: string | null;
   meta_description: string | null;
+  cta_headline: string | null;
+  cta_description: string | null;
+  cta_button_text: string | null;
+  cta_url: string | null;
 }
 
 const BlogArticle = () => {
@@ -35,6 +39,8 @@ const BlogArticle = () => {
   const [post, setPost] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
+  const [readProgress, setReadProgress] = useState(0);
+  const [showBackToTop, setShowBackToTop] = useState(false);
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -57,6 +63,23 @@ const BlogArticle = () => {
 
     fetchPost();
   }, [slug]);
+
+  const handleScroll = useCallback(() => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = docHeight > 0 ? Math.min(scrollTop / docHeight, 1) : 0;
+    setReadProgress(progress * 100);
+    setShowBackToTop(scrollTop > window.innerHeight);
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [handleScroll]);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   if (loading) {
     return (
@@ -110,6 +133,12 @@ const BlogArticle = () => {
         publishedAt={post.published_at || post.updated_at}
         modifiedAt={post.updated_at}
         slug={post.slug}
+      />
+
+      {/* Reading progress bar */}
+      <div
+        className="fixed top-0 left-0 h-[3px] bg-primary z-50 transition-all duration-150"
+        style={{ width: `${readProgress}%` }}
       />
 
       <LegalLayout title="" lastUpdated="">
@@ -166,6 +195,27 @@ const BlogArticle = () => {
             {/* Content */}
             {post.content && <ArticleContent content={post.content} />}
 
+            {/* CTA Section */}
+            {post.cta_headline && (
+              <div className="mt-12 rounded-xl bg-primary/10 border border-primary/20 p-8 text-center">
+                <h2 className="text-2xl font-bold text-foreground mb-3">
+                  {post.cta_headline}
+                </h2>
+                {post.cta_description && (
+                  <p className="text-muted-foreground mb-6 max-w-lg mx-auto">
+                    {post.cta_description}
+                  </p>
+                )}
+                {post.cta_url && (
+                  <Button asChild size="lg">
+                    <a href={post.cta_url} target="_blank" rel="noopener noreferrer">
+                      {post.cta_button_text || "Get Started"}
+                    </a>
+                  </Button>
+                )}
+              </div>
+            )}
+
             {/* Share */}
             <div className="mt-12 pt-8 border-t border-border">
               <ShareButtons title={post.title} slug={post.slug} />
@@ -176,6 +226,17 @@ const BlogArticle = () => {
           </div>
         </div>
       </LegalLayout>
+
+      {/* Back to top button */}
+      {showBackToTop && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-6 right-6 z-50 h-10 w-10 rounded-full bg-primary text-primary-foreground shadow-lg flex items-center justify-center hover:bg-primary/90 transition-colors"
+          aria-label="Back to top"
+        >
+          <ArrowUp className="h-5 w-5" />
+        </button>
+      )}
     </>
   );
 };
