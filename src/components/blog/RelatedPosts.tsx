@@ -36,7 +36,20 @@ export const RelatedPosts = ({ currentSlug, category }: RelatedPostsProps) => {
       }
 
       const { data } = await query;
-      setPosts(data || []);
+
+      // If no posts match the category, fall back to latest posts
+      if (!data || data.length === 0) {
+        const { data: fallback } = await supabase
+          .from("blog_posts")
+          .select("title, slug, excerpt, featured_image, category, published_at, reading_time_minutes, author_name")
+          .eq("is_published", true)
+          .neq("slug", currentSlug)
+          .order("published_at", { ascending: false })
+          .limit(3);
+        setPosts(fallback || []);
+      } else {
+        setPosts(data);
+      }
     };
 
     fetchRelated();
