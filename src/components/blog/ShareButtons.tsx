@@ -1,4 +1,4 @@
-import { Twitter, Link as LinkIcon, Check } from "lucide-react";
+import { Twitter, Link as LinkIcon, Check, Linkedin, Facebook } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 
@@ -21,6 +21,22 @@ export const ShareButtons = ({ title, slug }: ShareButtonsProps) => {
     );
   };
 
+  const shareOnLinkedIn = () => {
+    window.open(
+      `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
+      "_blank",
+      "noopener,noreferrer"
+    );
+  };
+
+  const shareOnFacebook = () => {
+    window.open(
+      `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
+      "_blank",
+      "noopener,noreferrer"
+    );
+  };
+
   const copyLink = async () => {
     await navigator.clipboard.writeText(url);
     setCopied(true);
@@ -33,6 +49,14 @@ export const ShareButtons = ({ title, slug }: ShareButtonsProps) => {
       <Button variant="outline" onClick={shareOnTwitter} className="gap-2 w-full sm:w-auto">
         <Twitter className="h-4 w-4" />
         Twitter
+      </Button>
+      <Button variant="outline" onClick={shareOnLinkedIn} className="gap-2 w-full sm:w-auto">
+        <Linkedin className="h-4 w-4" />
+        LinkedIn
+      </Button>
+      <Button variant="outline" onClick={shareOnFacebook} className="gap-2 w-full sm:w-auto">
+        <Facebook className="h-4 w-4" />
+        Facebook
       </Button>
       <Button variant="outline" onClick={copyLink} className="gap-2 w-full sm:w-auto">
         {copied ? <Check className="h-4 w-4 text-primary" /> : <LinkIcon className="h-4 w-4" />}

@@ -60,7 +60,7 @@ export const RelatedPosts = ({ currentSlug, category }: RelatedPostsProps) => {
           <Link
             key={post.slug}
             to={`/blog/${post.slug}`}
-            className="group flex items-start justify-between gap-4 rounded-lg border border-border bg-card/50 px-5 py-4 hover:border-primary/40 transition-colors"
+            className="group flex items-start justify-between gap-4 rounded-lg border border-border bg-card/50 px-5 py-4 hover:border-primary/40 transition-colors no-underline [&_*]:no-underline"
           >
             <div className="min-w-0">
               <h3 className="text-base font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-1">
