@@ -26,7 +26,7 @@ export const BlogCard = ({
   return (
     <Link
       to={`/blog/${slug}`}
-      className="group block rounded-xl border border-border bg-card overflow-hidden hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5"
+      className="group block rounded-xl border border-border bg-card overflow-hidden hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5 no-underline [&_*]:no-underline"
     >
       {featuredImage && (
         <div className="aspect-video overflow-hidden bg-muted">
