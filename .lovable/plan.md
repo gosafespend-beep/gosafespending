@@ -1,65 +1,69 @@
 
 
-# Blog Article Rendering Improvements
+# Blog UI/UX Audit -- 10/10 Plan
 
-## Overview
-After reviewing the live blog article, I found several issues to fix and opportunities to improve the reading experience.
+## Current State
 
----
+After reviewing the blog list page and article page, here's what's working well and what needs fixing.
 
-## 1. Remove visible SEO metadata from article content
-
-**Problem:** The article content includes raw SEO notes at the bottom ("Primary Keyword Used Naturally:", "Secondary Keywords Integrated:") that are visible to readers. This is internal content that should be stripped before rendering.
-
-**Fix in `ArticleContent.tsx`:** Strip everything after a line starting with `**Primary Keyword` (or similar SEO markers) before passing content to ReactMarkdown. A simple regex trim before rendering.
-
----
-
-## 2. Render the CTA (Call-to-Action) section
-
-**Problem:** Each blog post has CTA fields (`cta_headline`, `cta_description`, `cta_button_text`, `cta_url`) stored in the database, but these are never rendered. The current article has a CTA ready: "Start Managing Your Money Smarter" linking to the app.
-
-**Fix in `BlogArticle.tsx`:** Add a styled CTA banner between the article content and the share buttons. It should display `cta_headline`, `cta_description`, and a button linking to `cta_url`. Use the app's primary color for emphasis -- a card with a primary-tinted background, bold headline, description text, and a prominent button.
-
-**Update the `BlogPost` interface** to include `cta_headline`, `cta_description`, `cta_button_text`, and `cta_url`.
+### What's Good
+- Blog list grid layout is clean with proper cards
+- Category filters work well
+- Featured images render correctly
+- Reading progress bar and back-to-top button are functional
+- CTA section is now compact and well-positioned
 
 ---
 
-## 3. Improve blockquote styling
+## Issues Found
 
-**Problem:** Blockquotes in the article (used for key callouts like "The absolute minimum amount you need to survive monthly") blend in too much with regular text. They need more visual distinction.
+### 1. Related Articles links are underlined (Critical)
 
-**Fix in `ArticleContent.tsx`:** Add stronger blockquote styling:
-- Add a subtle primary-tinted background (`prose-blockquote:bg-primary/5`)
-- Add padding and rounded corners (`prose-blockquote:pl-6 prose-blockquote:py-4 prose-blockquote:rounded-lg`)
-- Make blockquote text slightly italic for emphasis
+The "Continue Reading" section shows underlined, link-colored titles and excerpts. This happens because the entire article page content sits inside a `prose prose-invert` container (from `LegalLayout.tsx` line 42), which auto-styles all `<a>` tags with underlines.
+
+**Fix:** Add `no-underline` and hover color styling to the Related Posts links in `RelatedPosts.tsx` to override the prose defaults.
+
+### 2. Share buttons only offer Twitter and Copy Link
+
+Missing LinkedIn and Facebook -- two of the most common sharing channels for financial content.
+
+**Fix:** Add LinkedIn and Facebook share buttons in `ShareButtons.tsx`.
+
+### 3. No visual separator between article body and CTA
+
+The CTA blends into the article text without clear visual breathing room.
+
+**Fix:** Add a subtle top border or extra margin above the CTA in `BlogArticle.tsx`.
+
+### 4. "Back to Blog" link is underlined
+
+The back navigation link at the top of articles also inherits prose underline styling.
+
+**Fix:** The link already has explicit styling but it's inside the prose container. Add `no-underline` class.
+
+### 5. Related Articles section could show more posts
+
+Currently fetching up to 4 but only 2 show for the "Saving" category. The fallback logic works but 4 related articles would provide better engagement.
+
+**Fix:** Already fetching 4 -- this is a data issue, not a code issue. No change needed.
 
 ---
 
-## 4. Add a progress reading bar
+## Technical Changes
 
-**Problem:** The article is long (6 min read) with no visual indicator of reading progress.
+### File: `src/components/blog/RelatedPosts.tsx`
+- Add `no-underline` to all Link elements to prevent prose underline inheritance
+- Add `[&_*]:no-underline` to ensure child elements are also unstyled
 
-**Fix in `BlogArticle.tsx`:** Add a thin fixed progress bar at the very top of the page (below the sticky header) that fills as the user scrolls. Uses a simple scroll event listener calculating `scrollTop / (scrollHeight - clientHeight)`. Styled as a 3px tall primary-colored bar.
+### File: `src/components/blog/ShareButtons.tsx`
+- Add LinkedIn share button using `https://www.linkedin.com/sharing/share-offsite/?url=`
+- Add Facebook share button using `https://www.facebook.com/sharer/sharer.php?u=`
 
----
-
-## 5. Add "Back to top" button
-
-**Problem:** After scrolling through a long article, there's no quick way to return to the top.
-
-**Fix in `BlogArticle.tsx`:** Add a floating "Back to top" button (small circular button with an arrow-up icon) that appears after scrolling past the first screen. Fixed position in the bottom-right corner, smooth-scrolls to top on click.
-
----
-
-## Technical Details
-
-### Files modified
-| File | Change |
-|------|--------|
-| `src/components/blog/ArticleContent.tsx` | Strip SEO metadata from content; improve blockquote styles |
-| `src/pages/BlogArticle.tsx` | Add CTA section, reading progress bar, back-to-top button; update BlogPost interface |
+### File: `src/pages/BlogArticle.tsx`
+- Add `no-underline` to the "Back to Blog" Link to override prose defaults
+- Add slightly more spacing above the CTA section for better visual separation
 
 ### No new dependencies required
-All changes use existing packages and browser APIs (scroll events, `window.scrollTo`).
+
+All changes use existing packages and native browser APIs.
 
