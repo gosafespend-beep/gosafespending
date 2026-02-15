@@ -197,24 +197,24 @@ const BlogArticle = () => {
 
             {/* CTA Section */}
             {post.cta_headline && (
-              <div className="mt-12 relative rounded-2xl p-[1px] bg-gradient-to-b from-primary/40 to-primary/10">
-                <div className="rounded-2xl bg-card/80 backdrop-blur-sm px-6 py-10 sm:px-10 sm:py-12 text-center">
-                  <h2 className="text-xl sm:text-2xl font-bold text-foreground mb-3">
+              <div className="mt-10 rounded-lg border border-primary/20 bg-primary/5 px-5 py-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div>
+                  <h3 className="text-base font-semibold text-foreground">
                     {post.cta_headline}
-                  </h2>
+                  </h3>
                   {post.cta_description && (
-                    <p className="text-sm sm:text-base text-muted-foreground mb-6 max-w-md mx-auto leading-relaxed">
+                    <p className="text-sm text-muted-foreground mt-1 line-clamp-2">
                       {post.cta_description}
                     </p>
                   )}
-                  {post.cta_url && (
-                    <Button asChild size="lg" className="rounded-full px-8">
-                      <a href={post.cta_url} target="_blank" rel="noopener noreferrer">
-                        {post.cta_button_text || "Get Started"}
-                      </a>
-                    </Button>
-                  )}
                 </div>
+                {post.cta_url && (
+                  <Button asChild size="sm" className="shrink-0">
+                    <a href={post.cta_url} target="_blank" rel="noopener noreferrer">
+                      {post.cta_button_text || "Get Started"}
+                    </a>
+                  </Button>
+                )}
               </div>
             )}
 
