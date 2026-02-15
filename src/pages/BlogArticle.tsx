@@ -25,6 +25,7 @@ interface BlogPost {
   published_at: string | null;
   updated_at: string;
   reading_time_minutes: number;
+  og_image: string | null;
   meta_title: string | null;
   meta_description: string | null;
 }
@@ -98,13 +99,13 @@ const BlogArticle = () => {
       <SEOHead
         title={seoTitle}
         description={seoDescription}
-        image={post.featured_image || undefined}
+        image={post.og_image || post.featured_image || undefined}
         type="article"
       />
       <BlogArticleSchema
         title={post.title}
         description={seoDescription}
-        image={post.featured_image || undefined}
+        image={post.og_image || post.featured_image || undefined}
         authorName={post.author_name}
         publishedAt={post.published_at || post.updated_at}
         modifiedAt={post.updated_at}
