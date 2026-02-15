@@ -147,7 +147,7 @@ const BlogArticle = () => {
             {/* Back link */}
             <Link
               to="/blog"
-              className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8"
+              className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8 no-underline"
             >
               <ArrowLeft className="h-4 w-4" />
               Back to Blog
@@ -197,7 +197,7 @@ const BlogArticle = () => {
 
             {/* CTA Section */}
             {post.cta_headline && (
-              <div className="mt-10 rounded-lg border border-primary/20 bg-primary/5 px-5 py-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <div className="mt-14 pt-10 border-t border-border rounded-lg border-x border-b border-primary/20 bg-primary/5 px-5 py-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
                   <h3 className="text-lg sm:text-xl font-bold text-foreground">
                     {post.cta_headline}
