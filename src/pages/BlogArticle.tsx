@@ -199,11 +199,11 @@ const BlogArticle = () => {
             {post.cta_headline && (
               <div className="mt-10 rounded-lg border border-primary/20 bg-primary/5 px-5 py-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
-                  <h3 className="text-base font-semibold text-foreground">
+                  <h3 className="text-lg sm:text-xl font-bold text-foreground">
                     {post.cta_headline}
                   </h3>
                   {post.cta_description && (
-                    <p className="text-sm text-muted-foreground mt-1 line-clamp-2">
+                    <p className="text-base text-muted-foreground mt-1.5 line-clamp-2">
                       {post.cta_description}
                     </p>
                   )}

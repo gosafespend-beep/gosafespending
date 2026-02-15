@@ -54,20 +54,20 @@ export const RelatedPosts = ({ currentSlug, category }: RelatedPostsProps) => {
 
   return (
     <section className="mt-14 pt-10 border-t border-border">
-      <h2 className="text-lg font-semibold text-foreground mb-5">Continue Reading</h2>
+      <h2 className="text-xl font-bold text-foreground mb-5">Continue Reading</h2>
       <div className="space-y-3">
         {posts.map((post) => (
           <Link
             key={post.slug}
             to={`/blog/${post.slug}`}
-            className="group flex items-start justify-between gap-4 rounded-lg border border-border bg-card/50 px-4 py-3 hover:border-primary/40 transition-colors"
+            className="group flex items-start justify-between gap-4 rounded-lg border border-border bg-card/50 px-5 py-4 hover:border-primary/40 transition-colors"
           >
             <div className="min-w-0">
-              <h3 className="text-sm font-medium text-foreground group-hover:text-primary transition-colors line-clamp-1">
+              <h3 className="text-base font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-1">
                 {post.title}
               </h3>
               {post.excerpt && (
-                <p className="text-xs text-muted-foreground mt-0.5 line-clamp-1">
+                <p className="text-sm text-muted-foreground mt-1 line-clamp-1">
                   {post.excerpt}
                 </p>
               )}
