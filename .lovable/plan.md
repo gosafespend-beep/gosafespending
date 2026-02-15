@@ -1,77 +1,54 @@
 
 
-# Blog Article Mobile and Desktop Optimization
+# Blog Article Rendering Improvements
 
 ## Overview
-Four targeted improvements to make blog articles look polished on all screen sizes and fix a layout bug.
+After reviewing the live blog article, I found several issues to fix and opportunities to improve the reading experience.
 
 ---
 
-## 1. Fix empty "Last updated:" text on blog articles
+## 1. Remove visible SEO metadata from article content
 
-**Problem:** `LegalLayout` always renders `Last updated: {lastUpdated}`, but `BlogArticle` passes an empty string, resulting in a visible "Last updated:" with nothing after it.
+**Problem:** The article content includes raw SEO notes at the bottom ("Primary Keyword Used Naturally:", "Secondary Keywords Integrated:") that are visible to readers. This is internal content that should be stripped before rendering.
 
-**Fix in `LegalLayout.tsx`:** Conditionally render the "Last updated" line only when `lastUpdated` is non-empty.
-
-```
-{lastUpdated && (
-  <p className="text-sm text-muted-foreground">Last updated: {lastUpdated}</p>
-)}
-```
-
-Also conditionally render the `<h1>` only when `title` is non-empty, since blog articles supply their own header.
+**Fix in `ArticleContent.tsx`:** Strip everything after a line starting with `**Primary Keyword` (or similar SEO markers) before passing content to ReactMarkdown. A simple regex trim before rendering.
 
 ---
 
-## 2. Responsive typography (mobile-friendly text size)
+## 2. Render the CTA (Call-to-Action) section
 
-**Problem:** `ArticleContent.tsx` uses `prose-lg` at all sizes, which produces oversized text on small screens.
+**Problem:** Each blog post has CTA fields (`cta_headline`, `cta_description`, `cta_button_text`, `cta_url`) stored in the database, but these are never rendered. The current article has a CTA ready: "Start Managing Your Money Smarter" linking to the app.
 
-**Fix in `ArticleContent.tsx`:** Change the class from `prose prose-invert prose-lg` to `prose prose-invert md:prose-lg`. This uses the default (base) prose size on mobile and upgrades to `prose-lg` on medium screens and above.
+**Fix in `BlogArticle.tsx`:** Add a styled CTA banner between the article content and the share buttons. It should display `cta_headline`, `cta_description`, and a button linking to `cta_url`. Use the app's primary color for emphasis -- a card with a primary-tinted background, bold headline, description text, and a prominent button.
 
----
-
-## 3. Mobile-friendly share buttons
-
-**Problem:** The share buttons are small inline elements that can be hard to tap on mobile (violates the 44px touch target standard).
-
-**Fix in `ShareButtons.tsx`:**
-- Wrap in a responsive flex container: `flex flex-col sm:flex-row items-stretch sm:items-center gap-3`
-- Use `size="default"` instead of `size="sm"` on mobile via responsive classes, making buttons full-width on small screens: `w-full sm:w-auto`
-- This ensures comfortable touch targets on mobile while keeping the compact inline look on desktop
+**Update the `BlogPost` interface** to include `cta_headline`, `cta_description`, `cta_button_text`, and `cta_url`.
 
 ---
 
-## 4. Desktop table of contents sidebar
+## 3. Improve blockquote styling
 
-**Problem:** On wide screens, the article content sits in a narrow `max-w-3xl` column with large empty margins on both sides.
+**Problem:** Blockquotes in the article (used for key callouts like "The absolute minimum amount you need to survive monthly") blend in too much with regular text. They need more visual distinction.
 
-**Fix:** Add a sticky Table of Contents (TOC) that appears on `xl` screens in the right margin.
+**Fix in `ArticleContent.tsx`:** Add stronger blockquote styling:
+- Add a subtle primary-tinted background (`prose-blockquote:bg-primary/5`)
+- Add padding and rounded corners (`prose-blockquote:pl-6 prose-blockquote:py-4 prose-blockquote:rounded-lg`)
+- Make blockquote text slightly italic for emphasis
 
-### New component: `src/components/blog/TableOfContents.tsx`
-- Accepts the article `content` (markdown string) as a prop
-- Parses H2 and H3 headings from the markdown using a simple regex (`/^#{2,3}\s+(.+)$/gm`)
-- Renders a sticky sidebar (`sticky top-24`) with heading links
-- Each link scrolls to the corresponding heading using `id`-based anchors
-- Highlights the currently visible heading using an `IntersectionObserver`
-- Hidden on screens smaller than `xl` (`hidden xl:block`)
+---
 
-### Update `ArticleContent.tsx`
-- Add `id` attributes to rendered `h2` and `h3` elements via the `components` prop on `ReactMarkdown`, generating slugs from heading text (e.g., "Build Your Budget" becomes `build-your-budget`)
+## 4. Add a progress reading bar
 
-### Update `BlogArticle.tsx` layout
-- Change the article container from a single column to a relative layout on `xl`:
-  ```
-  <div className="max-w-3xl mx-auto xl:max-w-none xl:grid xl:grid-cols-[1fr_220px] xl:gap-12">
-    <div className="max-w-3xl">
-      {/* existing article content */}
-    </div>
-    <aside className="hidden xl:block">
-      <TableOfContents content={post.content} />
-    </aside>
-  </div>
-  ```
-- The TOC sits in the right column, sticky as users scroll
+**Problem:** The article is long (6 min read) with no visual indicator of reading progress.
+
+**Fix in `BlogArticle.tsx`:** Add a thin fixed progress bar at the very top of the page (below the sticky header) that fills as the user scrolls. Uses a simple scroll event listener calculating `scrollTop / (scrollHeight - clientHeight)`. Styled as a 3px tall primary-colored bar.
+
+---
+
+## 5. Add "Back to top" button
+
+**Problem:** After scrolling through a long article, there's no quick way to return to the top.
+
+**Fix in `BlogArticle.tsx`:** Add a floating "Back to top" button (small circular button with an arrow-up icon) that appears after scrolling past the first screen. Fixed position in the bottom-right corner, smooth-scrolls to top on click.
 
 ---
 
@@ -80,16 +57,9 @@ Also conditionally render the `<h1>` only when `title` is non-empty, since blog 
 ### Files modified
 | File | Change |
 |------|--------|
-| `src/components/legal/LegalLayout.tsx` | Conditionally render title and last-updated |
-| `src/components/blog/ArticleContent.tsx` | Responsive prose sizing + heading IDs |
-| `src/components/blog/ShareButtons.tsx` | Full-width buttons on mobile |
-| `src/pages/BlogArticle.tsx` | Grid layout for TOC on desktop |
-
-### New file
-| File | Purpose |
-|------|---------|
-| `src/components/blog/TableOfContents.tsx` | Sticky TOC sidebar with scroll-spy |
+| `src/components/blog/ArticleContent.tsx` | Strip SEO metadata from content; improve blockquote styles |
+| `src/pages/BlogArticle.tsx` | Add CTA section, reading progress bar, back-to-top button; update BlogPost interface |
 
 ### No new dependencies required
-All changes use existing packages (react-markdown `components` prop, IntersectionObserver API, Tailwind responsive utilities).
+All changes use existing packages and browser APIs (scroll events, `window.scrollTo`).
 
