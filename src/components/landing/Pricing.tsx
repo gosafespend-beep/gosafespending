@@ -2,8 +2,7 @@ import { Check, ArrowRight, Sparkles, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { motion } from "framer-motion";
-
-const APP_URL = "https://app.gosafespend.com";
+import { APP_URL } from "@/lib/constants";
 
 const plans = [
   {
@@ -22,6 +21,7 @@ const plans = [
     cta: "Start Free Trial",
     highlighted: false,
     badge: null,
+    isPrimaryCta: true,
   },
   {
     name: "Monthly",
@@ -36,9 +36,10 @@ const plans = [
       "Priority support",
       "PDF & CSV reports",
     ],
-    cta: "Start Free Trial",
+    cta: "Choose Monthly",
     highlighted: false,
     badge: null,
+    isPrimaryCta: false,
   },
   {
     name: "Annual",
@@ -53,9 +54,10 @@ const plans = [
       "Extended data exports",
       "Early access to new features",
     ],
-    cta: "Start Free Trial",
+    cta: "Choose Annual",
     highlighted: true,
     badge: "Best Value",
+    isPrimaryCta: false,
   },
 ];
 
@@ -129,7 +131,7 @@ export const Pricing = () => {
               <Button
                 asChild
                 className={`w-full h-11 btn-ripple ${
-                  plan.highlighted
+                  plan.highlighted || plan.isPrimaryCta
                     ? "bg-primary hover:bg-primary/90 text-primary-foreground"
                     : "bg-secondary hover:bg-secondary/80 text-secondary-foreground"
                 }`}

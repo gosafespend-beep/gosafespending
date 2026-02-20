@@ -166,7 +166,7 @@ export const TestimonialsCarousel = () => {
               ))}
             </div>
             <span className="font-medium text-foreground">4.9/5</span>
-            <span>from 500+ reviews</span>
+            <span>from our user community</span>
           </div>
         </div>
 

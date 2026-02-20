@@ -3,8 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import logo from "@/assets/logo.png";
-
-const APP_URL = "https://app.gosafespend.com";
+import { APP_URL } from "@/lib/constants";
 
 const footerLinks = {
   product: [
@@ -23,6 +22,8 @@ const footerLinks = {
     { label: "Compound Interest", href: "/tools/compound-interest-calculator", isRoute: true },
     { label: "Debt Payoff", href: "/tools/debt-payoff-calculator", isRoute: true },
     { label: "Emergency Fund", href: "/tools/emergency-fund-calculator", isRoute: true },
+  ],
+  partners: [
     { label: "Studily", href: "https://getstudily.com", isExternal: true },
     { label: "Humanize AI Text", href: "https://aifreetextpro.com", isExternal: true },
   ],
@@ -51,7 +52,7 @@ export const Footer = () => {
         const element = document.getElementById(sectionId);
         if (element) element.scrollIntoView({ behavior: "smooth" });
       } else {
-        navigate("/" + href);
+        navigate("/#" + sectionId);
       }
     }
   };
@@ -96,7 +97,7 @@ export const Footer = () => {
               {footerLinks.product.map((link) => (
                 <li key={link.label}>
                   <a
-                    href={`/${link.href}`}
+                    href={link.href}
                     onClick={(e) => {
                       e.preventDefault();
                       handleProductLink(link.href);
@@ -142,26 +143,34 @@ export const Footer = () => {
             <ul className="space-y-3">
               {footerLinks.tools.map((link) => (
                 <li key={link.label}>
-                  {'isExternal' in link && link.isExternal ? (
-                    <a
-                      href={link.href}
-                      target="_blank"
-                      rel="dofollow noopener"
-                      className="text-muted-foreground hover:text-primary transition-colors text-sm"
-                    >
-                      {link.label}
-                    </a>
-                  ) : (
-                    <Link
-                      to={link.href}
-                      className="text-muted-foreground hover:text-primary transition-colors text-sm"
-                    >
-                      {link.label}
-                    </Link>
-                  )}
+                  <Link
+                    to={link.href}
+                    className="text-muted-foreground hover:text-primary transition-colors text-sm"
+                  >
+                    {link.label}
+                  </Link>
                 </li>
               ))}
             </ul>
+            {footerLinks.partners.length > 0 && (
+              <>
+                <h3 className="font-semibold text-foreground mb-4 mt-6">Partners</h3>
+                <ul className="space-y-3">
+                  {footerLinks.partners.map((link) => (
+                    <li key={link.label}>
+                      <a
+                        href={link.href}
+                        target="_blank"
+                        rel="dofollow noopener"
+                        className="text-muted-foreground hover:text-primary transition-colors text-sm"
+                      >
+                        {link.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
           </div>
 
           {/* Legal links */}

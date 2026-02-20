@@ -1,27 +1,27 @@
-import { Shield, Lock, Eye, CreditCard } from "lucide-react";
+import { Users, Star, Globe, TrendingUp } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { motion } from "framer-motion";
 
 const badges = [
   {
-    icon: Lock,
-    label: "256-bit Encryption",
-    description: "Enterprise-grade protection",
+    icon: Users,
+    label: "10,000+",
+    description: "Active users worldwide",
   },
   {
-    icon: Eye,
-    label: "Your Data, Secured",
-    description: "Private and encrypted",
+    icon: Star,
+    label: "4.9/5 Rating",
+    description: "From our community",
   },
   {
-    icon: CreditCard,
-    label: "7-Day Free Trial",
-    description: "No credit card required",
+    icon: TrendingUp,
+    label: "$5M+ Tracked",
+    description: "Money managed",
   },
   {
-    icon: Shield,
-    label: "GDPR Compliant",
-    description: "Your data, your rights",
+    icon: Globe,
+    label: "50+ Countries",
+    description: "Global reach",
   },
 ];
 

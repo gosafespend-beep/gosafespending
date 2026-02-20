@@ -3,8 +3,7 @@ import { Button } from "@/components/ui/button";
 import { useStickyBar } from "@/hooks/useStickyBar";
 import { motion, AnimatePresence } from "framer-motion";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
-
-const APP_URL = "https://app.gosafespend.com";
+import { APP_URL } from "@/lib/constants";
 
 export const StickyWaitlistBar = () => {
   const { showBar, dismissBar } = useStickyBar("hero");
@@ -23,8 +22,9 @@ export const StickyWaitlistBar = () => {
           aria-label="Get started prompt"
         >
           <div className="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
-            <p className="text-sm text-foreground font-medium hidden sm:block">
-              Ready to take control of your finances?
+            <p className="text-sm text-foreground font-medium">
+              <span className="sm:hidden">Try Safe Spend free</span>
+              <span className="hidden sm:inline">Ready to take control of your finances?</span>
             </p>
             
             <div className="flex items-center gap-2 flex-1 sm:flex-none justify-end">

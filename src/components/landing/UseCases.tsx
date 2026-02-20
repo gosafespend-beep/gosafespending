@@ -1,9 +1,6 @@
-import { Briefcase, GraduationCap, Home, ShieldCheck, ArrowRight } from "lucide-react";
+import { Briefcase, GraduationCap, Home, ShieldCheck } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-
-const APP_URL = "https://app.gosafespend.com";
 
 const personas = [
   {
@@ -75,14 +72,7 @@ export const UseCases = () => {
               </div>
               <h3 className="text-lg font-semibold text-foreground mb-2">{persona.title}</h3>
               <p className="text-sm text-accent font-medium mb-2">{persona.pain}</p>
-              <p className="text-sm text-muted-foreground leading-relaxed mb-4">{persona.solution}</p>
-              <a
-                href={APP_URL}
-                className="inline-flex items-center text-sm text-primary hover:text-accent transition-colors font-medium"
-              >
-                Start Free Trial
-                <ArrowRight className="ml-1 h-3.5 w-3.5" />
-              </a>
+              <p className="text-sm text-muted-foreground leading-relaxed">{persona.solution}</p>
             </motion.div>
           ))}
         </div>

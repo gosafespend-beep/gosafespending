@@ -1,8 +1,7 @@
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-
-const APP_URL = "https://app.gosafespend.com";
+import { APP_URL } from "@/lib/constants";
 
 const benefits = [
   "Track every expense and income in seconds",
