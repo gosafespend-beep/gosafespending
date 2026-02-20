@@ -1215,6 +1215,7 @@ export type Database = {
           created_at: string
           email: string
           id: string
+          launched_email_sent: boolean
           status: string
           updated_at: string
         }
@@ -1222,6 +1223,7 @@ export type Database = {
           created_at?: string
           email: string
           id?: string
+          launched_email_sent?: boolean
           status?: string
           updated_at?: string
         }
@@ -1229,6 +1231,7 @@ export type Database = {
           created_at?: string
           email?: string
           id?: string
+          launched_email_sent?: boolean
           status?: string
           updated_at?: string
         }

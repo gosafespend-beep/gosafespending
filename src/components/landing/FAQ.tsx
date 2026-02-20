@@ -10,7 +10,7 @@ import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { motion } from "framer-motion";
 import { Search, Shield, DollarSign, Smartphone, HelpCircle, Brain, CreditCard } from "lucide-react";
 
-type FAQCategory = "all" | "security" | "pricing" | "features" | "general";
+type FAQCategory = "all" | "security" | "pricing" | "features";
 
 interface FAQ {
   question: string;
@@ -71,7 +71,7 @@ const faqs: FAQ[] = [
   {
     question: "What makes Safe Spend different?",
     answer: "We're privacy-first: no bank connections, no data selling, and Row Level Security for every user. Plus, we offer AI-powered categorization, offline PWA support, and a comprehensive suite of tools — from debt payoff planners to net worth tracking — all in one beautiful interface.",
-    category: "general",
+    category: "features",
     icon: HelpCircle,
   },
 ];

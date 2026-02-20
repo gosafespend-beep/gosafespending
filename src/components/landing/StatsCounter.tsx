@@ -99,8 +99,15 @@ export const StatsCounter = () => {
                 <stat.icon className="h-6 w-6 text-primary" />
               </div>
               <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-1 truncate">
-                {stat.isDecimal ? (
-                  <span>{stat.value}</span>
+              {stat.isDecimal ? (
+                  <motion.span
+                    initial={{ opacity: 0, scale: 0.5 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: 0.3 }}
+                  >
+                    {stat.value}
+                  </motion.span>
                 ) : (
                   <Counter
                     target={stat.value}

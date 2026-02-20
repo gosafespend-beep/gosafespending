@@ -4,8 +4,7 @@ import { AnimatedBackground } from "./AnimatedBackground";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import logo from "@/assets/logo.png";
-
-const APP_URL = "https://app.gosafespend.com";
+import { APP_URL } from "@/lib/constants";
 
 export const Hero = () => {
   const { ref, isVisible } = useScrollAnimation();
@@ -61,7 +60,7 @@ export const Hero = () => {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75" />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-accent" />
             </span>
-            Now Available — Start Your Free Trial
+            Join 10,000+ users managing their money smarter
           </motion.div>
 
           {/* Headline */}
@@ -112,6 +111,22 @@ export const Hero = () => {
               <a href={APP_URL}>
                 Start Free Trial
                 <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+              </a>
+            </Button>
+            <Button
+              asChild
+              variant="outline"
+              size="lg"
+              className="h-12 px-8 text-base border-border/50 hover:border-primary/50 hover:bg-primary/5"
+            >
+              <a
+                href="#how-it-works"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById("how-it-works")?.scrollIntoView({ behavior: "smooth" });
+                }}
+              >
+                See How It Works
               </a>
             </Button>
           </motion.div>

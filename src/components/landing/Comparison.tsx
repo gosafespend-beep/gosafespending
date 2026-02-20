@@ -68,7 +68,7 @@ export const Comparison = () => {
               <div className="p-4 text-sm font-medium text-muted-foreground">Feature</div>
               <div className="p-4 text-sm font-bold text-primary text-center bg-primary/5">Safe Spend</div>
               <div className="p-4 text-sm font-medium text-muted-foreground text-center">Spreadsheets</div>
-              <div className="p-4 text-sm font-medium text-muted-foreground text-center">Other Apps</div>
+              <div className="p-4 text-sm font-medium text-muted-foreground text-center">Mint, YNAB, etc.</div>
             </div>
 
             {/* Rows */}

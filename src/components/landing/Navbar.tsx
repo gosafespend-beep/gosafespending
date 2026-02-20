@@ -4,11 +4,11 @@ import { Button } from "@/components/ui/button";
 import { motion, useScroll, useSpring } from "framer-motion";
 import { useLocation, useNavigate } from "react-router-dom";
 import logo from "@/assets/logo.png";
-
-const APP_URL = "https://app.gosafespend.com";
+import { APP_URL } from "@/lib/constants";
 
 const navItems = [
   { id: "features", label: "Features" },
+  { id: "pricing", label: "Pricing" },
   { id: "how-it-works", label: "How it Works" },
   { id: "faq", label: "FAQ" },
 ];

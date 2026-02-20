@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Wallet,
   PieChart,
@@ -11,9 +12,11 @@ import {
   Smartphone,
   RefreshCw,
   Globe,
+  ChevronDown,
 } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { APP_URL } from "@/lib/constants";
 
 const features = [
   {
@@ -126,8 +129,13 @@ const features = [
   },
 ];
 
+const INITIAL_COUNT = 8;
+
 export const Features = () => {
   const { ref, isVisible } = useScrollAnimation();
+  const [showAll, setShowAll] = useState(false);
+
+  const visibleFeatures = showAll ? features : features.slice(0, INITIAL_COUNT);
 
   return (
     <section id="features" className="py-20 px-4 sm:px-6 lg:px-8 bg-card/50">
@@ -153,42 +161,68 @@ export const Features = () => {
 
         {/* Features grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {features.map((feature, index) => (
-            <motion.div
-              key={index}
-              className={`group p-6 bg-background rounded-xl border border-border/50 transition-all duration-500 card-glow cursor-default`}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.05 }}
-              whileHover={{ 
-                y: -5,
-                boxShadow: "0 20px 40px -20px hsl(var(--primary) / 0.2)",
-              }}
-            >
-              <motion.div 
-                className={`inline-flex p-3 rounded-lg ${feature.bg} mb-4`}
-                whileHover={{ scale: 1.1, rotate: 5 }}
-                transition={{ type: "spring", stiffness: 400 }}
+          <AnimatePresence>
+            {visibleFeatures.map((feature, index) => (
+              <motion.div
+                key={feature.title}
+                className="group p-6 bg-background rounded-xl border border-border/50 transition-all duration-500 card-glow cursor-default"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.05 }}
+                whileHover={{ 
+                  y: -5,
+                  boxShadow: "0 20px 40px -20px hsl(var(--primary) / 0.2)",
+                }}
+                layout
               >
-                <feature.icon className={`h-6 w-6 ${feature.color}`} />
-              </motion.div>
-              
-              <h3 className="text-lg font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
-                {feature.title}
-              </h3>
-              
-              <p className="text-muted-foreground text-sm leading-relaxed mb-4">
-                {feature.description}
-              </p>
+                <motion.div 
+                  className={`inline-flex p-3 rounded-lg ${feature.bg} mb-4`}
+                  whileHover={{ scale: 1.1, rotate: 5 }}
+                  transition={{ type: "spring", stiffness: 400 }}
+                >
+                  <feature.icon className={`h-6 w-6 ${feature.color}`} />
+                </motion.div>
+                
+                <h3 className="text-lg font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
+                  {feature.title}
+                </h3>
+                
+                <p className="text-muted-foreground text-sm leading-relaxed mb-4">
+                  {feature.description}
+                </p>
 
-              <div className="flex items-baseline gap-1 pt-4 border-t border-border/50">
-                <span className={`text-2xl font-bold ${feature.color}`}>{feature.stat}</span>
-                <span className="text-xs text-muted-foreground">{feature.statLabel}</span>
-              </div>
-            </motion.div>
-          ))}
+                <div className="flex items-baseline gap-1 pt-4 border-t border-border/50">
+                  <span className={`text-2xl font-bold ${feature.color}`}>{feature.stat}</span>
+                  <span className="text-xs text-muted-foreground">{feature.statLabel}</span>
+                </div>
+              </motion.div>
+            ))}
+          </AnimatePresence>
         </div>
+
+        {/* Show all / Show less toggle */}
+        {features.length > INITIAL_COUNT && (
+          <motion.div
+            className="text-center mt-8"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+          >
+            <button
+              onClick={() => setShowAll(!showAll)}
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-border/50 hover:border-primary/30 text-muted-foreground hover:text-foreground font-medium transition-all"
+            >
+              {showAll ? "Show less" : `Show all ${features.length} features`}
+              <motion.span
+                animate={{ rotate: showAll ? 180 : 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <ChevronDown className="h-4 w-4" />
+              </motion.span>
+            </button>
+          </motion.div>
+        )}
 
         {/* Bottom CTA */}
         <motion.div
@@ -198,7 +232,7 @@ export const Features = () => {
           viewport={{ once: true }}
         >
           <a
-            href="https://app.gosafespend.com"
+            href={APP_URL}
             className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary hover:bg-primary/90 text-primary-foreground font-medium transition-colors btn-ripple"
           >
             See All Features in Action
