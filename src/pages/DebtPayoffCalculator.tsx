@@ -6,8 +6,9 @@ import { Label } from "@/components/ui/label";
 import { ArrowRight, Zap, Snowflake, Calendar, DollarSign } from "lucide-react";
 import { DebtPayoffSchema } from "@/components/seo/DebtPayoffSchema";
 import { ExploreMoreTools } from "@/components/shared/ExploreMoreTools";
+import { FinancialDisclaimer } from "@/components/shared/FinancialDisclaimer";
+import { CtaLink } from "@/components/ui/CtaLink";
 
-const APP_URL = "https://app.gosafespend.com";
 
 const formatCurrency = (v: number) =>
   new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(v);
@@ -226,9 +227,10 @@ const DebtPayoffCalculator = () => {
 
         <div className="text-center pt-4 border-t border-border/50">
           <p className="text-muted-foreground text-sm mb-4">Track every payment and watch your debt shrink with Safe Spend.</p>
-          <Button asChild size="lg"><a href={APP_URL}>Start Tracking with Safe Spend<ArrowRight className="ml-2 h-4 w-4" /></a></Button>
+          <Button asChild size="lg"><CtaLink location="tool_debt">Start Tracking with Safe Spend<ArrowRight className="ml-2 h-4 w-4" /></CtaLink></Button>
         </div>
       </div>
+      <FinancialDisclaimer context="These payoff dates assume you keep paying the same amount and add no new debt" />
     </LegalLayout>
   );
 };

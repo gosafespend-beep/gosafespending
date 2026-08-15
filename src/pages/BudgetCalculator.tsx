@@ -6,8 +6,9 @@ import { Label } from "@/components/ui/label";
 import { ArrowRight, PiggyBank, ShoppingBag, Home } from "lucide-react";
 import { BudgetCalculatorSchema } from "@/components/seo/BudgetCalculatorSchema";
 import { ExploreMoreTools } from "@/components/shared/ExploreMoreTools";
+import { FinancialDisclaimer } from "@/components/shared/FinancialDisclaimer";
+import { CtaLink } from "@/components/ui/CtaLink";
 
-const APP_URL = "https://app.gosafespend.com";
 
 const categories = [
   {
@@ -102,13 +103,14 @@ const BudgetCalculator = () => {
             Ready to put your budget into action?
           </p>
           <Button asChild size="lg">
-            <a href={APP_URL}>
+            <CtaLink location="tool_budget">
               Start Tracking with Safe Spend
               <ArrowRight className="ml-2 h-4 w-4" />
-            </a>
+            </CtaLink>
           </Button>
         </div>
       </div>
+      <FinancialDisclaimer context="This 50/30/20 split is a general guideline, not a plan tailored to you" />
     </LegalLayout>
   );
 };

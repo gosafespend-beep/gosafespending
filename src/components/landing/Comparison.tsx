@@ -11,20 +11,34 @@ interface ComparisonRow {
   otherApps: FeatureStatus;
 }
 
+/*
+ * Comparison rows.
+ *
+ * The previous table had three problems. It marked "Savings goals tracking"
+ * and "Net worth tracking" as only partial for YNAB and Monarch, when
+ * goal-based targets are YNAB's central mechanic and both do net worth --
+ * claims that are not defensible. It asserted competitors have no data
+ * privacy at all, which is comparative advertising you would have to
+ * substantiate. And it named Mint, which Intuit shut down in 2024, so
+ * informed readers discounted the whole table -- including the rows that are
+ * true and genuinely valuable.
+ *
+ * What remains is only what can be checked against each competitor's current
+ * public documentation. The privacy rows win this comparison on their own;
+ * every inaccurate row was weakening them.
+ */
 const rows: ComparisonRow[] = [
-  { feature: "No bank connection required", safeSpend: true, spreadsheets: true, otherApps: false },
-  { feature: "100% data privacy", safeSpend: true, spreadsheets: true, otherApps: false },
-  { feature: "Free trial available", safeSpend: true, spreadsheets: true, otherApps: "partial" },
-  { feature: "Beautiful dashboard & charts", safeSpend: true, spreadsheets: false, otherApps: true },
-  { feature: "AI-powered categorization", safeSpend: true, spreadsheets: false, otherApps: "partial" },
-  { feature: "Debt payoff planner", safeSpend: true, spreadsheets: false, otherApps: "partial" },
-  { feature: "Savings goals tracking", safeSpend: true, spreadsheets: false, otherApps: "partial" },
-  { feature: "Bill reminders", safeSpend: true, spreadsheets: false, otherApps: true },
+  { feature: "Works without your bank login", safeSpend: true, spreadsheets: true, otherApps: false },
+  { feature: "No third-party data aggregator involved", safeSpend: true, spreadsheets: true, otherApps: false },
+  { feature: "You choose exactly what data exists", safeSpend: true, spreadsheets: true, otherApps: false },
+  { feature: "Free trial without a card", safeSpend: true, spreadsheets: true, otherApps: "partial" },
+  { feature: "Keeps read-only access if you stop paying", safeSpend: true, spreadsheets: true, otherApps: "partial" },
+  { feature: "Dashboard and charts built in", safeSpend: true, spreadsheets: false, otherApps: true },
+  { feature: "AI-assisted categorization", safeSpend: true, spreadsheets: false, otherApps: true },
+  { feature: "Debt payoff planner", safeSpend: true, spreadsheets: false, otherApps: true },
   { feature: "Works offline (PWA)", safeSpend: true, spreadsheets: "partial", otherApps: "partial" },
-  { feature: "Net worth tracking", safeSpend: true, spreadsheets: "partial", otherApps: "partial" },
-  { feature: "Recurring transaction automation", safeSpend: true, spreadsheets: false, otherApps: "partial" },
-  { feature: "Mobile friendly", safeSpend: true, spreadsheets: false, otherApps: true },
-  { feature: "No formula errors", safeSpend: true, spreadsheets: false, otherApps: true },
+  { feature: "Mobile money and bank transfer payments", safeSpend: true, spreadsheets: "partial", otherApps: false },
+  { feature: "No formula errors to debug", safeSpend: true, spreadsheets: false, otherApps: true },
 ];
 
 const StatusIcon = ({ status }: { status: FeatureStatus }) => {
@@ -56,6 +70,12 @@ export const Comparison = () => {
           </p>
         </div>
 
+        {/* The table scrolls horizontally below sm, but nothing signalled it,
+            so at 320px the competitor column sat entirely offscreen and the
+            section looked like a two-column table -- hiding the whole point. */}
+        <p className="sm:hidden text-center text-xs text-muted-foreground mb-3">
+          Swipe the table sideways to compare →
+        </p>
         <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
           <motion.div
             className="rounded-xl border border-border/50 overflow-hidden bg-background min-w-[520px] sm:min-w-0"
@@ -68,7 +88,9 @@ export const Comparison = () => {
               <div className="p-4 text-sm font-medium text-muted-foreground">Feature</div>
               <div className="p-4 text-sm font-bold text-primary text-center bg-primary/5">Safe Spend</div>
               <div className="p-4 text-sm font-medium text-muted-foreground text-center">Spreadsheets</div>
-              <div className="p-4 text-sm font-medium text-muted-foreground text-center">Mint, YNAB, etc.</div>
+              {/* Mint was discontinued by Intuit in 2024; naming it dated the
+                  whole table. These are the current aggregator-based tools. */}
+              <div className="p-4 text-sm font-medium text-muted-foreground text-center">YNAB, Monarch, etc.</div>
             </div>
 
             {/* Rows */}

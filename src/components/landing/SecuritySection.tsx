@@ -2,36 +2,59 @@ import { Shield, Lock, Eye, FileCheck, Server, Database } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { motion } from "framer-motion";
 
+/*
+ * Security claims (LEG-3).
+ *
+ * Every statement here has to be one you could be asked to prove. Three were
+ * rewritten because they were not:
+ *
+ *  - "We use 256-bit AES encryption" read as application-level encryption,
+ *    meaning staff cannot read user data. No cryptographic code exists in this
+ *    codebase; the true infrastructure-level version is different, and
+ *    materially so for the privacy-motivated buyer this page targets.
+ *  - "Full compliance with global data protection regulations" is a legal
+ *    conclusion, not a feature. Replaced with the specific rights provided.
+ *  - "Regular security audits" named no auditor, framework or date.
+ *
+ * Row Level Security stays: it is the strongest fact on this list and it is
+ * verifiable -- an anonymous request for another user's rows returns nothing.
+ */
 const securityFeatures = [
   {
-    icon: Lock,
-    title: "256-bit Encryption",
-    description: "Your financial data is encrypted at rest and in transit using industry-standard AES-256 encryption.",
-  },
-  {
     icon: Eye,
-    title: "No Bank Login Required",
-    description: "We never ask for your bank credentials. You stay in full control of your data at all times.",
-  },
-  {
-    icon: Shield,
-    title: "Your Data Stays Private",
-    description: "We don't sell, share, or monetize your personal financial information. Your data is user-owned and protected.",
+    title: "No Bank Login, Ever",
+    description:
+      "We never ask for your banking credentials, and no third-party data aggregator sits between you and your bank. There is nothing to revoke later.",
   },
   {
     icon: Database,
     title: "Row Level Security",
-    description: "Every user's data is isolated at the database level with Row Level Security. No user can ever access another's data.",
+    description:
+      "Every user's data is isolated at the database level. Policies are enforced by Postgres itself, not by application code, so no account can read another's rows.",
+  },
+  {
+    icon: Lock,
+    title: "Encrypted in Transit and at Rest",
+    description:
+      "Traffic is encrypted with TLS, and stored data is encrypted at rest with AES-256 by our infrastructure provider.",
+  },
+  {
+    icon: Shield,
+    title: "Never Sold, Never Shared",
+    description:
+      "We don't sell, share or monetise your financial information, and we run no advertising trackers on this site.",
   },
   {
     icon: FileCheck,
-    title: "GDPR Compliant",
-    description: "Full compliance with global data protection regulations. Export or delete your data anytime.",
+    title: "Export or Delete, Any Time",
+    description:
+      "Your data is yours. Export everything to CSV or PDF whenever you like, and deleting your account removes it.",
   },
   {
     icon: Server,
-    title: "Secure Infrastructure",
-    description: "Hosted on enterprise-grade cloud infrastructure with regular security audits and monitoring.",
+    title: "You Decide What Exists",
+    description:
+      "Manual entry means nothing is collected that you didn't type. The smallest data footprint is the one you control.",
   },
 ];
 

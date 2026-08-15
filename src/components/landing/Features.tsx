@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { motion, AnimatePresence } from "framer-motion";
-import { APP_URL } from "@/lib/constants";
+import { CtaLink } from "@/components/ui/CtaLink";
 
 const features = [
   {
@@ -231,13 +231,12 @@ export const Features = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <a
-            href={APP_URL}
+          <CtaLink location="features"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary hover:bg-primary/90 text-primary-foreground font-medium transition-colors btn-ripple"
           >
             See All Features in Action
             <span aria-hidden="true">→</span>
-          </a>
+          </CtaLink>
         </motion.div>
       </div>
     </section>

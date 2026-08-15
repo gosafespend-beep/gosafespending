@@ -2,6 +2,7 @@ import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { BrowserFrame } from "./BrowserFrame";
 import { FeatureAnnotation } from "./FeatureAnnotation";
 import { DashboardMockup } from "./DashboardMockup";
+import { MobileAppPreview } from "./MobileAppPreview";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 
@@ -52,8 +53,17 @@ export const AppPreview = () => {
               🎯 Goal progress at a glance
             </FeatureAnnotation>
 
+            {/*
+              Below md the desktop dashboard becomes illegible (4-6px text at
+              320px), so it is replaced rather than shrunk. See
+              MobileAppPreview.
+            */}
+            <div className="md:hidden">
+              <MobileAppPreview />
+            </div>
+
             {/* Gradient border container with browser frame */}
-            <div className="gradient-border p-[2px] rounded-2xl">
+            <div className="hidden md:block gradient-border p-[2px] rounded-2xl">
               <BrowserFrame>
                 <DashboardMockup />
               </BrowserFrame>

@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import logo from "@/assets/logo.png";
-import { APP_URL } from "@/lib/constants";
+
 
 const footerLinks = {
   product: [
@@ -22,10 +22,6 @@ const footerLinks = {
     { label: "Compound Interest", href: "/tools/compound-interest-calculator", isRoute: true },
     { label: "Debt Payoff", href: "/tools/debt-payoff-calculator", isRoute: true },
     { label: "Emergency Fund", href: "/tools/emergency-fund-calculator", isRoute: true },
-  ],
-  partners: [
-    { label: "Studily", href: "https://getstudily.com", isExternal: true },
-    { label: "Humanize AI Text", href: "https://aifreetextpro.com", isExternal: true },
   ],
   legal: [
     { label: "Privacy Policy", href: "/privacy-policy", isRoute: true },
@@ -79,7 +75,7 @@ export const Footer = () => {
                 <motion.a
                   key={social.label}
                   href={social.href}
-                  className="p-2.5 rounded-lg bg-muted/50 hover:bg-primary/20 text-muted-foreground hover:text-primary transition-all duration-300"
+                  className="p-3 rounded-lg bg-muted/50 hover:bg-primary/20 text-muted-foreground hover:text-primary transition-all duration-300"
                   aria-label={social.label}
                   whileHover={{ scale: 1.1, y: -2 }}
                   whileTap={{ scale: 0.95 }}
@@ -102,7 +98,7 @@ export const Footer = () => {
                       e.preventDefault();
                       handleProductLink(link.href);
                     }}
-                    className="text-muted-foreground hover:text-primary transition-colors text-sm"
+                    className="inline-flex items-center min-h-[44px] py-1 text-muted-foreground hover:text-primary transition-colors text-sm"
                   >
                     {link.label}
                   </a>
@@ -120,14 +116,14 @@ export const Footer = () => {
                   {link.isRoute ? (
                     <Link
                       to={link.href}
-                      className="text-muted-foreground hover:text-primary transition-colors text-sm"
+                      className="inline-flex items-center min-h-[44px] py-1 text-muted-foreground hover:text-primary transition-colors text-sm"
                     >
                       {link.label}
                     </Link>
                   ) : (
                     <a
                       href={link.href}
-                      className="text-muted-foreground hover:text-primary transition-colors text-sm"
+                      className="inline-flex items-center min-h-[44px] py-1 text-muted-foreground hover:text-primary transition-colors text-sm"
                     >
                       {link.label}
                     </a>
@@ -145,32 +141,21 @@ export const Footer = () => {
                 <li key={link.label}>
                   <Link
                     to={link.href}
-                    className="text-muted-foreground hover:text-primary transition-colors text-sm"
+                    className="inline-flex items-center min-h-[44px] py-1 text-muted-foreground hover:text-primary transition-colors text-sm"
                   >
                     {link.label}
                   </Link>
                 </li>
               ))}
             </ul>
-            {footerLinks.partners.length > 0 && (
-              <>
-                <h3 className="font-semibold text-foreground mb-4 mt-6">Partners</h3>
-                <ul className="space-y-3">
-                  {footerLinks.partners.map((link) => (
-                    <li key={link.label}>
-                      <a
-                        href={link.href}
-                        target="_blank"
-                        rel="dofollow noopener"
-                        className="text-muted-foreground hover:text-primary transition-colors text-sm"
-                      >
-                        {link.label}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </>
-            )}
+            {/*
+              The "Partners" column linking to getstudily.com and
+              aifreetextpro.com was removed. Outbound links to unrelated
+              properties, on a page asking for financial trust, dilute the
+              impression of a focused company -- and they leak the small
+              amount of traffic that reaches the footer. If they are needed,
+              the About page is the right context.
+            */}
           </div>
 
           {/* Legal links */}
@@ -181,7 +166,7 @@ export const Footer = () => {
                 <li key={link.label}>
                   <Link
                     to={link.href}
-                    className="text-muted-foreground hover:text-primary transition-colors text-sm"
+                    className="inline-flex items-center min-h-[44px] py-1 text-muted-foreground hover:text-primary transition-colors text-sm"
                   >
                     {link.label}
                   </Link>
@@ -193,9 +178,26 @@ export const Footer = () => {
 
         {/* Bottom bar */}
         <div className="py-6 border-t border-border/50 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-muted-foreground">
-            © {currentYear} Safe Spend. Your finances, simplified.
-          </p>
+          <div className="text-sm text-muted-foreground text-center sm:text-left">
+            <p>© {currentYear} Safe Spend. Your finances, simplified.</p>
+            {/*
+              TODO(LEG-4): replace with the real operating entity, company
+              number and registered address. For a financial product,
+              anonymity is the strongest negative trust signal there is --
+              it is the one thing every scam in the category shares. Left as
+              a placeholder rather than invented, because this has to be
+              accurate.
+            */}
+            <p className="text-xs text-muted-foreground/70 mt-1">
+              Operated by [LEGAL ENTITY NAME], [JURISDICTION]. Contact{" "}
+              <a
+                href="mailto:info@gosafespend.com"
+                className="hover:text-primary transition-colors"
+              >
+                info@gosafespend.com
+              </a>
+            </p>
+          </div>
           <div className="flex items-center gap-6 text-sm text-muted-foreground">
             <span>Made with 💚 for your financial freedom</span>
           </div>

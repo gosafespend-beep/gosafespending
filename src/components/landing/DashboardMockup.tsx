@@ -19,11 +19,18 @@ import { SpendingTrendCard, RecentTransactionsCard, SidebarFooter } from "./dash
 
 // Animated counter hook
 const useCountUp = (end: number, duration: number = 2000, inView: boolean) => {
-  const [count, setCount] = useState(0);
+  /*
+   * Starts at 80% of the final value rather than 0. Anyone landing mid-page,
+   * or whose observer never fires, previously saw a finance dashboard
+   * reporting $0 for balance, income, expenses and net.
+   */
+  const [count, setCount] = useState(() => Math.floor(end * 0.8));
   const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
-    if (!inView) return;
+    if (!inView) {
+      return;
+    }
     if (prefersReducedMotion) {
       setCount(end);
       return;
@@ -32,11 +39,14 @@ const useCountUp = (end: number, duration: number = 2000, inView: boolean) => {
     let startTime: number;
     let animationFrame: number;
 
+    const from = Math.floor(end * 0.8);
+
     const animate = (timestamp: number) => {
       if (!startTime) startTime = timestamp;
       const progress = Math.min((timestamp - startTime) / duration, 1);
       const easeOutQuart = 1 - Math.pow(1 - progress, 4);
-      setCount(Math.floor(easeOutQuart * end));
+      // Animate from the 80% starting value, never from zero.
+      setCount(Math.floor(from + easeOutQuart * (end - from)));
 
       if (progress < 1) {
         animationFrame = requestAnimationFrame(animate);
@@ -85,12 +95,21 @@ const statsData = [
   { label: "Net", value: 18715, color: "text-primary", prefix: "$" },
 ];
 
-// Alert cards data
+/*
+ * Budget cards.
+ *
+ * These were all hardcoded at percent: 100 -- "Low Savings", "Rent expense",
+ * "Fixed Account", "Groceries", each rendering "100% used". The one glimpse of
+ * the product showed every budget blown and a savings warning, while the page
+ * promises control and progress. A realistic mixed state is both more
+ * credible and more aspirational: one category near its limit, the rest
+ * healthy, and a savings goal climbing.
+ */
 const alertsData = [
-  { title: "Low Savings", subtitle: "Emergency Fund", percent: 100 },
-  { title: "Rent expense", subtitle: "Near Limit", percent: 100 },
-  { title: "Fixed Account", subtitle: "Near Limit", percent: 100 },
-  { title: "Groceries", subtitle: "Near Limit", percent: 100 },
+  { title: "Emergency Fund", subtitle: "On track", percent: 64 },
+  { title: "Rent", subtitle: "Paid", percent: 100 },
+  { title: "Groceries", subtitle: "Near limit", percent: 88 },
+  { title: "Transport", subtitle: "Under budget", percent: 34 },
 ];
 
 export const DashboardMockup = () => {

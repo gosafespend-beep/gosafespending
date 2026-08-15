@@ -64,15 +64,24 @@ function readFirstTouch(): FirstTouch {
   }
 }
 
+/**
+ * Every place a CTA can appear. Keeping this a closed union means a new CTA
+ * cannot ship without deciding how it will be reported.
+ */
 export type CtaLocation =
   | "hero"
   | "nav"
   | "nav_mobile"
   | "nav_login"
+  | "features"
   | "pricing"
   | "sticky_bar"
   | "final_cta"
-  | "how_it_works";
+  | "how_it_works"
+  | "tool_budget"
+  | "tool_compound"
+  | "tool_debt"
+  | "tool_emergency";
 
 /**
  * Builds the app URL for a CTA, tagged with its position and (for pricing)

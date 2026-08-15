@@ -6,8 +6,9 @@ import { Label } from "@/components/ui/label";
 import { ArrowRight, TrendingUp, DollarSign, Calendar, Percent } from "lucide-react";
 import { CompoundInterestSchema } from "@/components/seo/CompoundInterestSchema";
 import { ExploreMoreTools } from "@/components/shared/ExploreMoreTools";
+import { FinancialDisclaimer } from "@/components/shared/FinancialDisclaimer";
+import { CtaLink } from "@/components/ui/CtaLink";
 
-const APP_URL = "https://app.gosafespend.com";
 
 const formatCurrency = (value: number) =>
   new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(value);
@@ -124,9 +125,10 @@ const CompoundInterestCalculator = () => {
 
         <div className="text-center pt-4 border-t border-border/50">
           <p className="text-muted-foreground text-sm mb-4">Track your investments and savings goals with Safe Spend.</p>
-          <Button asChild size="lg"><a href={APP_URL}>Start Tracking with Safe Spend<ArrowRight className="ml-2 h-4 w-4" /></a></Button>
+          <Button asChild size="lg"><CtaLink location="tool_compound">Start Tracking with Safe Spend<ArrowRight className="ml-2 h-4 w-4" /></CtaLink></Button>
         </div>
       </div>
+      <FinancialDisclaimer context="These projections assume a constant rate of return, which no real investment provides" />
     </LegalLayout>
   );
 };
