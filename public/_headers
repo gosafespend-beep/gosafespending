@@ -1,0 +1,20 @@
+# Security headers.
+#
+# This file is honoured by Cloudflare Pages and Netlify. If the site stays on
+# a host that ignores _headers, replicate these as Cloudflare Transform Rules
+# (Rules -> Transform Rules -> Modify Response Header) -- see DEPLOYMENT.md.
+#
+# The site previously sent only HSTS, Referrer-Policy and X-Content-Type-Options:
+# no CSP, no frame protection, no Permissions-Policy.
+
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://qeogqvjqvafbzufanwki.supabase.co https://eu.i.posthog.com https://eu-assets.i.posthog.com; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests
+  X-Frame-Options: DENY
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Content-Type-Options: nosniff
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+
+# Hashed build assets are immutable.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable

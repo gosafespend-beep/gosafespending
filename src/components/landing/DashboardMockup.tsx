@@ -190,7 +190,9 @@ export const DashboardMockup = () => {
       <main className="flex-1 flex flex-col overflow-hidden">
         {/* Header */}
         <header className="flex items-center justify-between px-1.5 sm:px-2 md:px-3 py-1 sm:py-1.5 md:py-2 border-b border-[hsl(200,25%,18%)] flex-shrink-0">
-          <h1 className="font-semibold text-foreground text-[0.45rem] sm:text-[0.55rem] md:text-[0.7rem]">Finance Tracker</h1>
+          {/* Chrome text inside a decorative mockup -- deliberately a span, not
+              a heading, so the page keeps exactly one h1. */}
+          <span className="block font-semibold text-foreground text-[0.45rem] sm:text-[0.55rem] md:text-[0.7rem]">Finance Tracker</span>
           <button className="flex items-center gap-0.5 px-1 sm:px-1.5 py-0.5 rounded-md bg-secondary text-muted-foreground text-[0.3rem] sm:text-[0.4rem] md:text-[0.5rem]">
             <span className="hidden xs:inline">January</span> 2026
             <ChevronDown className="w-1.5 h-1.5 sm:w-2 sm:h-2" />

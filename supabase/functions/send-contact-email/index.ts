@@ -1,13 +1,16 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "https://esm.sh/resend@2.0.0";
+import {
+  clientKey,
+  corsFor,
+  esc,
+  isValidEmail,
+  isValidText,
+  json,
+  withinRateLimit,
+} from "../_shared/security.ts";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
-
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers":
-    "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
-};
 
 interface ContactRequest {
   name: string;
@@ -15,27 +18,55 @@ interface ContactRequest {
   message: string;
 }
 
+/**
+ * Relays a contact-form submission to the team and confirms it to the sender.
+ *
+ * Every caller-supplied value is escaped before it reaches an email body.
+ * Unescaped interpolation here previously allowed arbitrary HTML — including
+ * links — inside mail sent from the verified gosafespend.com domain.
+ */
 const handler = async (req: Request): Promise<Response> => {
-  // Handle CORS preflight requests
-  if (req.method === "OPTIONS") {
-    return new Response(null, { headers: corsHeaders });
+  const cors = corsFor(req);
+  if (!cors) {
+    return new Response(JSON.stringify({ success: false }), {
+      status: 403,
+      headers: { "Content-Type": "application/json" },
+    });
   }
+
+  if (req.method === "OPTIONS") return new Response(null, { headers: cors });
+  if (req.method !== "POST") return json({ success: false }, 405, cors);
 
   try {
     const { name, email, message }: ContactRequest = await req.json();
 
-    if (!name || !email || !message) {
-      throw new Error("Name, email, and message are required");
+    if (
+      !isValidText(name, { max: 100 }) ||
+      !isValidEmail(email) ||
+      !isValidText(message, { max: 5000 })
+    ) {
+      return json({ success: false, error: "invalid_input" }, 400, cors);
     }
+
+    if (!(await withinRateLimit(await clientKey(req, "contact"), 5))) {
+      return json({ success: false, error: "rate_limited" }, 429, cors);
+    }
+
+    // Escaped once, used everywhere below — including inside href attributes.
+    const safeName = esc(name.trim());
+    const safeEmail = esc(email.trim().toLowerCase());
+    const safeMessage = esc(message.trim());
+    const replyTo = email.trim().toLowerCase();
 
     console.log("Processing contact form submission");
 
     // Send notification to the team
-    const teamEmailResponse = await resend.emails.send({
+    await resend.emails.send({
       from: "Safe Spend Contact <info@gosafespend.com>",
       to: ["info@gosafespend.com"],
-      reply_to: email,
-      subject: `New Contact Form Message from ${name}`,
+      reply_to: replyTo,
+      text: `New contact form submission\n\nFrom: ${name.trim()}\nEmail: ${replyTo}\n\n${message.trim()}`,
+      subject: `New Contact Form Message from ${safeName}`,
       html: `
         <!DOCTYPE html>
         <html>
@@ -58,27 +89,27 @@ const handler = async (req: Request): Promise<Response> => {
                   <tr>
                     <td style="padding-bottom: 15px;">
                       <p style="margin: 0; font-size: 14px; color: #71717a; text-transform: uppercase; letter-spacing: 0.5px;">From</p>
-                      <p style="margin: 5px 0 0; font-size: 16px; color: #18181b; font-weight: 500;">${name}</p>
+                      <p style="margin: 5px 0 0; font-size: 16px; color: #18181b; font-weight: 500;">${safeName}</p>
                     </td>
                   </tr>
                   <tr>
                     <td style="padding-bottom: 15px;">
                       <p style="margin: 0; font-size: 14px; color: #71717a; text-transform: uppercase; letter-spacing: 0.5px;">Email</p>
-                      <p style="margin: 5px 0 0; font-size: 16px;"><a href="mailto:${email}" style="color: #16a34a; text-decoration: none;">${email}</a></p>
+                      <p style="margin: 5px 0 0; font-size: 16px;"><a href="mailto:${safeEmail}" style="color: #16a34a; text-decoration: none;">${safeEmail}</a></p>
                     </td>
                   </tr>
                   <tr>
                     <td style="padding-bottom: 20px;">
                       <p style="margin: 0; font-size: 14px; color: #71717a; text-transform: uppercase; letter-spacing: 0.5px;">Message</p>
                       <div style="margin-top: 10px; padding: 16px; background-color: #f4f4f5; border-radius: 8px;">
-                        <p style="margin: 0; font-size: 16px; line-height: 1.6; color: #3f3f46; white-space: pre-wrap;">${message}</p>
+                        <p style="margin: 0; font-size: 16px; line-height: 1.6; color: #3f3f46; white-space: pre-wrap;">${safeMessage}</p>
                       </div>
                     </td>
                   </tr>
                   <tr>
                     <td style="text-align: center; padding-top: 10px;">
-                      <a href="mailto:${email}" style="display: inline-block; padding: 12px 24px; background-color: #16a34a; color: #ffffff; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 14px;">
-                        Reply to ${name}
+                      <a href="mailto:${safeEmail}" style="display: inline-block; padding: 12px 24px; background-color: #16a34a; color: #ffffff; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 14px;">
+                        Reply to ${safeName}
                       </a>
                     </td>
                   </tr>
@@ -94,9 +125,9 @@ const handler = async (req: Request): Promise<Response> => {
     console.log("Team notification email sent");
 
     // Send confirmation to the user
-    const userEmailResponse = await resend.emails.send({
+    await resend.emails.send({
       from: "Safe Spend <info@gosafespend.com>",
-      to: [email],
+      to: [replyTo],
       subject: "We received your message! 📬",
       html: `
         <!DOCTYPE html>
@@ -120,7 +151,7 @@ const handler = async (req: Request): Promise<Response> => {
                   <tr>
                     <td style="padding-bottom: 20px;">
                       <p style="margin: 0; font-size: 16px; line-height: 1.6; color: #3f3f46;">
-                        Hi ${name},
+                        Hi ${safeName},
                       </p>
                     </td>
                   </tr>
@@ -135,7 +166,7 @@ const handler = async (req: Request): Promise<Response> => {
                     <td style="padding-bottom: 20px;">
                       <p style="margin: 0; font-size: 14px; color: #71717a; text-transform: uppercase; letter-spacing: 0.5px;">Your message</p>
                       <div style="margin-top: 10px; padding: 16px; background-color: #f4f4f5; border-radius: 8px;">
-                        <p style="margin: 0; font-size: 14px; line-height: 1.6; color: #52525b; white-space: pre-wrap;">${message}</p>
+                        <p style="margin: 0; font-size: 14px; line-height: 1.6; color: #52525b; white-space: pre-wrap;">${safeMessage}</p>
                       </div>
                     </td>
                   </tr>
@@ -179,26 +210,15 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log("User confirmation email sent");
 
-    return new Response(
-      JSON.stringify({ 
-        success: true, 
-        data: { teamEmail: teamEmailResponse, userEmail: userEmailResponse } 
-      }),
-      {
-        status: 200,
-        headers: { "Content-Type": "application/json", ...corsHeaders },
-      }
-    );
+    return json({ success: true }, 200, cors);
   } catch (error: unknown) {
-    console.error("Error sending contact emails:", error instanceof Error ? error.message : "Unknown error");
-    const errorMessage = error instanceof Error ? error.message : "Unknown error";
-    return new Response(
-      JSON.stringify({ success: false, error: errorMessage }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json", ...corsHeaders },
-      }
+    // Log detail server-side; never return internal messages or the raw
+    // provider response to the caller.
+    console.error(
+      "Contact handler error:",
+      error instanceof Error ? error.message : "Unknown error",
     );
+    return json({ success: false, error: "server_error" }, 500, cors);
   }
 };
 

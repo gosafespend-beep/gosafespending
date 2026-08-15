@@ -1,36 +1,71 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "https://esm.sh/resend@2.0.0";
+import {
+  clientKey,
+  corsFor,
+  isValidEmail,
+  json,
+  serviceClient,
+  withinRateLimit,
+} from "../_shared/security.ts";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
-
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers":
-    "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
-};
 
 interface NewsletterRequest {
   email: string;
 }
 
+/**
+ * Subscribes an address to the newsletter and sends its confirmation.
+ *
+ * The subscription insert happens *here* rather than on the client, so the
+ * only address this function will ever mail is one it just recorded itself.
+ * Previously the client inserted the row and then asked this function to mail
+ * an arbitrary address, which made it an open relay for any caller.
+ */
 const handler = async (req: Request): Promise<Response> => {
-  if (req.method === "OPTIONS") {
-    return new Response(null, { headers: corsHeaders });
+  const cors = corsFor(req);
+  if (!cors) {
+    return new Response(JSON.stringify({ success: false }), {
+      status: 403,
+      headers: { "Content-Type": "application/json" },
+    });
   }
+
+  if (req.method === "OPTIONS") return new Response(null, { headers: cors });
+  if (req.method !== "POST") return json({ success: false }, 405, cors);
 
   try {
     const { email }: NewsletterRequest = await req.json();
 
-    if (!email) {
-      throw new Error("Email is required");
+    if (!isValidEmail(email)) {
+      return json({ success: false, error: "invalid_email" }, 400, cors);
+    }
+    const address = email.trim().toLowerCase();
+
+    if (!(await withinRateLimit(await clientKey(req, "newsletter"), 5))) {
+      return json({ success: false, error: "rate_limited" }, 429, cors);
     }
 
-    console.log("Sending newsletter confirmation email");
+    const { error: insertError } = await serviceClient()
+      .from("waitlist")
+      .insert({ email: address, status: "newsletter" });
 
-    const emailResponse = await resend.emails.send({
+    if (insertError) {
+      // 23505 = unique violation. Already subscribed: report success but send
+      // no mail, so a repeated request cannot be used to deliver mail to the
+      // same address over and over.
+      if (insertError.code === "23505") {
+        return json({ success: true, alreadySubscribed: true }, 200, cors);
+      }
+      console.error("waitlist insert failed", insertError.code);
+      return json({ success: false, error: "server_error" }, 500, cors);
+    }
+
+    await resend.emails.send({
       from: "Safe Spend <info@gosafespend.com>",
       reply_to: "info@gosafespend.com",
-      to: [email],
+      to: [address],
       subject: "You're in! Finance tips from Safe Spend 💡",
       html: `
         <!DOCTYPE html>
@@ -89,22 +124,15 @@ const handler = async (req: Request): Promise<Response> => {
       `,
     });
 
-    console.log("Newsletter email sent successfully");
-
-    return new Response(JSON.stringify({ success: true, data: emailResponse }), {
-      status: 200,
-      headers: { "Content-Type": "application/json", ...corsHeaders },
-    });
+    console.log("Newsletter subscription completed");
+    return json({ success: true }, 200, cors);
   } catch (error: unknown) {
-    console.error("Error sending newsletter email:", error instanceof Error ? error.message : "Unknown error");
-    const errorMessage = error instanceof Error ? error.message : "Unknown error";
-    return new Response(
-      JSON.stringify({ success: false, error: errorMessage }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json", ...corsHeaders },
-      }
+    // Log detail server-side; never return internal messages to the caller.
+    console.error(
+      "Newsletter handler error:",
+      error instanceof Error ? error.message : "Unknown error",
     );
+    return json({ success: false, error: "server_error" }, 500, cors);
   }
 };
 

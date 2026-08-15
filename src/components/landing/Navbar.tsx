@@ -202,6 +202,13 @@ export const Navbar = () => {
         }}
         transition={{ duration: 0.2, ease: "easeInOut" }}
         style={{ pointerEvents: isOpen ? "auto" : "none" }}
+        /*
+         * The panel stays mounted (translated offscreen) so it can animate.
+         * Without `inert` its links keep their place in the tab order, so
+         * keyboard and switch users fall into six invisible offscreen links
+         * with no visible focus -- WCAG 2.4.3 and 2.4.7 failures.
+         */
+        {...(!isOpen ? { inert: "" as unknown as boolean, "aria-hidden": true } : {})}
       >
         <div className="px-4 py-4 space-y-2">
           {navItems.map((item, index) => (
