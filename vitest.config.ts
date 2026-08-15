@@ -8,7 +8,13 @@ export default defineConfig({
     environment: "jsdom",
     globals: true,
     setupFiles: ["./src/test/setup.ts"],
-    include: ["src/**/*.{test,spec}.{ts,tsx}"],
+    // supabase/ is included so the edge-function escaping and validation
+    // helpers are covered -- they guard a security boundary and were
+    // previously outside the test glob entirely.
+    include: [
+      "src/**/*.{test,spec}.{ts,tsx}",
+      "supabase/**/*.{test,spec}.{ts,tsx}",
+    ],
   },
   resolve: {
     alias: { "@": path.resolve(__dirname, "./src") },

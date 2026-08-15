@@ -1,0 +1,50 @@
+name: CI
+
+# The repository had no CI of any kind: no typecheck, no test run, no build
+# verification, and no guard against the bundle growing back.
+#
+# NOTE: if the site stays on Lovable hosting, Lovable commits to this repo
+# automatically, so this will also run against machine-generated commits.
+# Decide whether the marketing site is Lovable-managed or engineer-managed --
+# running both is how a build-config change like the prerender plugin quietly
+# disappears.
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test
+        run: npm test
+
+      - name: Build
+        run: npm run build
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}
+
+      - name: Check bundle budget
+        run: node scripts/check-bundle-size.mjs

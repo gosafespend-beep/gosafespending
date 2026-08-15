@@ -1,73 +1,59 @@
-# Welcome to your Lovable project
+# Safe Spend — marketing site
 
-## Project info
+The landing page, blog and free calculators for [gosafespend.com](https://gosafespend.com).
+The product itself lives in a separate codebase at `app.gosafespend.com`.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+React 18 + Vite + TypeScript + Tailwind + shadcn/ui, with Supabase for blog
+content, newsletter signups and transactional email.
 
-## How can I edit this code?
+## Getting started
 
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+```bash
+npm install
+cp .env.example .env   # fill in the Supabase values
+npm run dev            # http://localhost:8080
 ```
 
-**Edit a file directly in GitHub**
+## Scripts
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+| Command | What it does |
+| --- | --- |
+| `npm run dev` | Dev server |
+| `npm run build` | Production build + sitemap |
+| `npm run build:prerender` | Production build with prerendering (needs Puppeteer) |
+| `npm run typecheck` | `tsc --noEmit` |
+| `npm run lint` | ESLint |
+| `npm test` | Vitest |
+| `npm run bundle:check` | Fails if the homepage payload exceeds budget |
 
-**Use GitHub Codespaces**
+## Layout
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+```
+src/
+  components/landing/   Landing page sections
+  components/seo/       JSON-LD emitters and metadata
+  components/ui/        shadcn primitives + CtaLink
+  lib/                  analytics, appLink, finance maths
+  pages/                One per route
+scripts/                Build-time route discovery, sitemap, bundle budget
+supabase/
+  functions/            Deno edge functions (contact, newsletter, sitemap)
+  migrations/           Schema. Rebuildable from scratch with `supabase db reset`
+```
 
-## What technologies are used for this project?
+## Two things worth knowing before you change anything
 
-This project is built with:
+**All CTAs go through `<CtaLink>`.** It attaches campaign parameters and fires
+the `cta_click` event. `CtaLocation` is a closed union, so a new CTA will not
+typecheck until you decide how it is reported. Do not hand-write
+`<a href={APP_URL}>` — that is how six CTAs ended up untracked.
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+**Prerendering is opt-in.** `PRERENDER=true` produces static HTML per route.
+Without it every route serves an empty shell, which is invisible to any crawler
+that does not execute JS. See `DEPLOYMENT.md`.
 
-## How can I deploy this project?
+## Deploying
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+See [DEPLOYMENT.md](./DEPLOYMENT.md) — it covers the database migrations, edge
+function deployment, security headers, analytics setup and the manual steps that
+code cannot do.

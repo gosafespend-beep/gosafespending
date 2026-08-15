@@ -8,6 +8,7 @@ import { DebtPayoffSchema } from "@/components/seo/DebtPayoffSchema";
 import { ExploreMoreTools } from "@/components/shared/ExploreMoreTools";
 import { FinancialDisclaimer } from "@/components/shared/FinancialDisclaimer";
 import { CtaLink } from "@/components/ui/CtaLink";
+import { calcPayoff } from "@/lib/finance";
 
 
 const formatCurrency = (v: number) =>
@@ -21,22 +22,6 @@ interface DebtInput {
 }
 
 const emptyDebt = (): DebtInput => ({ name: "", balance: "", rate: "", minPayment: "" });
-
-const calcPayoff = (balance: number, apr: number, payment: number) => {
-  if (payment <= 0 || balance <= 0) return { months: 0, totalInterest: 0 };
-  const r = apr / 100 / 12;
-  if (r === 0) return { months: Math.ceil(balance / payment), totalInterest: 0 };
-  if (payment <= balance * r) return { months: Infinity, totalInterest: Infinity };
-  const months = Math.ceil(-Math.log(1 - (balance * r) / payment) / Math.log(1 + r));
-  let remaining = balance;
-  let totalInterest = 0;
-  for (let i = 0; i < months; i++) {
-    const interest = remaining * r;
-    totalInterest += interest;
-    remaining = remaining + interest - payment;
-  }
-  return { months, totalInterest };
-};
 
 const DebtPayoffCalculator = () => {
   const [debts, setDebts] = useState<DebtInput[]>([emptyDebt()]);
