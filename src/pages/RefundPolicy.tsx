@@ -1,11 +1,8 @@
 import { LegalLayout } from "@/components/legal/LegalLayout";
-import { SEOHead } from "@/components/seo/SEOHead";
 
 const RefundPolicy = () => {
   return (
     <LegalLayout title="Refund Policy" lastUpdated="February 13, 2026">
-      <SEOHead />
-
       <section className="mb-8">
         <p>
           This Refund Policy forms part of the{" "}

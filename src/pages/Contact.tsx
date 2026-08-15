@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { z } from "zod";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Mail, Send, HelpCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -7,11 +8,30 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { VisualBreadcrumbs } from "@/components/seo/VisualBreadcrumbs";
+import { SEOHead } from "@/components/seo/SEOHead";
 import { supabase } from "@/integrations/supabase/client";
+import { useLiveAnnouncer } from "@/hooks/useLiveAnnouncer";
+import { track } from "@/lib/analytics";
 import logo from "@/assets/logo.png";
+
+/*
+ * Mirrors the validation the newsletter form already used. Client-side checks
+ * are UX only -- the edge function enforces the same limits independently,
+ * because anything sent from the browser is attacker-controlled.
+ */
+const contactSchema = z.object({
+  name: z.string().trim().min(1, "Please enter your name").max(100, "Name is too long"),
+  email: z.string().trim().email("Please enter a valid email address").max(254),
+  message: z
+    .string()
+    .trim()
+    .min(1, "Please enter a message")
+    .max(5000, "Message is too long (5000 characters max)"),
+});
 
 const Contact = () => {
   const { toast } = useToast();
+  const { announce } = useLiveAnnouncer();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -21,14 +41,23 @@ const Contact = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const parsed = contactSchema.safeParse(formData);
+    if (!parsed.success) {
+      const message = parsed.error.errors[0].message;
+      toast({ title: "Check your details", description: message, variant: "destructive" });
+      announce(message);
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
       const { error } = await supabase.functions.invoke("send-contact-email", {
         body: {
-          name: formData.name.trim(),
-          email: formData.email.trim().toLowerCase(),
-          message: formData.message.trim(),
+          name: parsed.data.name,
+          email: parsed.data.email.toLowerCase(),
+          message: parsed.data.message,
         },
       });
 
@@ -40,15 +69,21 @@ const Contact = () => {
         title: "Message sent!",
         description: "We'll get back to you as soon as possible.",
       });
+      announce("Message sent. We'll get back to you as soon as possible.");
+      track("contact_submitted", { result: "success" });
 
       setFormData({ name: "", email: "", message: "" });
     } catch (error) {
       console.error("Contact form error:", error);
+      const description =
+        "Please try again or email us directly at info@gosafespend.com";
       toast({
         title: "Something went wrong",
-        description: "Please try again or email us directly at info@gosafespend.com",
+        description,
         variant: "destructive",
       });
+      announce(description);
+      track("contact_submitted", { result: "error" });
     } finally {
       setIsSubmitting(false);
     }
@@ -56,6 +91,7 @@ const Contact = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead />
       {/* Header */}
       <header className="sticky top-0 z-50 bg-background/95 backdrop-blur-md border-b border-border/50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">

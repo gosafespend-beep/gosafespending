@@ -1,24 +1,19 @@
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
 import { Home } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { SEOHead } from "@/components/seo/SEOHead";
 import logo from "@/assets/logo.png";
 
 const NotFound = () => {
-  // Add noindex meta tag to prevent soft 404s from being indexed
-  useEffect(() => {
-    const meta = document.createElement('meta');
-    meta.name = 'robots';
-    meta.content = 'noindex, nofollow';
-    document.head.appendChild(meta);
-    
-    return () => {
-      document.head.removeChild(meta);
-    };
-  }, []);
-
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-background px-4">
+      {/* noIndex handled by SEOHead rather than a hand-rolled effect. The edge
+          also returns a real 404 status now, so this is belt and braces. */}
+      <SEOHead
+        title="Page not found - Safe Spend"
+        description="The page you're looking for doesn't exist or has been moved."
+        noIndex
+      />
       <div className="text-center">
         {/* Logo */}
         <div className="flex items-center justify-center gap-2 mb-8">

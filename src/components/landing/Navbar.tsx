@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { motion, useScroll, useSpring } from "framer-motion";
 import { useLocation, useNavigate } from "react-router-dom";
 import logo from "@/assets/logo.png";
-import { APP_URL } from "@/lib/constants";
+import { CtaLink } from "@/components/ui/CtaLink";
 
 const navItems = [
   { id: "features", label: "Features" },
@@ -156,19 +156,27 @@ export const Navbar = () => {
                   {link.label}
                 </a>
               ))}
+              {/* Returning users previously had no way in: every link on the
+                  site pointed at "Start Free Trial", which reads like it will
+                  start a new one. That bounced the highest-intent traffic. */}
+              <CtaLink
+                location="nav_login"
+                path="/login"
+                className="ml-4 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Log in
+              </CtaLink>
               <Button
                 asChild
-                className="ml-4 bg-primary hover:bg-primary/90 text-primary-foreground btn-ripple"
+                className="ml-3 bg-primary hover:bg-primary/90 text-primary-foreground btn-ripple"
               >
-                <a href={APP_URL}>
-                  Start Free Trial
-                </a>
+                <CtaLink location="nav">Start free</CtaLink>
               </Button>
             </div>
 
             {/* Mobile Menu Button */}
             <button
-              className="md:hidden p-2 text-muted-foreground hover:text-foreground focus:outline-none focus:ring-2 focus:ring-primary rounded-md"
+              className="md:hidden p-2.5 h-11 w-11 flex items-center justify-center text-muted-foreground hover:text-foreground focus:outline-none focus:ring-2 focus:ring-primary rounded-md"
               onClick={() => setIsOpen(!isOpen)}
               aria-label="Toggle menu"
               aria-expanded={isOpen}
@@ -254,15 +262,21 @@ export const Navbar = () => {
             </motion.a>
           ))}
           <motion.div
+            className="flex flex-col gap-2 mt-2"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: isOpen ? 1 : 0, y: isOpen ? 0 : 10 }}
             transition={{ delay: 0.2 }}
           >
             <Button
               asChild
-              className="w-full mt-2 bg-primary hover:bg-primary/90 text-primary-foreground min-h-[44px]"
+              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground min-h-[44px]"
             >
-              <a href={APP_URL}>Start Free Trial</a>
+              <CtaLink location="nav_mobile">Start free</CtaLink>
+            </Button>
+            <Button asChild variant="outline" className="w-full min-h-[44px]">
+              <CtaLink location="nav_login" path="/login">
+                Log in
+              </CtaLink>
             </Button>
           </motion.div>
         </div>

@@ -1,7 +1,7 @@
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { APP_URL } from "@/lib/constants";
+import { CtaLink } from "@/components/ui/CtaLink";
 
 const benefits = [
   "Track every expense and income in seconds",
@@ -24,9 +24,13 @@ export const FinalCTA = () => {
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
       >
+        {/* "Your Financial Future Starts Today" was aspirational filler. This
+            closes on the three removed frictions plus the concrete outcome. */}
         <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-6">
-          Your Financial Future{" "}
-          <span className="gradient-text">Starts Today</span>
+          Seven days. No card. No bank login.{" "}
+          <span className="gradient-text">
+            See where your money actually goes.
+          </span>
         </h2>
 
         <ul className="flex flex-col gap-3 mb-8 max-w-md mx-auto">
@@ -43,10 +47,10 @@ export const FinalCTA = () => {
           size="lg"
           className="h-14 px-10 text-lg bg-primary hover:bg-primary/90 text-primary-foreground btn-ripple"
         >
-          <a href={APP_URL}>
+          <CtaLink location="final_cta">
             Try Safe Spend Free
             <ArrowRight className="ml-2 h-5 w-5" aria-hidden="true" />
-          </a>
+          </CtaLink>
         </Button>
 
         <p className="mt-4 text-sm text-muted-foreground">

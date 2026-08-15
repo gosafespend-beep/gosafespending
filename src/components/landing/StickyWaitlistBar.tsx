@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { useStickyBar } from "@/hooks/useStickyBar";
 import { motion, AnimatePresence } from "framer-motion";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
-import { APP_URL } from "@/lib/constants";
+import { CtaLink } from "@/components/ui/CtaLink";
 
 export const StickyWaitlistBar = () => {
   const { showBar, dismissBar } = useStickyBar("hero");
@@ -33,10 +33,10 @@ export const StickyWaitlistBar = () => {
                 size="sm" 
                 className="whitespace-nowrap btn-ripple"
               >
-                <a href={APP_URL}>
+                <CtaLink location="sticky_bar">
                   Start Free Trial
                   <ArrowRight className="ml-1 h-3 w-3" aria-hidden="true" />
-                </a>
+                </CtaLink>
               </Button>
               <Button
                 type="button"

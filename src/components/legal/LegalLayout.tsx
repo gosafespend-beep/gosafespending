@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import logo from "@/assets/logo.png";
 import { VisualBreadcrumbs } from "@/components/seo/VisualBreadcrumbs";
+import { SEOHead } from "@/components/seo/SEOHead";
 
 interface LegalLayoutProps {
   title: string;
@@ -12,6 +13,9 @@ interface LegalLayoutProps {
 export const LegalLayout = ({ title, lastUpdated, children }: LegalLayoutProps) => {
   return (
     <div className="min-h-screen bg-background">
+      {/* Every page built on this layout resolves its own metadata from the
+          pathname, now that SEOHead is no longer mounted globally in App. */}
+      <SEOHead />
       {/* Header */}
       <header className="sticky top-0 z-50 bg-background/95 backdrop-blur-md border-b border-border/50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
