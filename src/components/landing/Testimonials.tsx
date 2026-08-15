@@ -85,7 +85,7 @@ export const Testimonials = () => {
         {/* Header */}
         <div
           ref={ref}
-          className={`text-center mb-16 transition-all duration-700 ${
+          className={`scroll-anim text-center mb-16 transition-all duration-700 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
           }`}
         >
@@ -105,7 +105,7 @@ export const Testimonials = () => {
           {testimonials.map((testimonial, index) => (
             <div
               key={index}
-              className={`bg-card border border-border/50 rounded-2xl p-6 hover:border-primary/30 transition-all duration-500 hover:-translate-y-1 ${
+              className={`scroll-anim bg-card border border-border/50 rounded-2xl p-6 hover:border-primary/30 transition-all duration-500 hover:-translate-y-1 ${
                 isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
               }`}
               style={{ transitionDelay: isVisible ? `${index * 100}ms` : "0ms" }}

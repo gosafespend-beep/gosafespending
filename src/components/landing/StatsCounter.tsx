@@ -81,7 +81,7 @@ export const StatsCounter = () => {
     <section className="py-16 px-4 sm:px-6 lg:px-8 bg-card/30">
       <div
         ref={ref}
-        className={`max-w-7xl mx-auto transition-all duration-700 ${
+        className={`scroll-anim max-w-7xl mx-auto transition-all duration-700 ${
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
         }`}
       >

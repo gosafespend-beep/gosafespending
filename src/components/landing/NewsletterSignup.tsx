@@ -6,7 +6,6 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
-import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { useLiveAnnouncer } from "@/hooks/useLiveAnnouncer";
@@ -49,6 +48,11 @@ export const NewsletterSignup = () => {
        * the function to mail an arbitrary address, which made that function an
        * open relay: it would send to whatever address the caller supplied.
        */
+      // Imported on submit rather than at module scope: this is the only
+      // Supabase usage on the homepage, and the client is ~120 KB that no
+      // visitor needs until they actually subscribe.
+      const { supabase } = await import("@/integrations/supabase/client");
+
       const { data, error } = await supabase.functions.invoke(
         "send-newsletter-email",
         { body: { email } },

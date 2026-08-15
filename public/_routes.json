@@ -1,0 +1,6 @@
+{
+  "version": 1,
+  "description": "Cloudflare Pages routing. With prerendering enabled every real route has its own static HTML file, so unmatched paths fall through to 404.html and return a genuine 404 status. Previously every unknown URL returned 200 with the SPA shell, creating an unbounded space of soft-404s for crawlers.",
+  "include": ["/*"],
+  "exclude": ["/assets/*", "/favicon.ico", "/favicon.png", "/og-image.png", "/robots.txt", "/sitemap.xml"]
+}

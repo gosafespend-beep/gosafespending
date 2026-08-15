@@ -5,62 +5,83 @@
  * single CTA click, signup or subscription event. "Where did this customer
  * come from?" was unanswerable, which made every optimisation unfalsifiable.
  *
- * Two things matter more than the tool choice:
+ * Three things matter more than the tool choice:
  *
- *  1. `cross_subdomain_cookie` — conversion happens on app.gosafespend.com,
+ *  1. The SDK is loaded with a dynamic import, only after consent is granted.
+ *     Bundling it statically added ~60 KB gzipped to the homepage for code
+ *     that must not run until the visitor agrees to it.
+ *
+ *  2. `cross_subdomain_cookie` -- conversion happens on app.gosafespend.com,
  *     a different host. Without a cookie scoped to .gosafespend.com every
  *     conversion arrives as a fresh anonymous session and attribution is lost
- *     at exactly the moment it matters. The app must init with the same
- *     project and the same setting.
+ *     at exactly the moment it matters. The app must init the same project
+ *     with the same setting.
  *
- *  2. Capturing is opted out by default and only enabled once consent is
- *     granted (see ConsentBanner). The site claims GDPR compliance, so
- *     analytics must not run before the visitor agrees.
+ *  3. Events raised before the SDK finishes loading are queued rather than
+ *     dropped, so a click on a CTA immediately after consent still counts.
  */
 
-import posthog from "posthog-js";
+import type { PostHog } from "posthog-js";
 
 const KEY = import.meta.env.VITE_POSTHOG_KEY as string | undefined;
 const HOST =
   (import.meta.env.VITE_POSTHOG_HOST as string | undefined) ??
   "https://eu.i.posthog.com";
 
-let started = false;
+let client: PostHog | null = null;
+let loading: Promise<PostHog | null> | null = null;
+const queue: Array<[string, Record<string, unknown> | undefined]> = [];
 
 export const analyticsConfigured = () => Boolean(KEY);
 
-/** Initialises the SDK in an opted-out state. Safe to call more than once. */
-export function initAnalytics() {
-  if (started || !KEY) return;
-  started = true;
+async function load(): Promise<PostHog | null> {
+  if (client) return client;
+  if (!KEY) return null;
+  if (loading) return loading;
 
-  posthog.init(KEY, {
-    api_host: HOST,
-    cross_subdomain_cookie: true,
-    persistence: "localStorage+cookie",
-    autocapture: false,
-    capture_pageview: false, // routed manually, see usePageviews
-    capture_pageleave: true,
-    opt_out_capturing_by_default: true,
-    disable_session_recording: true,
+  loading = import("posthog-js").then(({ default: posthog }) => {
+    posthog.init(KEY, {
+      api_host: HOST,
+      cross_subdomain_cookie: true,
+      persistence: "localStorage+cookie",
+      autocapture: false,
+      capture_pageview: false, // routed manually, see PageviewTracker
+      capture_pageleave: true,
+      disable_session_recording: true,
+    });
+    client = posthog;
+
+    for (const [event, properties] of queue.splice(0)) {
+      posthog.capture(event, properties);
+    }
+    return posthog;
   });
+
+  return loading;
 }
 
+/** Called once consent is granted. Loads and starts the SDK. */
 export function enableAnalytics() {
-  if (!KEY) return;
-  initAnalytics();
-  posthog.opt_in_capturing();
+  void load();
 }
 
 export function disableAnalytics() {
-  if (!KEY || !started) return;
-  posthog.opt_out_capturing();
+  queue.length = 0;
+  client?.opt_out_capturing();
+  client = null;
 }
 
-/** Records an event. No-ops when analytics is unconfigured or opted out. */
+/**
+ * Records an event. No-ops when analytics is unconfigured, and queues when
+ * consent was granted but the SDK is still in flight.
+ */
 export function track(event: string, properties?: Record<string, unknown>) {
-  if (!KEY || !started || posthog.has_opted_out_capturing()) return;
-  posthog.capture(event, properties);
+  if (!KEY) return;
+  if (client) {
+    client.capture(event, properties);
+  } else if (loading) {
+    queue.push([event, properties]);
+  }
 }
 
 export function trackPageview(path: string) {

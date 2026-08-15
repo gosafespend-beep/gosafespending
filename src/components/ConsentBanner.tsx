@@ -5,7 +5,6 @@ import {
   analyticsConfigured,
   disableAnalytics,
   enableAnalytics,
-  initAnalytics,
 } from "@/lib/analytics";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
@@ -39,7 +38,8 @@ export const ConsentBanner = () => {
   useEffect(() => {
     if (!analyticsConfigured()) return;
 
-    initAnalytics(); // starts opted out
+    // Nothing loads until this resolves to "granted" -- the SDK itself is a
+    // dynamic import, so declining downloads no analytics code at all.
     const existing = readConsent();
 
     if (existing === "granted") enableAnalytics();

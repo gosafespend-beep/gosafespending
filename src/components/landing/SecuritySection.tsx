@@ -43,7 +43,7 @@ export const SecuritySection = () => {
       <div className="max-w-7xl mx-auto">
         <div
           ref={ref}
-          className={`text-center max-w-2xl mx-auto mb-16 transition-all duration-700 ${
+          className={`scroll-anim text-center max-w-2xl mx-auto mb-16 transition-all duration-700 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
           }`}
         >

@@ -22,7 +22,7 @@ export const AppPreview = () => {
       <div className="max-w-6xl mx-auto">
         <div
           ref={ref}
-          className={`transition-all duration-1000 ${
+          className={`scroll-anim transition-all duration-1000 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
           }`}
         >

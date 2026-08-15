@@ -74,12 +74,24 @@ export const SEOHead = ({
   const location = useLocation();
   const pathname = location.pathname;
   
-  const pageData = pageMetadata[pathname] || pageMetadata["/"];
-  const finalTitle = title || pageData.title;
-  const finalDescription = description || pageData.description;
+  const pageData = pageMetadata[pathname];
+
+  /*
+   * Pages not in the map (blog articles) supply their own metadata via props.
+   * Falling back to pageMetadata["/"] here meant a generic instance -- the one
+   * LegalLayout renders for every page built on it -- would overwrite an
+   * article's real title and og:type with the homepage's. Bail instead, so
+   * only the instance that actually knows the metadata writes it.
+   */
+  const shouldRender = Boolean(title || pageData);
+
+  const finalTitle = title || pageData?.title || "";
+  const finalDescription = description || pageData?.description || "";
   const canonicalUrl = `${BASE_URL}${pathname === "/" ? "" : pathname}`;
 
   useEffect(() => {
+    if (!shouldRender) return;
+
     document.title = finalTitle;
 
     const updateMetaTag = (selector: string, content: string, attribute = "content") => {
@@ -126,7 +138,7 @@ export const SEOHead = ({
     } else if (robots) {
       robots.remove();
     }
-  }, [finalTitle, finalDescription, canonicalUrl, image, type, noIndex]);
+  }, [shouldRender, finalTitle, finalDescription, canonicalUrl, image, type, noIndex]);
 
   return null;
 };

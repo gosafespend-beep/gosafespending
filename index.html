@@ -39,6 +39,26 @@
     <meta name="twitter:title" content="Safe Spend - Take Control of Your Money" />
     <meta name="twitter:description" content="Privacy-first, AI-powered personal finance tracker. Track expenses, build budgets, crush debt, and grow savings. Start your free trial today." />
     <meta name="twitter:image" content="https://gosafespend.com/og-image.png?v=2" />
+
+    <!-- Preload the hero logo: it is the likely LCP element. -->
+    <link rel="preload" as="image" href="/logo-192.webp" type="image/webp" />
+
+    <!--
+      Scroll-reveal sections render at opacity 0 until an observer fires, so
+      prerendered HTML ships with that hidden state baked in. Crawlers still
+      read the text, but a visitor whose JS fails would see a blank page.
+      These rules apply only when scripting is off.
+    -->
+    <noscript>
+      <style>
+        .scroll-anim,
+        [style*="opacity: 0"],
+        [style*="opacity:0"] {
+          opacity: 1 !important;
+          transform: none !important;
+        }
+      </style>
+    </noscript>
   </head>
 
   <body>

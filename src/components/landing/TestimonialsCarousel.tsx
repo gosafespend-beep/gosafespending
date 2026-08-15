@@ -77,10 +77,17 @@ const Avatar = ({ image, fallback, name }: AvatarProps) => {
   }
 
   return (
+    /* Explicit dimensions reserve the space (these shifted layout as they
+       loaded), and lazy-loading keeps them off the critical path -- they sit
+       well below the fold but were fetched eagerly. */
     <img
       src={image}
       alt={`${name}'s profile photo`}
       className="w-12 h-12 rounded-full object-cover bg-primary/20"
+      width={48}
+      height={48}
+      loading="lazy"
+      decoding="async"
       onError={() => setImgError(true)}
     />
   );
@@ -144,7 +151,7 @@ export const TestimonialsCarousel = () => {
         {/* Header */}
         <div
           ref={ref}
-          className={`text-center mb-12 transition-all duration-700 ${
+          className={`scroll-anim text-center mb-12 transition-all duration-700 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
           }`}
         >
