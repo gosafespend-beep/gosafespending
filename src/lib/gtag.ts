@@ -126,8 +126,21 @@ export function gaEvent(name: string, params?: Record<string, unknown>) {
   window.gtag("event", name, params);
 }
 
+let lastPath: string | null = null;
+
+/**
+ * Reports a pageview, ignoring a repeat of the path just reported.
+ *
+ * Two callers race on the entry page: enableGa() sends the landing pageview
+ * (because the router effect ran before consent), and the router effect sends
+ * it again on mount when consent was already stored. Without this guard every
+ * session double-counted its first page.
+ */
 export function gaPageview(path: string) {
   if (!GA_ID || !scriptLoaded) return;
+  if (path === lastPath) return;
+  lastPath = path;
+
   window.gtag("event", "page_view", {
     page_path: path,
     page_location: window.location.origin + path,

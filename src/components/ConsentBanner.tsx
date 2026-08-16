@@ -8,17 +8,7 @@ import {
 } from "@/lib/analytics";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
-const STORAGE_KEY = "ss_analytics_consent";
-type Consent = "granted" | "denied";
-
-function readConsent(): Consent | null {
-  try {
-    const value = localStorage.getItem(STORAGE_KEY);
-    return value === "granted" || value === "denied" ? value : null;
-  } catch {
-    return null;
-  }
-}
+import { readConsent, writeConsent, type Consent } from "@/lib/consent";
 
 /**
  * Analytics consent.
@@ -47,11 +37,9 @@ export const ConsentBanner = () => {
   }, []);
 
   const decide = (choice: Consent) => {
-    try {
-      localStorage.setItem(STORAGE_KEY, choice);
-    } catch {
-      // Storage unavailable: honour the choice for this page view only.
-    }
+    // Written to a .gosafespend.com cookie so the app honours the same answer
+    // and does not ask again after sign-in.
+    writeConsent(choice);
     if (choice === "granted") enableAnalytics();
     else disableAnalytics();
     setVisible(false);
