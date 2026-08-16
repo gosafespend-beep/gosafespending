@@ -22,6 +22,13 @@
  */
 
 import type { PostHog } from "posthog-js";
+import {
+  disableGa,
+  enableGa,
+  gaConfigured,
+  gaEvent,
+  gaPageview,
+} from "./gtag";
 
 const KEY = import.meta.env.VITE_POSTHOG_KEY as string | undefined;
 const HOST =
@@ -32,7 +39,16 @@ let client: PostHog | null = null;
 let loading: Promise<PostHog | null> | null = null;
 const queue: Array<[string, Record<string, unknown> | undefined]> = [];
 
-export const analyticsConfigured = () => Boolean(KEY);
+/*
+ * Two destinations, one call site. GA4 answers "which channels bring traffic
+ * that converts"; PostHog answers "what did this specific person do". They are
+ * complementary, and either can be switched off by clearing its env var —
+ * nothing else in the codebase changes.
+ *
+ * The rest of the app calls track()/trackPageview() and never touches either
+ * SDK directly.
+ */
+export const analyticsConfigured = () => Boolean(KEY) || gaConfigured();
 
 async function load(): Promise<PostHog | null> {
   if (client) return client;
@@ -60,30 +76,42 @@ async function load(): Promise<PostHog | null> {
   return loading;
 }
 
-/** Called once consent is granted. Loads and starts the SDK. */
+/** Called once consent is granted. Starts every configured destination. */
 export function enableAnalytics() {
   void load();
+  void enableGa();
 }
 
+/** Called when consent is declined or withdrawn. */
 export function disableAnalytics() {
   queue.length = 0;
   client?.opt_out_capturing();
   client = null;
+  disableGa();
 }
 
 /**
- * Records an event. No-ops when analytics is unconfigured, and queues when
- * consent was granted but the SDK is still in flight.
+ * Records an event on every configured destination.
+ *
+ * No-ops when nothing is configured, and queues for PostHog when consent was
+ * granted but its SDK is still in flight, so a CTA click immediately after
+ * "Allow" still counts.
  */
 export function track(event: string, properties?: Record<string, unknown>) {
-  if (!KEY) return;
-  if (client) {
-    client.capture(event, properties);
-  } else if (loading) {
-    queue.push([event, properties]);
+  if (KEY) {
+    if (client) {
+      client.capture(event, properties);
+    } else if (loading) {
+      queue.push([event, properties]);
+    }
   }
+  // GA4 event names must be snake_case and under 40 chars; ours already are.
+  gaEvent(event, properties);
 }
 
 export function trackPageview(path: string) {
-  track("$pageview", { $current_url: window.location.origin + path });
+  if (KEY) {
+    track("$pageview", { $current_url: window.location.origin + path });
+  }
+  gaPageview(path);
 }

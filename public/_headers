@@ -8,7 +8,7 @@
 # no CSP, no frame protection, no Permissions-Policy.
 
 /*
-  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://qeogqvjqvafbzufanwki.supabase.co https://eu.i.posthog.com https://eu-assets.i.posthog.com; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://qeogqvjqvafbzufanwki.supabase.co https://eu.i.posthog.com https://eu-assets.i.posthog.com https://www.google-analytics.com https://analytics.google.com https://region1.google-analytics.com; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests
   X-Frame-Options: DENY
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()
   Referrer-Policy: strict-origin-when-cross-origin

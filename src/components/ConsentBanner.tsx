@@ -74,9 +74,9 @@ export const ConsentBanner = () => {
             Help us understand what's working
           </h2>
           <p className="text-sm text-muted-foreground mt-1">
-            We'd like to measure which pages people find useful. No advertising
-            trackers, no data sold, and the site works exactly the same either
-            way.{" "}
+            We'd like to measure which pages people find useful, using Google
+            Analytics. No advertising or personalisation, no data sold, and the
+            site works exactly the same either way.{" "}
             <Link to="/cookies-policy" className="text-primary underline">
               Cookies policy
             </Link>
