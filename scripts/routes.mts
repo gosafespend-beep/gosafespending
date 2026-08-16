@@ -30,12 +30,26 @@ export interface RouteEntry {
 }
 
 export async function getBlogRoutes(): Promise<RouteEntry[]> {
-  const url = process.env.VITE_SUPABASE_URL;
-  const key = process.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+  /*
+   * These fall back to literals for the same reason the GA measurement ID
+   * does: both are public. The anon key ships in every client bundle by
+   * design, and what protects the data is Row Level Security, not secrecy.
+   *
+   * Without the fallback this silently returned zero blog routes on hosts
+   * that do not expose build-time env vars -- which is exactly what happened
+   * on the first Lovable deploy. Articles were left unprerendered and absent
+   * from the sitemap, with only a warning in a build log nobody reads.
+   *
+   * A real secret must never be handled this way.
+   */
+  const url =
+    process.env.VITE_SUPABASE_URL ?? "https://qeogqvjqvafbzufanwki.supabase.co";
+  const key =
+    process.env.VITE_SUPABASE_PUBLISHABLE_KEY ?? "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFlb2dxdmpxdmFmYnp1ZmFud2tpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk2MTAwNDksImV4cCI6MjA4NTE4NjA0OX0.H84dCTVcdwBcmliqWDhfRK9cHMfAWSae1EfNj-oAyF8";
 
   if (!url || !key) {
     console.warn(
-      "[routes] Supabase env vars missing — building without blog routes.",
+      "[routes] Supabase credentials missing — building without blog routes.",
     );
     return [];
   }
