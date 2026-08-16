@@ -1,5 +1,20 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
+/*
+ * The wildcard stays here on purpose, unlike the other functions in this
+ * project, which were moved to an origin allow-list.
+ *
+ * This serves a sitemap: a public document whose entire job is to be fetched by
+ * anyone, mostly by crawlers that ignore CORS because they are not browsers.
+ * An allow-list would protect nothing -- the content is public by definition --
+ * while adding a way for the thing to break.
+ *
+ * Worth knowing: nothing currently calls this. The sitemap served at
+ * /sitemap.xml is generated at build time by scripts/routes.mts, which is what
+ * produces the 24 URLs live today. This function is very likely dead, and is
+ * left in place rather than deleted because that is a separate decision from
+ * the CORS work.
+ */
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers":
