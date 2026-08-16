@@ -12,7 +12,7 @@ import { SEOHead } from "@/components/seo/SEOHead";
 import { supabase } from "@/integrations/supabase/client";
 import { useLiveAnnouncer } from "@/hooks/useLiveAnnouncer";
 import { track } from "@/lib/analytics";
-import logo from "@/assets/logo.png";
+import logo from "@/assets/logo.webp";
 
 /*
  * Mirrors the validation the newsletter form already used. Client-side checks

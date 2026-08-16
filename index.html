@@ -3,16 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Safe Spend - Take Control of Your Money</title>
-    <meta name="description" content="Track your spending, budgets, and savings goals with Safe Spend. Privacy-first, AI-powered personal finance tracker. Start your free trial today." />
+    <title>Safe Spend - Budgeting Without Your Bank Login</title>
+    <meta name="description" content="Track spending, build budgets and pay down debt in about thirty seconds a day — with no bank connection, no credentials shared, and nothing sold to anyone." />
     <meta name="author" content="Safe Spend" />
     <meta name="theme-color" content="#10B981" />
     <meta name="keywords" content="personal finance, budget tracker, expense tracker, savings goals, debt management, money management, financial planning, best budget app, budget app comparison, no bank connection budget app, free budget app, expense tracker app, debt payoff planner" />
     <meta property="og:site_name" content="Safe Spend" />
     
-    <!-- Favicons -->
-    <link rel="icon" href="/favicon.png" type="image/png" />
-    <link rel="apple-touch-icon" href="/favicon.png" />
+    <!-- Favicons. The apple-touch-icon is deliberately a separate, opaque
+         file: iOS composites transparent icons onto black, which would lose
+         the shield's edges. -->
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/favicon.png" type="image/png" sizes="180x180" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     
     <!-- Canonical URL -->
     <link rel="canonical" href="https://gosafespend.com" />
@@ -24,9 +27,9 @@
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://gosafespend.com" />
-    <meta property="og:title" content="Safe Spend - Take Control of Your Money" />
-    <meta property="og:description" content="Privacy-first, AI-powered personal finance tracker. Track expenses, build budgets, crush debt, and grow savings. Start your free trial today." />
-    <meta property="og:image" content="https://gosafespend.com/og-image.png?v=2" />
+    <meta property="og:title" content="Safe Spend - Budgeting Without Your Bank Login" />
+    <meta property="og:description" content="Track spending, build budgets and pay down debt in about thirty seconds a day — with no bank connection, no credentials shared, and nothing sold to anyone." />
+    <meta property="og:image" content="https://gosafespend.com/og-image.png?v=3" />
 
     <!-- Open Graph Image Dimensions -->
     <meta property="og:image:width" content="1200" />
@@ -36,12 +39,13 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@SafeSpend" />
     <meta name="twitter:creator" content="@SafeSpend" />
-    <meta name="twitter:title" content="Safe Spend - Take Control of Your Money" />
-    <meta name="twitter:description" content="Privacy-first, AI-powered personal finance tracker. Track expenses, build budgets, crush debt, and grow savings. Start your free trial today." />
-    <meta name="twitter:image" content="https://gosafespend.com/og-image.png?v=2" />
+    <meta name="twitter:title" content="Safe Spend - Budgeting Without Your Bank Login" />
+    <meta name="twitter:description" content="Track spending, build budgets and pay down debt in about thirty seconds a day — with no bank connection, no credentials shared, and nothing sold to anyone." />
+    <meta name="twitter:image" content="https://gosafespend.com/og-image.png?v=3" />
 
-    <!-- Preload the hero logo: it is the likely LCP element. -->
-    <link rel="preload" as="image" href="/logo-192.webp" type="image/webp" />
+    <!-- No logo preload: the mark is now an 8 KB WebP served through Vite's
+         hashed asset pipeline, so its filename isn't knowable here. It was
+         only worth preloading when it was a 301 KB PNG. -->
 
     <!--
       Scroll-reveal sections render at opacity 0 until an observer fires, so

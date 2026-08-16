@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { CtaLink } from "@/components/ui/CtaLink";
 import { motion } from "framer-motion";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
-import logo from "@/assets/logo.png";
+import logo from "@/assets/logo.webp";
 
 /*
  * Hero copy (CRO-1).

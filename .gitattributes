@@ -1,0 +1,8 @@
+# Keep line endings LF in the repo regardless of platform.
+# Python text-mode writes on Windows silently converted files to CRLF, which
+# turned one-line edits into whole-file diffs.
+* text=auto eol=lf
+*.png binary
+*.webp binary
+*.ico binary
+*.jpg binary

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
-import logo from "@/assets/logo.png";
+import logo from "@/assets/logo.webp";
 import { VisualBreadcrumbs } from "@/components/seo/VisualBreadcrumbs";
 import { SEOHead } from "@/components/seo/SEOHead";
 

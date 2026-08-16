@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { Home } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SEOHead } from "@/components/seo/SEOHead";
-import logo from "@/assets/logo.png";
+import logo from "@/assets/logo.webp";
 
 const NotFound = () => {
   return (
