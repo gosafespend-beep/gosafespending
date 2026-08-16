@@ -24,21 +24,31 @@ END;
 $$;
 
 -- Role enum. DO block because CREATE TYPE has no IF NOT EXISTS.
+-- Values mirror the live project exactly (confirmed against the generated
+-- types in src/integrations/supabase/types.ts). Omitting 'moderator' here
+-- would make a from-scratch rebuild diverge from production.
 DO $$
 BEGIN
-  CREATE TYPE public.app_role AS ENUM ('admin', 'user');
+  CREATE TYPE public.app_role AS ENUM ('admin', 'moderator', 'user');
 EXCEPTION
   WHEN duplicate_object THEN NULL;
 END;
 $$;
 
 CREATE TABLE IF NOT EXISTS public.user_roles (
-  id      uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id uuid NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
-  role    public.app_role NOT NULL,
+  id         uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id    uuid NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+  role       public.app_role NOT NULL,
   created_at timestamptz NOT NULL DEFAULT now(),
+  updated_at timestamptz NOT NULL DEFAULT now(),
   UNIQUE (user_id, role)
 );
+
+DROP TRIGGER IF EXISTS update_user_roles_updated_at ON public.user_roles;
+CREATE TRIGGER update_user_roles_updated_at
+BEFORE UPDATE ON public.user_roles
+FOR EACH ROW
+EXECUTE FUNCTION public.update_updated_at_column();
 
 ALTER TABLE public.user_roles ENABLE ROW LEVEL SECURITY;
 
