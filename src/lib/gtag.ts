@@ -18,7 +18,24 @@
  * entirely, and the consent signal is recorded properly.
  */
 
-const GA_ID = import.meta.env.VITE_GA_MEASUREMENT_ID as string | undefined;
+/*
+ * The GA4 measurement ID is PUBLIC -- it ships in the JS bundle either way, and
+ * Google's own install snippet puts it directly in your HTML. So it lives here
+ * as the default rather than in an env var: Lovable has no build-time
+ * environment-variable UI, and requiring one would mean analytics silently
+ * never ran.
+ *
+ * The env var still overrides it, so a staging deploy can point at a separate
+ * property without touching code.
+ *
+ * Anything that would be damaging to publish must NOT live here, and must not
+ * carry a VITE_ prefix -- those are compiled into the bundle by design. Real
+ * secrets (service role, Paystack, Resend, cron) belong in Supabase edge
+ * function secrets.
+ */
+const GA_ID =
+  (import.meta.env.VITE_GA_MEASUREMENT_ID as string | undefined) ||
+  "G-LGGKR2FEEW";
 
 /** Both hosts must be listed so the linker decorates outbound app links. */
 const LINKED_DOMAINS = ["gosafespend.com", "app.gosafespend.com"];
@@ -34,6 +51,10 @@ let scriptLoaded = false;
 let bootstrapped = false;
 
 export const gaConfigured = () => Boolean(GA_ID);
+
+/** The measurement ID actually in effect. Useful when debugging which
+ *  property a deploy is reporting to. */
+export const gaMeasurementId = () => GA_ID;
 
 function ensureGtagStub() {
   if (bootstrapped) return;

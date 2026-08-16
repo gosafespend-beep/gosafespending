@@ -72,15 +72,23 @@ describe("gtag bootstrap", () => {
     if (configIdx >= 0) expect(consentIdx).toBeLessThan(configIdx);
   });
 
-  it("does nothing at all when no measurement ID is set", async () => {
+  it("falls back to the built-in measurement ID when no env var is set", async () => {
+    // Lovable has no build-time environment-variable UI, so requiring one
+    // would mean analytics silently never ran on the deployed site. The ID is
+    // public, so a hardcoded default is safe -- but it must actually apply.
     vi.stubEnv("VITE_GA_MEASUREMENT_ID", "");
     vi.resetModules();
-    const { gaConfigured, enableGa, gaEvent } = await import("./gtag");
+    const { gaConfigured, gaMeasurementId } = await import("./gtag");
 
-    expect(gaConfigured()).toBe(false);
-    void enableGa();
-    gaEvent("cta_click", { location: "hero" });
-    expect(window.dataLayer).toBeUndefined();
+    expect(gaConfigured()).toBe(true);
+    expect(gaMeasurementId()).toBe("G-LGGKR2FEEW");
+  });
+
+  it("lets an env var override the default, for staging", async () => {
+    vi.stubEnv("VITE_GA_MEASUREMENT_ID", "G-STAGING0001");
+    vi.resetModules();
+    const { gaMeasurementId } = await import("./gtag");
+    expect(gaMeasurementId()).toBe("G-STAGING0001");
   });
 
   it("drops events before consent is granted", async () => {
