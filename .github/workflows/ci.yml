@@ -40,11 +40,17 @@ jobs:
       - name: Test
         run: npm test
 
-      - name: Build
+      - name: Build (prerendering is mandatory here)
         run: npm run build
         env:
+          # Fail the build rather than silently shipping an empty shell to
+          # crawlers -- the whole point of the prerender step.
+          PRERENDER_REQUIRED: "true"
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
           VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}
+
+      - name: Verify prerendered output
+        run: node scripts/verify-prerender.mjs
 
       - name: Check bundle budget
         run: node scripts/check-bundle-size.mjs

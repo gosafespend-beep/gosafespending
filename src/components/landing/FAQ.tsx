@@ -130,14 +130,27 @@ export const FAQ = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+          <Search
+            className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground"
+            aria-hidden="true"
+          />
+          {/* A placeholder is not a label: it disappears on focus and screen
+              readers may not announce it. This control had no accessible name
+              at all (WCAG 3.3.2, 4.1.2). */}
+          <label htmlFor="faq-search" className="sr-only">
+            Search frequently asked questions
+          </label>
           <Input
-            type="text"
+            id="faq-search"
+            type="search"
             placeholder="Search questions..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-12 h-12 bg-card border-border/50 focus:border-primary"
           />
+          <p id="faq-search-status" className="sr-only" role="status" aria-live="polite">
+            {searchQuery ? `${filteredFaqs.length} matching questions` : ""}
+          </p>
         </motion.div>
 
         {/* Category tabs */}
@@ -224,7 +237,7 @@ export const FAQ = () => {
           <p className="text-muted-foreground mb-2">Still have questions?</p>
           <a
             href="/contact"
-            className="text-primary hover:text-accent transition-colors font-medium"
+            className="inline-flex items-center min-h-[44px] py-2 text-primary hover:text-accent transition-colors font-medium"
           >
             Contact our support team →
           </a>

@@ -75,21 +75,22 @@ curl -X POST -H "Origin: https://evil.test" -H "Content-Type: application/json" 
 
 ---
 
-## 4. Decide D1: who owns the build
+## 4. Prerendering (runs by default)
 
-This is the one open decision that blocks a finished capability.
-
-Prerendering is implemented and verified — all 24 routes emit static HTML with
-correct per-route titles, canonicals and `og:type`, and a blog article ships
-2,031 words without running any JS. But it is **opt-in via `PRERENDER=true`**,
-so it does nothing until a build sets it.
+`npm run build` now prerenders all 24 routes and verifies the output. Each page
+emits static HTML with its own title, canonical and `og:type`; a blog article
+ships over 2,000 words without running any JS.
 
 ```bash
-npm run build            # current behaviour, unchanged
-npm run build:prerender  # prerendered output
+npm run build               # prerenders, then verifies
+npm run build:no-prerender  # escape hatch, if you ever need it
 ```
 
-It is gated because it needs Puppeteer in the build environment.
+It needs Puppeteer. If the build environment lacks it, the build **warns and
+continues** rather than failing — but CI sets `PRERENDER_REQUIRED=true`, so a
+silently unprerendered build fails there. `scripts/verify-prerender.mjs` then
+asserts the output is genuinely usable: non-empty `#root`, per-route canonicals,
+unique titles, exactly one `h1`, and a real article body.
 
 - **Branch A — stay on Lovable.** Try `build:prerender` in their pipeline. If
   Puppeteer is unavailable it will fail, and the fallback is a Cloudflare Worker
@@ -182,13 +183,6 @@ desktop mockup rendered 4px text at 320px — but a real screenshot would be
 better. Capture the transaction list, budget screen and dashboard at 2x, crop,
 export WebP, and swap them in.
 
-**The excluded data issue.** Out of scope by request, and still the largest
-business risk in the audit: the hardcoded statistics in `StatsCounter.tsx`, the
-six testimonials in `TestimonialsCarousel.tsx`, and the `aggregateRating` of
-4.9 from 1,247 ratings in `SoftwareAppSchema.tsx` — which is published to Google
-as structured data, contradicts the visible page, and sits on a company whose
-own schema says `foundingDate: "2026"`. Deleting the `aggregateRating` block is
-five lines and nothing depends on it.
 
 **Legal review (LEG-5).** Route to a qualified professional: the GDPR claim and
 consent mechanism; comparative advertising in the comparison table; the

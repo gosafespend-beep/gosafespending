@@ -192,7 +192,7 @@ export const Footer = () => {
               Operated by [LEGAL ENTITY NAME], [JURISDICTION]. Contact{" "}
               <a
                 href="mailto:info@gosafespend.com"
-                className="hover:text-primary transition-colors"
+                className="inline-flex items-center min-h-[24px] hover:text-primary transition-colors"
               >
                 info@gosafespend.com
               </a>

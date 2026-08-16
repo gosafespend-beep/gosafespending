@@ -123,7 +123,7 @@ export const DashboardMockup = () => {
       className="w-full aspect-[2/1] bg-[hsl(200,25%,8%)] rounded-lg overflow-hidden flex text-[0.4rem] xs:text-[0.5rem] sm:text-[0.6rem] md:text-[0.7rem] lg:text-xs"
     >
       {/* Sidebar */}
-      <aside className="w-[18%] min-w-[50px] sm:min-w-[70px] bg-[hsl(200,25%,10%)] border-r border-[hsl(200,25%,18%)] flex flex-col p-1 sm:p-1.5 md:p-2">
+      <div className="w-[18%] min-w-[50px] sm:min-w-[70px] bg-[hsl(200,25%,10%)] border-r border-[hsl(200,25%,18%)] flex flex-col p-1 sm:p-1.5 md:p-2">
         {/* Logo */}
         <div className="flex items-center gap-1 sm:gap-1.5 mb-1.5 sm:mb-2 md:mb-3">
           <div className="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 rounded-lg bg-primary flex items-center justify-center">
@@ -133,7 +133,7 @@ export const DashboardMockup = () => {
         </div>
 
         {/* Navigation Sections */}
-        <nav className="flex-1 space-y-1.5 sm:space-y-2 md:space-y-2.5">
+        <div className="flex-1 space-y-1.5 sm:space-y-2 md:space-y-2.5">
           {/* Main */}
           <div>
             <p className="text-[0.25rem] sm:text-[0.35rem] md:text-[0.4rem] text-muted-foreground font-medium mb-0.5 uppercase tracking-wider hidden sm:block">Main</p>
@@ -199,16 +199,16 @@ export const DashboardMockup = () => {
               ))}
             </ul>
           </div>
-        </nav>
+        </div>
 
         {/* Sidebar Footer */}
         <SidebarFooter isInView={isInView} />
-      </aside>
+      </div>
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col overflow-hidden">
+      <div className="flex-1 flex flex-col overflow-hidden">
         {/* Header */}
-        <header className="flex items-center justify-between px-1.5 sm:px-2 md:px-3 py-1 sm:py-1.5 md:py-2 border-b border-[hsl(200,25%,18%)] flex-shrink-0">
+        <div className="flex items-center justify-between px-1.5 sm:px-2 md:px-3 py-1 sm:py-1.5 md:py-2 border-b border-[hsl(200,25%,18%)] flex-shrink-0">
           {/* Chrome text inside a decorative mockup -- deliberately a span, not
               a heading, so the page keeps exactly one h1. */}
           <span className="block font-semibold text-foreground text-[0.45rem] sm:text-[0.55rem] md:text-[0.7rem]">Finance Tracker</span>
@@ -216,7 +216,7 @@ export const DashboardMockup = () => {
             <span className="hidden xs:inline">January</span> 2026
             <ChevronDown className="w-1.5 h-1.5 sm:w-2 sm:h-2" />
           </button>
-        </header>
+        </div>
 
         {/* Content Area - Flex column to fill height */}
         <div className="flex-1 p-1 sm:p-2 md:p-3 flex flex-col gap-1 sm:gap-1.5 md:gap-2 min-h-0 overflow-hidden">
@@ -255,7 +255,7 @@ export const DashboardMockup = () => {
             <RecentTransactionsCard isInView={isInView} />
           </div>
         </div>
-      </main>
+      </div>
     </div>
   );
 };

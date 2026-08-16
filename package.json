@@ -11,10 +11,10 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
-    "build:prerender": "cross-env PRERENDER=true vite build && npm run sitemap",
     "sitemap": "tsx scripts/generate-sitemap.mts",
     "typecheck": "tsc --noEmit -p tsconfig.app.json",
-    "bundle:check": "node scripts/check-bundle-size.mjs"
+    "bundle:check": "node scripts/check-bundle-size.mjs",
+    "build:no-prerender": "cross-env PRERENDER=false vite build && npm run sitemap"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

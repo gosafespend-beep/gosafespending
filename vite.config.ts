@@ -5,42 +5,63 @@ import { componentTagger } from "lovable-tagger";
 import { getAllRoutes } from "./scripts/routes.mts";
 
 /*
- * Prerendering is opt-in via PRERENDER=true.
+ * Prerendering: on by default, degrades instead of failing.
  *
- * Every route currently serves the same 2,802-byte shell with an empty #root
+ * Without it every route serves the same 2,802-byte shell with an empty #root
  * and a canonical hardcoded to the homepage, so any crawler that does not
  * execute JS sees no content and canonicalises every URL to "/". Prerendering
  * fixes crawlability, the canonical bug, soft-404s, social unfurls and first
- * paint together.
+ * paint together, which makes it the highest-leverage build step here.
  *
- * It is gated behind a flag rather than always-on because it needs Puppeteer
- * in the build environment, which the current host may not provide. Leaving it
- * off keeps the existing pipeline working exactly as before; CI (or a
- * Cloudflare Pages build) sets PRERENDER=true.
+ * It needs Puppeteer, which not every build environment provides. Rather than
+ * gate it behind a flag nobody remembers to set, it attempts to load and warns
+ * loudly if it cannot -- so a host without Puppeteer still produces a working
+ * (if unprerendered) build instead of a red pipeline.
+ *
+ * Set PRERENDER=false to skip it deliberately, or PRERENDER_REQUIRED=true to
+ * make an unprerendered build a hard error (recommended in CI, so the SEO work
+ * cannot silently regress).
  */
 async function prerenderPlugin() {
-  if (process.env.PRERENDER !== "true") return null;
+  if (process.env.PRERENDER === "false") {
+    console.log("[prerender] skipped (PRERENDER=false)");
+    return null;
+  }
 
-  const [{ default: prerender }, { default: puppeteerRenderer }] =
-    await Promise.all([
-      import("@prerenderer/rollup-plugin"),
-      import("@prerenderer/renderer-puppeteer"),
-    ]);
+  try {
+    const [{ default: prerender }, { default: puppeteerRenderer }] =
+      await Promise.all([
+        import("@prerenderer/rollup-plugin"),
+        import("@prerenderer/renderer-puppeteer"),
+      ]);
 
-  const routes = (await getAllRoutes()).map((route) => route.path);
-  console.log(`[prerender] rendering ${routes.length} routes`);
+    const routes = (await getAllRoutes()).map((route) => route.path);
+    console.log(`[prerender] rendering ${routes.length} routes`);
 
-  return prerender({
-    routes,
-    renderer: puppeteerRenderer,
-    rendererOptions: {
-      // Long enough for lazy route chunks to resolve their Suspense
-      // boundaries -- otherwise prerendered pages contain only the fallback.
-      renderAfterTime: 2500,
-      maxConcurrentRoutes: 4,
-      launchOptions: { args: ["--no-sandbox", "--disable-setuid-sandbox"] },
-    },
-  });
+    return prerender({
+      routes,
+      renderer: puppeteerRenderer,
+      rendererOptions: {
+        // Long enough for lazy route chunks to resolve their Suspense
+        // boundaries -- otherwise prerendered pages contain only the fallback.
+        renderAfterTime: 2500,
+        maxConcurrentRoutes: 4,
+        launchOptions: { args: ["--no-sandbox", "--disable-setuid-sandbox"] },
+      },
+    });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    if (process.env.PRERENDER_REQUIRED === "true") {
+      throw new Error(`[prerender] required but unavailable: ${message}`);
+    }
+    console.warn(
+      `\n[prerender] UNAVAILABLE -- building without it: ${message}\n` +
+        "[prerender] Pages will serve an empty shell to crawlers that do not " +
+        "run JS.\n[prerender] See DEPLOYMENT.md for the Cloudflare Worker " +
+        "fallback.\n",
+    );
+    return null;
+  }
 }
 
 export default defineConfig(async ({ mode }) => ({

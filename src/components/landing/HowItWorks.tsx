@@ -1,30 +1,43 @@
-import { UserPlus, LineChart, Rocket } from "lucide-react";
+import { UserPlus, LineChart, Receipt } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 
+/*
+ * "Sign Up" / "Get Dashboard" / "Reach Goals" described any SaaS product on
+ * the internet, and it answered the wrong question. The objection to a
+ * manual-entry app is not "is signup hard?" -- it is "will I actually keep
+ * doing this?".
+ *
+ * So these steps describe the daily habit rather than the onboarding funnel,
+ * and name the real cost up front. An honest expectation the trial can meet
+ * is worth more than a lower one it cannot.
+ */
 const steps = [
   {
     icon: UserPlus,
     step: "01",
-    title: "Sign Up in Seconds",
-    description: "Create your free account and start tracking your finances in minutes.",
-    details: ["No credit card required", "Quick setup", "Instant access"],
+    title: "Start without handing over anything",
+    description:
+      "No bank login, no card, no account numbers. An email address and a password is the whole setup, and you're looking at your first budget in under two minutes.",
+    details: ["No bank connection", "No card for the trial", "Nothing to revoke later"],
+  },
+  {
+    icon: Receipt,
+    step: "02",
+    title: "Log what you spend, in seconds",
+    description:
+      "Type an amount and a word or two. Safe Spend suggests the category from your description and your past spending, so most entries are two taps — and recurring bills log themselves.",
+    details: ["About 30 seconds a day", "AI suggests the category", "Recurring bills automated"],
   },
   {
     icon: LineChart,
-    step: "02",
-    title: "Get Your Dashboard",
-    description: "Log your income and expenses to see your complete financial picture.",
-    details: ["Easy data entry", "Smart categorization", "Instant insights"],
-  },
-  {
-    icon: Rocket,
     step: "03",
-    title: "Reach Your Goals",
-    description: "Set budgets, track goals, and watch your financial health improve over time.",
-    details: ["Personalized budgets", "Goal tracking", "Progress reports"],
+    title: "Watch the picture sharpen",
+    description:
+      "After a week you can see where the money actually goes. After a month you can set budgets that match your real life instead of a guess, and watch your debt payoff date move closer.",
+    details: ["Real numbers, not estimates", "Budgets from your own history", "Payoff dates that update"],
   },
 ];
 
