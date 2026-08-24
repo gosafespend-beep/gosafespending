@@ -78,10 +78,11 @@ Deno.serve(async (req) => {
     // Dynamic blog posts
     if (posts && posts.length > 0) {
       for (const post of posts) {
-        const lastmod = (post.updated_at || post.published_at || TODAY).split("T")[0];
+        // Only a real, post-specific timestamp qualifies as <lastmod>.
+        const lastmod = (post.updated_at || post.published_at || "").split("T")[0];
         xml += `  <url>\n`;
         xml += `    <loc>${SITE_URL}/blog/${post.slug}</loc>\n`;
-        xml += `    <lastmod>${lastmod}</lastmod>\n`;
+        if (lastmod) xml += `    <lastmod>${lastmod}</lastmod>\n`;
         xml += `    <changefreq>monthly</changefreq>\n`;
         xml += `    <priority>0.6</priority>\n`;
         xml += `  </url>\n`;
