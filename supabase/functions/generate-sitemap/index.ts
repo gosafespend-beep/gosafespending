@@ -65,10 +65,11 @@ Deno.serve(async (req) => {
     xml += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
 
     // Static pages
+    // Static pages: no <lastmod> — a build/request timestamp is not a
+    // page-specific change date and misleads crawlers.
     for (const page of staticPages) {
       xml += `  <url>\n`;
       xml += `    <loc>${SITE_URL}${page.loc === "/" ? "" : page.loc}</loc>\n`;
-      xml += `    <lastmod>${TODAY}</lastmod>\n`;
       xml += `    <changefreq>${page.changefreq}</changefreq>\n`;
       xml += `    <priority>${page.priority}</priority>\n`;
       xml += `  </url>\n`;
