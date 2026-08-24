@@ -22,7 +22,6 @@ const corsHeaders = {
 };
 
 const SITE_URL = "https://gosafespend.com";
-const TODAY = new Date().toISOString().split("T")[0];
 
 const staticPages = [
   { loc: "/", changefreq: "weekly", priority: "1.0" },
@@ -65,10 +64,11 @@ Deno.serve(async (req) => {
     xml += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
 
     // Static pages
+    // Static pages: no <lastmod> — a build/request timestamp is not a
+    // page-specific change date and misleads crawlers.
     for (const page of staticPages) {
       xml += `  <url>\n`;
       xml += `    <loc>${SITE_URL}${page.loc === "/" ? "" : page.loc}</loc>\n`;
-      xml += `    <lastmod>${TODAY}</lastmod>\n`;
       xml += `    <changefreq>${page.changefreq}</changefreq>\n`;
       xml += `    <priority>${page.priority}</priority>\n`;
       xml += `  </url>\n`;
@@ -77,10 +77,11 @@ Deno.serve(async (req) => {
     // Dynamic blog posts
     if (posts && posts.length > 0) {
       for (const post of posts) {
-        const lastmod = (post.updated_at || post.published_at || TODAY).split("T")[0];
+        // Only a real, post-specific timestamp qualifies as <lastmod>.
+        const lastmod = (post.updated_at || post.published_at || "").split("T")[0];
         xml += `  <url>\n`;
         xml += `    <loc>${SITE_URL}/blog/${post.slug}</loc>\n`;
-        xml += `    <lastmod>${lastmod}</lastmod>\n`;
+        if (lastmod) xml += `    <lastmod>${lastmod}</lastmod>\n`;
         xml += `    <changefreq>monthly</changefreq>\n`;
         xml += `    <priority>0.6</priority>\n`;
         xml += `  </url>\n`;

@@ -86,10 +86,12 @@ export async function getBlogRoutes(): Promise<RouteEntry[]> {
 }
 
 export async function getAllRoutes(): Promise<RouteEntry[]> {
-  const today = new Date().toISOString().slice(0, 10);
-  const statics: RouteEntry[] = STATIC_ROUTES.map((route) => ({
-    ...route,
-    lastmod: today,
-  }));
+  /*
+   * Static routes deliberately carry no <lastmod>. It used to be the build
+   * date, which told crawlers every page changed on every deploy — a
+   * non-page-specific fallback that devalues the signal. Omitting it is
+   * valid sitemap XML; blog entries still carry a real updated_at.
+   */
+  const statics: RouteEntry[] = STATIC_ROUTES.map((route) => ({ ...route }));
   return [...statics, ...(await getBlogRoutes())];
 }
