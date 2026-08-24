@@ -22,7 +22,6 @@ const corsHeaders = {
 };
 
 const SITE_URL = "https://gosafespend.com";
-const TODAY = new Date().toISOString().split("T")[0];
 
 const staticPages = [
   { loc: "/", changefreq: "weekly", priority: "1.0" },
