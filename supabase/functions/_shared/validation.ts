@@ -11,8 +11,10 @@ const ALLOWED_ORIGINS = new Set([
   "https://www.gosafespend.com",
 ]);
 
-// Allow localhost during local development only.
+// Allow localhost during local development, and the Lovable preview host so
+// forms can be exercised before a change is published.
 const DEV_ORIGIN = /^http:\/\/localhost:\d+$/;
+const PREVIEW_ORIGIN = /^https:\/\/[a-z0-9-]+\.lovable\.app$/;
 
 const BASE_CORS_HEADERS = {
   "Access-Control-Allow-Headers":
