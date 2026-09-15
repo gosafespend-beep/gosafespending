@@ -31,7 +31,11 @@ const BASE_CORS_HEADERS = {
  */
 export function corsFor(req: Request): Record<string, string> | null {
   const origin = req.headers.get("Origin") ?? "";
-  if (ALLOWED_ORIGINS.has(origin) || DEV_ORIGIN.test(origin)) {
+  if (
+    ALLOWED_ORIGINS.has(origin) ||
+    DEV_ORIGIN.test(origin) ||
+    PREVIEW_ORIGIN.test(origin)
+  ) {
     return { ...BASE_CORS_HEADERS, "Access-Control-Allow-Origin": origin };
   }
   return null;
