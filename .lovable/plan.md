@@ -1,158 +1,81 @@
+# "Thirty Seconds a Day" — Ebook as the front door to Safe Spend
 
+The book is a 50+ page guide with a setup checklist, 12 chapters, worksheets and a 30-day plan — every chapter already points back into the product. That makes it three things at once: a lead magnet for people not ready to sign up, an onboarding manual for new users, and a month of email content that is already written.
 
-# Landing Page Comprehensive Audit -- Improvement Plan
-
-## Section-by-Section Findings
-
----
-
-### 1. Navbar
-**Issue: Missing "Pricing" in navigation**
-The navbar has Features, How it Works, FAQ, and Tools -- but no link to the Pricing section, which is one of the most important sections for conversion.
-
-**Fix:** Add `{ id: "pricing", label: "Pricing" }` to the `navItems` array in `Navbar.tsx`.
+This plan wires it up end to end: a gated download, a dedicated page, placements across the site, and a 5-email sequence that walks a reader through the 30-day plan.
 
 ---
 
-### 2. Hero Section
-**Issue A: Single CTA button feels incomplete**
-There's only one "Start Free Trial" button. Best-practice landing pages offer a secondary action (e.g., "See How It Works") for visitors not ready to commit.
+## 1. The download itself
 
-**Fix:** Add a secondary ghost/outline `Button` linking to `#how-it-works` below the primary CTA.
+The PDF is stored privately, not as a public file anyone can hotlink. Every download link is generated per request and expires, so the email address is what buys access.
 
-**Issue B: Badge says "Now Available" -- generic and untested**
-The badge text "Now Available -- Start Your Free Trial" is vague. It should create more urgency or social proof.
+- Upload the book to a private storage bucket.
+- A request with a valid email gets a fresh, time-limited link (7 days) emailed to them.
+- If they lose it, re-entering the same email sends a new link rather than creating a duplicate contact.
 
-**Fix:** Change to "Join 10,000+ users managing their money smarter" to tie into the stats section below.
+## 2. A dedicated ebook page — `/ebook`
 
----
+A real page, not just a form in a strip. This is the page that gets shared, linked and ranked.
 
-### 3. StatsCounter
-**Issue: "4.9" star rating doesn't animate**
-The rating value is rendered as a static `<span>{stat.value}</span>` instead of using the `Counter` component. This looks inconsistent since the other three stats animate.
+Contents:
+- Headline built on the book's own promise: "Thirty seconds a day. A practical guide to knowing where your money goes."
+- Cover image plus a short "what's inside" list drawn from the contents page (12 chapters, 6 worksheets, glossary, 30-day plan).
+- Three chapter teasers, including the "$340 She Couldn't Account For" case study — a real excerpt does more than a feature list.
+- Email form with explicit consent, then a confirmation state telling them to check their inbox.
+- Below the form: link to the free calculators and a soft "or just start using it free" CTA to the app.
 
-**Fix:** Use the `Counter` component for the rating too, with a target of `4.9` and a decimal-aware formatter, or display it with a fade-in effect to match the others.
+The page is added to the shared route list so it is prerendered, in the sitemap, and carries its own title, description, social image and Book structured data.
 
----
+## 3. Where the book is offered across the site
 
-### 4. Features Section (12 cards)
-**Issue: 12 cards in a 4-column grid is overwhelming**
-Users see a 4x3 wall of cards. This causes decision fatigue and makes each feature feel less important.
+| Placement | What changes |
+|---|---|
+| Newsletter section (homepage) | Reframed from "stay in the loop" to "get the free 60-page guide" — same form, far stronger reason to enter an email. Newsletter consent stays attached. |
+| Blog articles | A compact inline offer under each article, since blog readers are already reading about this exact topic. |
+| Calculator pages | A one-line offer under each result: the book has a chapter on the thing they just calculated (50/30/20, debt payoff, emergency fund, compound growth). |
+| Navbar / Footer | "Free Guide" link to `/ebook`. |
+| Exit-intent / sticky bar | Second variant of the sticky bar offering the book to visitors who scrolled past pricing without converting. |
+| App signup | A stable, shareable endpoint the app can call so every new account is emailed the book on day one. Requires one small change in the app project — noted below as a dependency. |
 
-**Fix:** Show only the top 6-8 features by default and add a "Show all features" toggle/button to expand the rest. This keeps the section scannable while still showing depth.
+## 4. The 30-day email sequence
 
----
+Five emails, mapped to the book's own structure so each one has a concrete action the reader can take in minutes.
 
-### 5. UseCases Section
-**Issue: "Start Free Trial" link text repeats for every persona card**
-All four persona cards end with the same "Start Free Trial" CTA link. This is redundant when there's already a global CTA. It also competes with the primary CTA.
+| When | Subject focus | Ask |
+|---|---|---|
+| Day 0 | Here's your book + the setup checklist | Download, create a free account |
+| Day 2 | The Weekend Audit (Ch. 1) — the $340 story | Log one day of spending |
+| Day 7 | Build a budget from real data (Ch. 3–4) | Use the 50/30/20 calculator, then build the real thing in the app |
+| Day 14 | Snowball vs avalanche (Ch. 7) / emergency fund (Ch. 8) | Compare payoff strategies |
+| Day 30 | The Day 30 review (Ch. 12) | Record a net worth snapshot; trial-to-paid nudge |
 
-**Fix:** Change the per-card CTA to "Learn more" or remove it entirely, since the surrounding sections already have strong CTAs.
+Sending is driven by a scheduled job that wakes up regularly, picks up contacts whose next email is due, sends it and advances them a stage. Every email carries an unsubscribe link that stops the sequence immediately, and links into the app are tagged so you can see which email produced signups.
 
----
+## 5. Measurement
 
-### 6. Comparison Table
-**Issue: "Other Apps" column is too vague**
-The comparison column says "Other Apps" with no specificity. Users may find this unconvincing without knowing what apps are being compared.
-
-**Fix:** Rename to "Mint, YNAB, etc." or keep "Other Apps" but add a footnote: "Based on feature comparison with popular finance apps."
-
----
-
-### 7. Testimonials Carousel
-**Issue: "500+ reviews" claim with no source**
-The header says "4.9/5 from 500+ reviews" but there's no link to where these reviews live. This can hurt credibility.
-
-**Fix:** Either link this to a real review source, or soften the language to "from our user community" if reviews aren't on a third-party platform.
-
----
-
-### 8. Security Section
-**Issue: Repeats Trust Badges content**
-The TrustBadges section (near the top) already mentions "256-bit Encryption", "Your Data, Secured", and "GDPR Compliant". The Security section lower down repeats the exact same points. This is redundant.
-
-**Fix:** Remove the TrustBadges section entirely and let the Security section handle privacy/security messaging. Replace TrustBadges with social proof (e.g., "Trusted by 10,000+ users" or logos).
+Events for: ebook page view, email submitted, email delivered, link clicked, download opened, and app signup attributed to an ebook email. This answers whether the book earns its place or just sits there.
 
 ---
 
-### 9. Pricing Section
-**Issue A: All three plans say "Start Free Trial"**
-Every button says "Start Free Trial" which makes the Monthly and Annual plans confusing -- users might think clicking any of them starts the same free trial.
+## Technical details
 
-**Fix:** Use "Start Free Trial" only on the Free Trial plan. Use "Choose Monthly" and "Choose Annual" for the paid plans.
+**Storage:** private Supabase Storage bucket `ebook`; the PDF uploaded once. Signed URLs (7 day TTL) minted server-side per request. No public bucket, no file committed to the repo.
 
-**Issue B: Free Trial and Monthly buttons are secondary-styled**
-The Free Trial and Monthly CTAs use `bg-secondary` which looks muted and unclickable on the dark theme. Only the Annual plan has a primary-styled button.
+**Data:** new table `public.ebook_leads` — `id`, `email` (unique, citext-lowered), `source` (page/blog/calculator/app_signup), `drip_stage` (int, default 0), `next_send_at` (timestamptz), `unsubscribed_at`, `confirmed_at`, `created_at`, plus an `unsubscribe_token` (uuid). RLS enabled with no anon/authenticated policies; `GRANT ALL ... TO service_role` only — all access is through edge functions. Newsletter subscribers continue to go to `waitlist`; a lead who ticks the newsletter box gets a row in both.
 
-**Fix:** Make the Free Trial button primary-styled too since it's the entry point. Keep Monthly as secondary.
+**Edge functions:**
+- `send-ebook` — POST `{ email, source }`. Reuses `_shared/security.ts` (`corsFor`, `isValidEmail`, `withinRateLimit`, `serviceClient`) exactly as `send-newsletter-email` does. Upserts the lead, mints a signed URL, sends the Day 0 email via Resend from `info@gosafespend.com`, sets `drip_stage = 1` and `next_send_at = now() + 2 days`. Returns `{ success }` only — never echoes state that would let it be used to probe addresses.
+- `send-ebook-drip` — invoked by `pg_cron` (hourly). Selects due, non-unsubscribed leads in small batches, sends the stage email, advances stage and `next_send_at`, stops after stage 5.
+- `ebook-unsubscribe` — GET with token, sets `unsubscribed_at`, returns a simple confirmation page.
+- Email HTML lives in `supabase/functions/_shared/ebook-emails.ts` so the two senders share templates. No PII in logs, per project policy.
 
----
+**Frontend:**
+- `src/pages/Ebook.tsx`, lazy-routed in `App.tsx`; entry added to `scripts/routes.mts` so sitemap and prerender pick it up.
+- `src/components/shared/EbookOffer.tsx` — one form component with `variant="page" | "inline" | "compact"`, used by the ebook page, blog articles, calculators and the reworked homepage section. Zod email validation, consent checkbox, live-region announcements, 44px targets — matching the existing newsletter component.
+- `src/components/seo/BookSchema.tsx` for structured data.
+- Cover image generated to `src/assets/` and reused for the page and the `/ebook` social card.
 
-### 10. FAQ Section
-**Issue: Missing "general" category tab**
-The `categories` array defines "all", "security", "pricing", and "features" tabs, but the FAQ data includes items with `category: "general"`. These items show up under "All" but there's no dedicated "General" tab, making the category filter incomplete.
+**Dependency outside this project:** emailing the book automatically at account creation needs the app at `app.gosafespend.com` to call `send-ebook` after signup. This plan builds and documents that endpoint; the call itself has to be added in the app project.
 
-**Fix:** Add a "General" category tab, or re-categorize "What makes Safe Spend different?" into "features".
-
----
-
-### 11. FinalCTA Section
-**Issue: No gradient text in the heading**
-Every other section heading uses the gradient text effect for emphasis, but the FinalCTA heading is plain. It looks visually disconnected from the rest of the page.
-
-**Fix:** Already has `gradient-text` on "Starts Today" -- actually this is fine on re-inspection. No change needed.
-
----
-
-### 12. Footer
-**Issue A: "Studily" and "Humanize AI Text" in the Tools column**
-These are external third-party links that feel out of place among Safe Spend's own financial tools. Users would find it confusing to see unrelated products in the footer.
-
-**Fix:** Move these external links to a separate "Partners" section or remove them from the main footer.
-
-**Issue B: Product links use `/${link.href}` which creates broken URLs**
-Line 99 creates URLs like `/%23features` instead of `/#features` due to prepending `/` to `#features`.
-
-**Fix:** Remove the `/` prefix from the `href` attribute -- use `link.href` directly.
-
----
-
-### 13. StickyWaitlistBar
-**Issue: Bar text says "Ready to take control of your finances?" -- not visible on mobile**
-The prompt text has `hidden sm:block`, so on mobile users only see a "Start Free Trial" button with no context about why it's there.
-
-**Fix:** Show a shortened version on mobile, e.g., "Try Safe Spend free" without `hidden sm:block`.
-
----
-
-### 14. Performance & Copy Issues
-
-**Issue A: `APP_URL` is defined in 6+ separate files**
-`Hero.tsx`, `Navbar.tsx`, `UseCases.tsx`, `Pricing.tsx`, `FinalCTA.tsx`, `StickyWaitlistBar.tsx`, and `Footer.tsx` all define `const APP_URL = "https://app.gosafespend.com"` independently. If the URL changes, all files need updating.
-
-**Fix:** Create a shared constant in `src/lib/constants.ts` and import from there.
-
-**Issue B: Duplicate animations from both `useScrollAnimation` and `framer-motion whileInView`**
-Multiple sections (Features, UseCases, StatsCounter, etc.) use BOTH the custom `useScrollAnimation` hook for CSS transitions AND `framer-motion`'s `whileInView` on individual cards. This means two separate IntersectionObserver instances are running for the same content, creating redundant work.
-
-**Fix:** Standardize on one approach. Use `framer-motion` `whileInView` only (it's more capable), and remove the `useScrollAnimation` hook from sections that already use framer-motion per-card.
-
----
-
-## Summary of Changes
-
-| File | Change |
-|------|--------|
-| `src/lib/constants.ts` | New file -- export `APP_URL` |
-| `src/components/landing/Navbar.tsx` | Add "Pricing" nav item |
-| `src/components/landing/Hero.tsx` | Update badge text, add secondary CTA button |
-| `src/components/landing/Features.tsx` | Show 8 features with "Show all" toggle |
-| `src/components/landing/UseCases.tsx` | Change per-card CTA to "Learn more" |
-| `src/components/landing/Pricing.tsx` | Differentiate button text per plan, fix Free Trial button styling |
-| `src/components/landing/FAQ.tsx` | Re-categorize "general" FAQ items into "features" |
-| `src/components/landing/Footer.tsx` | Fix product link href bug, move external links to "Partners" |
-| `src/components/landing/StickyWaitlistBar.tsx` | Show short text on mobile |
-| Multiple files | Import `APP_URL` from shared constants |
-
-No new dependencies required. All changes use existing packages.
-
+**Not included:** web-readable chapter pages (agreed to keep it PDF-only for now) — the route and schema are structured so chapters can be added later without rework.
