@@ -11,8 +11,10 @@ const ALLOWED_ORIGINS = new Set([
   "https://www.gosafespend.com",
 ]);
 
-// Allow localhost during local development only.
+// Allow localhost during local development, and the Lovable preview host so
+// forms can be exercised before a change is published.
 const DEV_ORIGIN = /^http:\/\/localhost:\d+$/;
+const PREVIEW_ORIGIN = /^https:\/\/[a-z0-9-]+\.lovable\.app$/;
 
 const BASE_CORS_HEADERS = {
   "Access-Control-Allow-Headers":
@@ -29,7 +31,11 @@ const BASE_CORS_HEADERS = {
  */
 export function corsFor(req: Request): Record<string, string> | null {
   const origin = req.headers.get("Origin") ?? "";
-  if (ALLOWED_ORIGINS.has(origin) || DEV_ORIGIN.test(origin)) {
+  if (
+    ALLOWED_ORIGINS.has(origin) ||
+    DEV_ORIGIN.test(origin) ||
+    PREVIEW_ORIGIN.test(origin)
+  ) {
     return { ...BASE_CORS_HEADERS, "Access-Control-Allow-Origin": origin };
   }
   return null;

@@ -721,6 +721,45 @@ export type Database = {
           },
         ]
       }
+      ebook_leads: {
+        Row: {
+          created_at: string
+          drip_stage: number
+          email: string
+          id: string
+          last_sent_at: string | null
+          next_send_at: string | null
+          source: string
+          unsubscribe_token: string
+          unsubscribed_at: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          drip_stage?: number
+          email: string
+          id?: string
+          last_sent_at?: string | null
+          next_send_at?: string | null
+          source?: string
+          unsubscribe_token?: string
+          unsubscribed_at?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          drip_stage?: number
+          email?: string
+          id?: string
+          last_sent_at?: string | null
+          next_send_at?: string | null
+          source?: string
+          unsubscribe_token?: string
+          unsubscribed_at?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       expenses: {
         Row: {
           account_id: string | null
