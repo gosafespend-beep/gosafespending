@@ -1386,6 +1386,24 @@ export type Database = {
           },
         ]
       }
+      rate_limit_hits: {
+        Row: {
+          created_at: string
+          id: number
+          key: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          key: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          key?: string
+        }
+        Relationships: []
+      }
       recurring_transactions: {
         Row: {
           account_id: string | null
@@ -3051,6 +3069,10 @@ export type Database = {
         Returns: number
       }
       can_write: { Args: { _uid: string }; Returns: boolean }
+      check_rate_limit: {
+        Args: { p_key: string; p_limit: number; p_window?: string }
+        Returns: boolean
+      }
       delete_account_cascade: {
         Args: { p_account_id: string }
         Returns: undefined
