@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { ArrowRight, PiggyBank, ShoppingBag, Home } from "lucide-react";
 import { BudgetCalculatorSchema } from "@/components/seo/BudgetCalculatorSchema";
 import { ExploreMoreTools } from "@/components/shared/ExploreMoreTools";
+import { EbookOffer } from "@/components/shared/EbookOffer";
 import { FinancialDisclaimer } from "@/components/shared/FinancialDisclaimer";
 import { CtaLink } from "@/components/ui/CtaLink";
 
@@ -95,6 +96,8 @@ const BudgetCalculator = () => {
             })}
           </div>
         )}
+
+        <EbookOffer source="calculator" variant="compact" className="mb-8" />
 
         <ExploreMoreTools currentPath="/tools/budget-calculator" />
 

@@ -13,7 +13,7 @@ import { Pricing } from "@/components/landing/Pricing";
 import { FAQ } from "@/components/landing/FAQ";
 import { FinalCTA } from "@/components/landing/FinalCTA";
 import { FreeTools } from "@/components/landing/FreeTools";
-import { NewsletterSignup } from "@/components/landing/NewsletterSignup";
+import { EbookOffer } from "@/components/shared/EbookOffer";
 import { Footer } from "@/components/landing/Footer";
 import { StickyWaitlistBar } from "@/components/landing/StickyWaitlistBar";
 import { SEOHead } from "@/components/seo/SEOHead";
@@ -59,7 +59,11 @@ const Index = () => {
         <FAQ />
         <FinalCTA />
         <FreeTools />
-        <NewsletterSignup />
+        {/*
+          Replaces the bare newsletter strip: the same email field, but with
+          something concrete in exchange for the address.
+        */}
+        <EbookOffer source="homepage" variant="section" />
       </main>
       <Footer />
       <StickyWaitlistBar />

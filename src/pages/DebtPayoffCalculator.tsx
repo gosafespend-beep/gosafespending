@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { ArrowRight, Zap, Snowflake, Calendar, DollarSign } from "lucide-react";
 import { DebtPayoffSchema } from "@/components/seo/DebtPayoffSchema";
 import { ExploreMoreTools } from "@/components/shared/ExploreMoreTools";
+import { EbookOffer } from "@/components/shared/EbookOffer";
 import { FinancialDisclaimer } from "@/components/shared/FinancialDisclaimer";
 import { CtaLink } from "@/components/ui/CtaLink";
 import { calcPayoff } from "@/lib/finance";
@@ -207,6 +208,8 @@ const DebtPayoffCalculator = () => {
             )}
           </div>
         )}
+
+        <EbookOffer source="calculator" variant="compact" className="mb-8" />
 
         <ExploreMoreTools currentPath="/tools/debt-payoff-calculator" />
 
