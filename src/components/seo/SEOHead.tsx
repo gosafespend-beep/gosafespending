@@ -26,6 +26,10 @@ const pageMetadata: Record<string, { title: string; description: string }> = {
     title: "About Us - Safe Spend",
     description: "Learn about Safe Spend's mission to make personal finance simple, private, and accessible for everyone.",
   },
+  "/ebook": {
+    title: "Free Book: Thirty Seconds a Day - Safe Spend",
+    description: "Get the free 53-page guide to knowing where your money goes: 12 chapters, 6 worksheets and a 30-day plan. No card, no bank login — just an email.",
+  },
   "/blog": {
     title: "Blog - Safe Spend",
     description: "Tips, guides, and insights on budgeting, saving, and managing your money. Learn smart personal finance strategies.",

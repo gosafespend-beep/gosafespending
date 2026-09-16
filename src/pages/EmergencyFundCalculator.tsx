@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { ArrowRight, Shield, Target, Clock, Wallet } from "lucide-react";
 import { EmergencyFundSchema } from "@/components/seo/EmergencyFundSchema";
 import { ExploreMoreTools } from "@/components/shared/ExploreMoreTools";
+import { EbookOffer } from "@/components/shared/EbookOffer";
 import { FinancialDisclaimer } from "@/components/shared/FinancialDisclaimer";
 import { CtaLink } from "@/components/ui/CtaLink";
 
@@ -108,6 +109,8 @@ const EmergencyFundCalculator = () => {
             )}
           </div>
         )}
+
+        <EbookOffer source="calculator" variant="compact" className="mb-8" />
 
         <ExploreMoreTools currentPath="/tools/emergency-fund-calculator" />
 

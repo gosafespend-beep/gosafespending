@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { ArrowRight, TrendingUp, DollarSign, Calendar, Percent } from "lucide-react";
 import { CompoundInterestSchema } from "@/components/seo/CompoundInterestSchema";
 import { ExploreMoreTools } from "@/components/shared/ExploreMoreTools";
+import { EbookOffer } from "@/components/shared/EbookOffer";
 import { FinancialDisclaimer } from "@/components/shared/FinancialDisclaimer";
 import { CtaLink } from "@/components/ui/CtaLink";
 
@@ -120,6 +121,8 @@ const CompoundInterestCalculator = () => {
             )}
           </div>
         )}
+
+        <EbookOffer source="calculator" variant="compact" className="mb-8" />
 
         <ExploreMoreTools currentPath="/tools/compound-interest-calculator" />
 

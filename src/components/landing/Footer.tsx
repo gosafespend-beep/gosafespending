@@ -15,6 +15,7 @@ const footerLinks = {
   company: [
     { label: "About", href: "/about", isRoute: true },
     { label: "Blog", href: "/blog", isRoute: true },
+    { label: "Free Book", href: "/ebook", isRoute: true },
     { label: "Contact", href: "/contact", isRoute: true },
   ],
   tools: [

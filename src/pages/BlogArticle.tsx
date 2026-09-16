@@ -5,6 +5,7 @@ import { LegalLayout } from "@/components/legal/LegalLayout";
 import { ArticleContent } from "@/components/blog/ArticleContent";
 import { ShareButtons } from "@/components/blog/ShareButtons";
 import { RelatedPosts } from "@/components/blog/RelatedPosts";
+import { EbookOffer } from "@/components/shared/EbookOffer";
 import { BlogArticleSchema } from "@/components/seo/BlogArticleSchema";
 import { SEOHead } from "@/components/seo/SEOHead";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -217,6 +218,11 @@ const BlogArticle = () => {
                 )}
               </div>
             )}
+
+            {/* Free book */}
+            <div className="mt-12">
+              <EbookOffer source="blog" variant="compact" />
+            </div>
 
             {/* Share */}
             <div className="mt-12 pt-8 border-t border-border">

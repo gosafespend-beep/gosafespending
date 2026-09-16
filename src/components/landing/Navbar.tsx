@@ -15,6 +15,7 @@ const navItems = [
 
 const pageLinks = [
   { path: "/tools/budget-calculator", label: "Tools" },
+  { path: "/ebook", label: "Free Book" },
 ];
 
 export const Navbar = () => {
