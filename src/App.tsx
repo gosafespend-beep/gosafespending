@@ -30,6 +30,7 @@ const Contact = lazy(() => import("./pages/Contact"));
 const About = lazy(() => import("./pages/About"));
 const Blog = lazy(() => import("./pages/Blog"));
 const BlogArticle = lazy(() => import("./pages/BlogArticle"));
+const Ebook = lazy(() => import("./pages/Ebook"));
 const BudgetCalculator = lazy(() => import("./pages/BudgetCalculator"));
 const CompoundInterestCalculator = lazy(
   () => import("./pages/CompoundInterestCalculator"),
@@ -87,6 +88,7 @@ const App = () => (
             <Route path="/about" element={<About />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:slug" element={<BlogArticle />} />
+            <Route path="/ebook" element={<Ebook />} />
             <Route path="/tools/budget-calculator" element={<BudgetCalculator />} />
             <Route
               path="/tools/compound-interest-calculator"
