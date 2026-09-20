@@ -721,6 +721,33 @@ export type Database = {
           },
         ]
       }
+      ebook_events: {
+        Row: {
+          created_at: string
+          email: string | null
+          event: string
+          id: number
+          source: string | null
+          user_agent: string | null
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          event: string
+          id?: never
+          source?: string | null
+          user_agent?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          event?: string
+          id?: never
+          source?: string | null
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
       ebook_leads: {
         Row: {
           created_at: string
@@ -2996,6 +3023,7 @@ export type Database = {
           source: string
         }[]
       }
+      admin_ebook_stats: { Args: { p_days?: number }; Returns: Json }
       admin_event_funnel: { Args: never; Returns: Json }
       admin_event_timeseries: {
         Args: { p_days?: number }
@@ -3107,6 +3135,7 @@ export type Database = {
         }
         Returns: string
       }
+      get_public_blog_settings: { Args: never; Returns: Json }
       get_waitlist_count: { Args: never; Returns: number }
       has_role: {
         Args: {
