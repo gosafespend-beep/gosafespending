@@ -8,13 +8,11 @@ import { CtaLink } from "@/components/ui/CtaLink";
 
 const navItems = [
   { id: "features", label: "Features" },
-  { id: "pricing", label: "Pricing" },
   { id: "how-it-works", label: "How it Works" },
   { id: "faq", label: "FAQ" },
 ];
 
 const pageLinks = [
-  { path: "/tools/budget-calculator", label: "Tools" },
   { path: "/ebook", label: "Free Book" },
 ];
 
