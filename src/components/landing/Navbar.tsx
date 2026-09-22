@@ -155,16 +155,6 @@ export const Navbar = () => {
                   {link.label}
                 </a>
               ))}
-              {/* Returning users previously had no way in: every link on the
-                  site pointed at "Start Free Trial", which reads like it will
-                  start a new one. That bounced the highest-intent traffic. */}
-              <CtaLink
-                location="nav_login"
-                path="/login"
-                className="ml-4 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-              >
-                Log in
-              </CtaLink>
               <Button
                 asChild
                 className="ml-3 bg-primary hover:bg-primary/90 text-primary-foreground btn-ripple"
@@ -261,7 +251,7 @@ export const Navbar = () => {
             </motion.a>
           ))}
           <motion.div
-            className="flex flex-col gap-2 mt-2"
+            className="mt-2"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: isOpen ? 1 : 0, y: isOpen ? 0 : 10 }}
             transition={{ delay: 0.2 }}
@@ -271,11 +261,6 @@ export const Navbar = () => {
               className="w-full bg-primary hover:bg-primary/90 text-primary-foreground min-h-[44px]"
             >
               <CtaLink location="nav_mobile">Start free</CtaLink>
-            </Button>
-            <Button asChild variant="outline" className="w-full min-h-[44px]">
-              <CtaLink location="nav_login" path="/login">
-                Log in
-              </CtaLink>
             </Button>
           </motion.div>
         </div>
