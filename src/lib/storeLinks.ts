@@ -8,11 +8,12 @@
  *  - Google Play forwards the `referrer` parameter to the installed app via the
  *    Install Referrer API, and shows it in Play Console acquisition reports.
  *  - The App Store ignores arbitrary query parameters. `ct` (campaign token)
- *    only reports in App Analytics when paired with a provider token (`pt`),
- *    so it is attached here but needs a `pt` to show up.
+ *    reports in App Store Connect > Analytics > Campaigns only when paired
+ *    with the account's provider token (`pt`); Apple shows a campaign once at
+ *    least 5 distinct Apple Accounts have installed through it.
  */
 
-import { ANDROID_STORE_URL, IOS_STORE_URL } from "./constants";
+import { ANDROID_STORE_URL, IOS_PROVIDER_TOKEN, IOS_STORE_URL } from "./constants";
 
 export type Store = "ios" | "android";
 export type MobileOS = Store | "other";
@@ -61,6 +62,7 @@ export function storeUrl(store: Store, location: StoreLocation): string {
   }
 
   const url = new URL(IOS_STORE_URL);
+  url.searchParams.set("pt", IOS_PROVIDER_TOKEN);
   url.searchParams.set("ct", `landing_${location}`);
   url.searchParams.set("mt", "8");
   return url.toString();

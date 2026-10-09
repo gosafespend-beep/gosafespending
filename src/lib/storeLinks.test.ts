@@ -39,6 +39,7 @@ describe("storeUrl", () => {
     expect(url.hostname).toBe("apps.apple.com");
     expect(url.pathname).toBe("/app/id6796527654");
     expect(url.searchParams.get("ct")).toBe("landing_pricing");
+    expect(url.searchParams.get("pt")).toBe("129244800");
   });
 });
 
