@@ -1,13 +1,12 @@
 import { Navbar } from "@/components/landing/Navbar";
 import { Hero } from "@/components/landing/Hero";
-import { AppPreview } from "@/components/landing/AppPreview";
-import { StatsCounter } from "@/components/landing/StatsCounter";
-import { Features } from "@/components/landing/Features";
-import { UseCases } from "@/components/landing/UseCases";
+import { ProofStrip } from "@/components/landing/ProofStrip";
+import { SafeToSpendDemo } from "@/components/landing/SafeToSpendDemo";
 import { ProblemSection } from "@/components/landing/ProblemSection";
+import { FeatureShowcase } from "@/components/landing/FeatureShowcase";
+import { UseCases } from "@/components/landing/UseCases";
 import { HowItWorks } from "@/components/landing/HowItWorks";
 import { Comparison } from "@/components/landing/Comparison";
-import { TestimonialsCarousel } from "@/components/landing/TestimonialsCarousel";
 import { SecuritySection } from "@/components/landing/SecuritySection";
 import { Pricing } from "@/components/landing/Pricing";
 import { FAQ } from "@/components/landing/FAQ";
@@ -19,21 +18,16 @@ import { StickyWaitlistBar } from "@/components/landing/StickyWaitlistBar";
 import { SEOHead } from "@/components/seo/SEOHead";
 
 /*
- * Section order follows two rules from the audit: product before claims, and
- * self-identification before feature enumeration.
+ * Section order: promise -> proof -> the one idea -> the objection -> the
+ * product -> who it is for -> how it works -> comparison -> trust -> price ->
+ * questions -> close.
  *
- * Changes from the previous order:
- *  - TrustBadges removed. It rendered the same four statistics as StatsCounter
- *    immediately before it -- a duplicate section costing a full viewport of
- *    scroll before any product was shown.
- *  - AppPreview moved to second, so the first product visual arrives before
- *    two viewports of claims instead of after them.
- *  - UseCases moved to third. It holds the best copy on the page (four
- *    audiences, pain-first) and was sitting in position six.
- *  - ProblemSection added, naming the bank-connection objection explicitly so
- *    the rest of the page has something to answer.
- *  - FreeTools added: four high-intent calculators previously reachable only
- *    through a footer column.
+ * Replaced in this pass: the statistics row and the testimonial carousel
+ * (their figures and quotes could not be substantiated; ProofStrip states only
+ * checkable facts instead), the generic web-dashboard mockup (the hero and
+ * FeatureShowcase now show the phone app), and the twelve-card feature grid.
+ * Add real ratings and testimonials back to ProofStrip / a new section only
+ * when they come from the store listings or from users who agreed to be quoted.
  */
 const Index = () => {
   return (
@@ -46,23 +40,18 @@ const Index = () => {
       <Navbar />
       <main id="main">
         <Hero />
-        <AppPreview />
-        <UseCases />
+        <ProofStrip />
+        <SafeToSpendDemo />
         <ProblemSection />
-        <Features />
+        <FeatureShowcase />
+        <UseCases />
         <HowItWorks />
         <Comparison />
-        <StatsCounter />
-        <TestimonialsCarousel />
         <SecuritySection />
         <Pricing />
         <FAQ />
         <FinalCTA />
         <FreeTools />
-        {/*
-          Replaces the bare newsletter strip: the same email field, but with
-          something concrete in exchange for the address.
-        */}
         <EbookOffer source="homepage" variant="section" />
       </main>
       <Footer />

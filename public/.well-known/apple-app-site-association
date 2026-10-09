@@ -1,0 +1,11 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["VWXKTW7K2H.com.safespend.ios"],
+        "components": [{ "/": "/open/*", "comment": "Reserved for future in-app links" }]
+      }
+    ]
+  },
+  "webcredentials": { "apps": ["VWXKTW7K2H.com.safespend.ios"] }
+}

@@ -77,6 +77,7 @@ export type CtaLocation =
   | "pricing"
   | "sticky_bar"
   | "final_cta"
+  | "download_page"
   | "how_it_works"
   | "tool_budget"
   | "tool_compound"

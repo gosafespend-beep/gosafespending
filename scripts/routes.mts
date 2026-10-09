@@ -13,6 +13,7 @@ export const STATIC_ROUTES = [
   { path: "/blog", changefreq: "weekly", priority: "0.8" },
   { path: "/contact", changefreq: "monthly", priority: "0.7" },
   { path: "/ebook", changefreq: "monthly", priority: "0.9" },
+  { path: "/download", changefreq: "monthly", priority: "0.9" },
   { path: "/tools/budget-calculator", changefreq: "monthly", priority: "0.9" },
   { path: "/tools/compound-interest-calculator", changefreq: "monthly", priority: "0.9" },
   { path: "/tools/debt-payoff-calculator", changefreq: "monthly", priority: "0.9" },

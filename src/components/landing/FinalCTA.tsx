@@ -1,5 +1,7 @@
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { StoreBadges } from "@/components/ui/StoreBadges";
+import { DownloadQr } from "./DownloadQr";
 import { motion } from "framer-motion";
 import { CtaLink } from "@/components/ui/CtaLink";
 
@@ -27,10 +29,8 @@ export const FinalCTA = () => {
         {/* "Your Financial Future Starts Today" was aspirational filler. This
             closes on the three removed frictions plus the concrete outcome. */}
         <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-6">
-          Seven days. No card. No bank login.{" "}
-          <span className="gradient-text">
-            See where your money actually goes.
-          </span>
+          Find out what's safe to spend today.{" "}
+          <span className="gradient-text">No bank login required.</span>
         </h2>
 
         <ul className="flex flex-col gap-3 mb-8 max-w-md mx-auto">
@@ -42,19 +42,25 @@ export const FinalCTA = () => {
           ))}
         </ul>
 
+        <StoreBadges location="final_cta" size="lg" align="center" className="mb-6" />
+
+        <div className="hidden lg:flex justify-center mb-6">
+          <DownloadQr size={104} caption="On a computer? Scan to get the app" />
+        </div>
+
         <Button
           asChild
-          size="lg"
-          className="h-14 px-10 text-lg bg-primary hover:bg-primary/90 text-primary-foreground btn-ripple"
+          variant="ghost"
+          className="text-muted-foreground hover:text-foreground"
         >
           <CtaLink location="final_cta">
-            Try Safe Spend Free
-            <ArrowRight className="ml-2 h-5 w-5" aria-hidden="true" />
+            Or use Safe Spend on the web
+            <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
           </CtaLink>
         </Button>
 
-        <p className="mt-4 text-sm text-muted-foreground">
-          No credit card required. 7-day free trial.
+        <p className="mt-2 text-sm text-muted-foreground">
+          Free to download. Try it before you pay.
         </p>
       </motion.div>
     </section>

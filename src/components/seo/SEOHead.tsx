@@ -30,6 +30,10 @@ const pageMetadata: Record<string, { title: string; description: string }> = {
     title: "Free Book: Thirty Seconds a Day - Safe Spend",
     description: "Get the free 53-page guide to knowing where your money goes: 12 chapters, 6 worksheets and a 30-day plan. No card, no bank login — just an email.",
   },
+  "/download": {
+    title: "Download Safe Spend for iPhone and Android",
+    description: "Get Safe Spend free on the App Store and Google Play. See what's safe to spend today, track expenses in seconds and plan ahead — no bank login required.",
+  },
   "/blog": {
     title: "Blog - Safe Spend",
     description: "Tips, guides, and insights on budgeting, saving, and managing your money. Learn smart personal finance strategies.",

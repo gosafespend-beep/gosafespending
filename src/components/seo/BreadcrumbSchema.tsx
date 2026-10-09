@@ -8,6 +8,7 @@ const breadcrumbNames: Record<string, string> = {
   "/contact": "Contact",
   "/about": "About",
   "/blog": "Blog",
+  "/download": "Download",
   "/tools/budget-calculator": "Budget Calculator",
   "/privacy-policy": "Privacy Policy",
   "/terms-of-service": "Terms of Service",

@@ -1,5 +1,6 @@
 import { UserPlus, LineChart, Receipt } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { CtaLink } from "@/components/ui/CtaLink";
+import { StoreBadges } from "@/components/ui/StoreBadges";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
@@ -18,18 +19,18 @@ const steps = [
   {
     icon: UserPlus,
     step: "01",
-    title: "Start without handing over anything",
+    title: "Install it. Connect nothing.",
     description:
-      "No bank login, no card, no account numbers. An email address and a password is the whole setup, and you're looking at your first budget in under two minutes.",
-    details: ["No bank connection", "No card for the trial", "Nothing to revoke later"],
+      "Download the app, sign up with your email and add what you have right now. No bank login, no account numbers — and you're looking at your first Safe to Spend number in about two minutes.",
+    details: ["No bank connection", "Free to download", "Nothing to revoke later"],
   },
   {
     icon: Receipt,
     step: "02",
     title: "Log what you spend, in seconds",
     description:
-      "Type an amount and a word or two. Safe Spend suggests the category from your description and your past spending, so most entries are two taps — and recurring bills log themselves.",
-    details: ["About 30 seconds a day", "AI suggests the category", "Recurring bills automated"],
+      "Type an amount and a word or two, snap a receipt, or import a statement. Safe Spend suggests the category, so most entries are two taps — and recurring bills log themselves.",
+    details: ["About 30 seconds a day", "Receipts and statements", "Recurring bills automated"],
   },
   {
     icon: LineChart,
@@ -164,15 +165,13 @@ export const HowItWorks = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <Button
-            asChild
-            size="lg"
-            className="h-12 px-8 text-base bg-primary hover:bg-primary/90 text-primary-foreground btn-ripple"
-          >
-            <a href="https://app.gosafespend.com">
-              Start Your Free Trial
-            </a>
-          </Button>
+          <StoreBadges location="features" size="lg" align="center" />
+          <p className="mt-3 text-sm text-muted-foreground">
+            Prefer a browser?{" "}
+            <CtaLink location="how_it_works" className="text-primary underline-offset-4 hover:underline">
+              Use the web app
+            </CtaLink>
+          </p>
         </motion.div>
       </div>
     </section>

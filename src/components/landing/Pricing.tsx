@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Check, ArrowRight, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CtaLink } from "@/components/ui/CtaLink";
+import { StoreBadges } from "@/components/ui/StoreBadges";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { motion } from "framer-motion";
 import { track } from "@/lib/analytics";
@@ -35,7 +36,9 @@ const features = [
   "Net worth tracking and reports",
   "Bill reminders and recurring transactions",
   "PDF and CSV exports",
-  "Works offline (PWA)",
+  "iPhone, iPad, Android and web with one account",
+  "Receipt scanning and statement import",
+  "AI money coach",
 ];
 
 export const Pricing = () => {
@@ -69,8 +72,9 @@ export const Pricing = () => {
           {/* Anchored against the exact waste the product is designed to
               surface, rather than left to compete with free spreadsheets. */}
           <p className="text-lg text-muted-foreground">
-            ${MONTHLY_PRICE} a month — less than one subscription you forgot you
-            were paying for. Seven days free, no card, cancel anytime.
+            One plan, two ways to pay: ${MONTHLY_PRICE} a month or ${ANNUAL_PRICE} a
+            year. The app shows the price in your own currency. Try it free
+            before you commit, and cancel anytime.
           </p>
         </div>
 
@@ -127,7 +131,7 @@ export const Pricing = () => {
           <div className="absolute -top-3 left-1/2 -translate-x-1/2">
             <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-primary text-primary-foreground text-xs font-semibold">
               <Sparkles className="h-3 w-3" aria-hidden="true" />
-              Starts with 7 days free
+              Try it free first
             </span>
           </div>
 
@@ -163,14 +167,16 @@ export const Pricing = () => {
             ))}
           </ul>
 
+          <StoreBadges location="pricing" align="center" className="mb-3" />
           <Button
             asChild
-            className="w-full h-12 btn-ripple bg-primary hover:bg-primary/90 text-primary-foreground"
+            variant="outline"
+            className="w-full h-11"
           >
-            {/* Carries the chosen plan through, so the app can preselect it
-                instead of asking the visitor to decide twice. */}
+            {/* Carries the chosen plan through, so the web app can preselect
+                it instead of asking the visitor to decide twice. */}
             <CtaLink location="pricing" plan={billing}>
-              Start free — no card needed
+              Or start on the web
               <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
             </CtaLink>
           </Button>
@@ -184,12 +190,15 @@ export const Pricing = () => {
           transition={{ delay: 0.3 }}
         >
           <p className="text-sm text-muted-foreground">
-            ✨ Cancel anytime · No hidden fees · Nothing charged during the trial
+            Cancel anytime · No hidden fees
           </p>
-          <p className="text-xs text-muted-foreground/70">
-            After the trial your data stays — read-only access until you
-            subscribe, and nothing is ever deleted. Payments via Paystack
-            (cards, bank transfers, mobile money).
+          <p className="text-xs text-muted-foreground/70 max-w-xl mx-auto">
+            Free trials: the web app gives 7 days with no card; on iPhone and
+            Android the 7-day trial comes with the annual plan and is handled
+            by the App Store or Google Play, which also take the payment. After
+            a trial your data stays, read-only, until you subscribe — nothing
+            is deleted. Web payments use Paystack (cards, bank transfer, mobile
+            money).
           </p>
         </motion.div>
       </div>
