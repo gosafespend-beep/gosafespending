@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { motion, useScroll, useSpring } from "framer-motion";
 import { useLocation, useNavigate } from "react-router-dom";
 import logo from "@/assets/logo.webp";
-import { CtaLink } from "@/components/ui/CtaLink";
+import { GetAppButton } from "./GetAppButton";
 
 const navItems = [
   { id: "features", label: "Features" },
@@ -155,12 +155,10 @@ export const Navbar = () => {
                   {link.label}
                 </a>
               ))}
-              <Button
-                asChild
+              <GetAppButton
+                location="nav"
                 className="ml-3 bg-primary hover:bg-primary/90 text-primary-foreground btn-ripple"
-              >
-                <CtaLink location="nav">Start free</CtaLink>
-              </Button>
+              />
             </div>
 
             {/* Mobile Menu Button */}
@@ -256,12 +254,10 @@ export const Navbar = () => {
             animate={{ opacity: isOpen ? 1 : 0, y: isOpen ? 0 : 10 }}
             transition={{ delay: 0.2 }}
           >
-            <Button
-              asChild
+            <GetAppButton
+              location="nav_mobile"
               className="w-full bg-primary hover:bg-primary/90 text-primary-foreground min-h-[44px]"
-            >
-              <CtaLink location="nav_mobile">Start free</CtaLink>
-            </Button>
+            />
           </motion.div>
         </div>
       </motion.div>

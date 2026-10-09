@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import logo from "@/assets/logo.webp";
+import { StoreBadges } from "@/components/ui/StoreBadges";
 
 
 const footerLinks = {
@@ -71,6 +72,8 @@ export const Footer = () => {
               Your personal finance companion. Track expenses, build budgets, crush debt, and grow your savings.
             </p>
             
+            <StoreBadges location="footer" className="mb-6" />
+
             <div className="flex items-center gap-3">
               {socialLinks.map((social) => (
                 <motion.a
@@ -181,16 +184,8 @@ export const Footer = () => {
         <div className="py-6 border-t border-border/50 flex flex-col sm:flex-row justify-between items-center gap-4">
           <div className="text-sm text-muted-foreground text-center sm:text-left">
             <p>© {currentYear} Safe Spend. Your finances, simplified.</p>
-            {/*
-              TODO(LEG-4): replace with the real operating entity, company
-              number and registered address. For a financial product,
-              anonymity is the strongest negative trust signal there is --
-              it is the one thing every scam in the category shares. Left as
-              a placeholder rather than invented, because this has to be
-              accurate.
-            */}
             <p className="text-xs text-muted-foreground/70 mt-1">
-              Operated by [LEGAL ENTITY NAME], [JURISDICTION]. Contact{" "}
+              Questions? Email{" "}
               <a
                 href="mailto:info@gosafespend.com"
                 className="inline-flex items-center min-h-[24px] hover:text-primary transition-colors"

@@ -14,6 +14,7 @@ import { PerformanceOptimizations } from "./components/seo/PerformanceOptimizati
 import { WebSiteSchema } from "./components/seo/WebSiteSchema";
 import { HowToSchema } from "./components/seo/HowToSchema";
 import { SoftwareAppSchema } from "./components/seo/SoftwareAppSchema";
+import { MobileAppSchema } from "./components/seo/MobileAppSchema";
 
 /*
  * Every route used to be imported eagerly, so a homepage visitor downloaded and
@@ -31,6 +32,7 @@ const About = lazy(() => import("./pages/About"));
 const Blog = lazy(() => import("./pages/Blog"));
 const BlogArticle = lazy(() => import("./pages/BlogArticle"));
 const Ebook = lazy(() => import("./pages/Ebook"));
+const Download = lazy(() => import("./pages/Download"));
 const BudgetCalculator = lazy(() => import("./pages/BudgetCalculator"));
 const CompoundInterestCalculator = lazy(
   () => import("./pages/CompoundInterestCalculator"),
@@ -75,6 +77,7 @@ const App = () => (
         <WebSiteSchema />
         <HowToSchema />
         <SoftwareAppSchema />
+        <MobileAppSchema />
         <PerformanceOptimizations />
 
         <Suspense fallback={<RouteFallback />}>
@@ -89,6 +92,7 @@ const App = () => (
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:slug" element={<BlogArticle />} />
             <Route path="/ebook" element={<Ebook />} />
+            <Route path="/download" element={<Download />} />
             <Route path="/tools/budget-calculator" element={<BudgetCalculator />} />
             <Route
               path="/tools/compound-interest-calculator"

@@ -1,9 +1,9 @@
-import { X, ArrowRight } from "lucide-react";
+import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useStickyBar } from "@/hooks/useStickyBar";
 import { motion, AnimatePresence } from "framer-motion";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
-import { CtaLink } from "@/components/ui/CtaLink";
+import { GetAppButton } from "./GetAppButton";
 
 export const StickyWaitlistBar = () => {
   const { showBar, dismissBar } = useStickyBar("hero");
@@ -23,21 +23,17 @@ export const StickyWaitlistBar = () => {
         >
           <div className="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
             <p className="text-sm text-foreground font-medium">
-              <span className="sm:hidden">Try Safe Spend free</span>
-              <span className="hidden sm:inline">Ready to take control of your finances?</span>
+              <span className="sm:hidden">Safe Spend is on iOS &amp; Android</span>
+              <span className="hidden sm:inline">Safe Spend is free to download on iPhone and Android</span>
             </p>
             
             <div className="flex items-center gap-2 flex-1 sm:flex-none justify-end">
-              <Button 
-                asChild
-                size="sm" 
+              <GetAppButton
+                location="sticky_bar"
+                size="sm"
+                label="Get the app"
                 className="whitespace-nowrap btn-ripple"
-              >
-                <CtaLink location="sticky_bar">
-                  Start Free Trial
-                  <ArrowRight className="ml-1 h-3 w-3" aria-hidden="true" />
-                </CtaLink>
-              </Button>
+              />
               <Button
                 type="button"
                 variant="ghost"

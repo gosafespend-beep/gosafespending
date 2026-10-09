@@ -1,123 +1,109 @@
-import { Check, X, Minus } from "lucide-react";
-import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-import { motion } from "framer-motion";
+import { Check, Minus, X } from "lucide-react";
 
-type FeatureStatus = true | false | "partial";
+type Status = "yes" | "partial" | "no";
 
-interface ComparisonRow {
+interface Row {
   feature: string;
-  safeSpend: FeatureStatus;
-  spreadsheets: FeatureStatus;
-  otherApps: FeatureStatus;
+  safeSpend: Status;
+  spreadsheet: Status;
+  bankApps: Status;
 }
 
 /*
- * Comparison rows.
+ * Compares approaches, not named products.
  *
- * The previous table had three problems. It marked "Savings goals tracking"
- * and "Net worth tracking" as only partial for YNAB and Monarch, when
- * goal-based targets are YNAB's central mechanic and both do net worth --
- * claims that are not defensible. It asserted competitors have no data
- * privacy at all, which is comparative advertising you would have to
- * substantiate. And it named Mint, which Intuit shut down in 2024, so
- * informed readers discounted the whole table -- including the rows that are
- * true and genuinely valuable.
- *
- * What remains is only what can be checked against each competitor's current
- * public documentation. The privacy rows win this comparison on their own;
- * every inaccurate row was weakening them.
+ * Naming competitors turns every cell into a claim that has to be checked
+ * against that company's current product, and a table with one stale cell
+ * discredits the rows that are true. These are the properties that follow
+ * from how each kind of tool works, and the table is allowed to lose: bank
+ * apps do import transactions automatically, and Safe Spend does not.
  */
-const rows: ComparisonRow[] = [
-  { feature: "Works without your bank login", safeSpend: true, spreadsheets: true, otherApps: false },
-  { feature: "No third-party data aggregator involved", safeSpend: true, spreadsheets: true, otherApps: false },
-  { feature: "You choose exactly what data exists", safeSpend: true, spreadsheets: true, otherApps: false },
-  { feature: "Free trial without a card", safeSpend: true, spreadsheets: true, otherApps: "partial" },
-  { feature: "Keeps read-only access if you stop paying", safeSpend: true, spreadsheets: true, otherApps: "partial" },
-  { feature: "Dashboard and charts built in", safeSpend: true, spreadsheets: false, otherApps: true },
-  { feature: "AI-assisted categorization", safeSpend: true, spreadsheets: false, otherApps: true },
-  { feature: "Debt payoff planner", safeSpend: true, spreadsheets: false, otherApps: true },
-  { feature: "Works offline (PWA)", safeSpend: true, spreadsheets: "partial", otherApps: "partial" },
-  { feature: "Mobile money and bank transfer payments", safeSpend: true, spreadsheets: "partial", otherApps: false },
-  { feature: "No formula errors to debug", safeSpend: true, spreadsheets: false, otherApps: true },
+const ROWS: Row[] = [
+  { feature: "Works without your bank login", safeSpend: "yes", spreadsheet: "yes", bankApps: "no" },
+  { feature: "No data aggregator between you and your bank", safeSpend: "yes", spreadsheet: "yes", bankApps: "no" },
+  { feature: "Works with any bank, in any country", safeSpend: "yes", spreadsheet: "yes", bankApps: "partial" },
+  { feature: "Transactions arrive automatically", safeSpend: "partial", spreadsheet: "no", bankApps: "yes" },
+  { feature: "Scan receipts and import statements", safeSpend: "yes", spreadsheet: "no", bankApps: "partial" },
+  { feature: "Safe-to-spend number after bills and goals", safeSpend: "yes", spreadsheet: "partial", bankApps: "partial" },
+  { feature: "Budgets, goals, debt payoff and reports built in", safeSpend: "yes", spreadsheet: "no", bankApps: "yes" },
+  { feature: "AI coach that knows your numbers", safeSpend: "yes", spreadsheet: "no", bankApps: "partial" },
+  { feature: "No formulas to build or fix", safeSpend: "yes", spreadsheet: "no", bankApps: "yes" },
 ];
 
-const StatusIcon = ({ status }: { status: FeatureStatus }) => {
-  if (status === true) return <Check className="h-5 w-5 text-primary" />;
-  if (status === false) return <X className="h-5 w-5 text-destructive/60" />;
-  return <Minus className="h-5 w-5 text-muted-foreground" />;
-};
+const LABEL: Record<Status, string> = { yes: "Yes", partial: "Partly", no: "No" };
 
-export const Comparison = () => {
-  const { ref, isVisible } = useScrollAnimation();
+const StatusCell = ({ status }: { status: Status }) => (
+  <>
+    {status === "yes" && <Check className="h-5 w-5 text-primary" aria-hidden="true" />}
+    {status === "partial" && <Minus className="h-5 w-5 text-muted-foreground" aria-hidden="true" />}
+    {status === "no" && <X className="h-5 w-5 text-destructive/60" aria-hidden="true" />}
+    <span className="sr-only">{LABEL[status]}</span>
+  </>
+);
 
-  return (
-    <section id="comparison" className="py-20 px-4 sm:px-6 lg:px-8 bg-card/50">
-      <div className="max-w-5xl mx-auto">
-        <div
-          ref={ref}
-          className={`scroll-anim text-center max-w-2xl mx-auto mb-16 transition-all duration-700 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-          }`}
-        >
-          <span className="inline-block px-4 py-1.5 mb-4 text-sm font-medium text-primary bg-primary/10 rounded-full">
-            Why Safe Spend?
-          </span>
-          <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">
-            See How We <span className="gradient-text">Compare</span>
-          </h2>
-          <p className="text-lg text-muted-foreground">
-            The best budget app that doesn't require your bank login.
-          </p>
-        </div>
-
-        {/* The table scrolls horizontally below sm, but nothing signalled it,
-            so at 320px the competitor column sat entirely offscreen and the
-            section looked like a two-column table -- hiding the whole point. */}
-        <p className="sm:hidden text-center text-xs text-muted-foreground mb-3">
-          Swipe the table sideways to compare →
+export const Comparison = () => (
+  <section id="comparison" className="py-20 px-4 sm:px-6 lg:px-8 bg-card/50">
+    <div className="max-w-4xl mx-auto">
+      <div className="text-center max-w-2xl mx-auto mb-12">
+        <span className="inline-block px-4 py-1.5 mb-4 text-sm font-medium text-primary bg-primary/10 rounded-full">
+          Why Safe Spend?
+        </span>
+        <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">
+          Three ways to track money, <span className="gradient-text">compared fairly</span>
+        </h2>
+        <p className="text-lg text-muted-foreground">
+          Bank-connected apps are the fastest to set up. Safe Spend is for
+          people who would rather type less than trust a connection.
         </p>
-        <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
-          <motion.div
-            className="rounded-xl border border-border/50 overflow-hidden bg-background min-w-[520px] sm:min-w-0"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            {/* Header */}
-            <div className="grid grid-cols-4 gap-0 bg-card border-b border-border/50">
-              <div className="p-4 text-sm font-medium text-muted-foreground">Feature</div>
-              <div className="p-4 text-sm font-bold text-primary text-center bg-primary/5">Safe Spend</div>
-              <div className="p-4 text-sm font-medium text-muted-foreground text-center">Spreadsheets</div>
-              {/* Mint was discontinued by Intuit in 2024; naming it dated the
-                  whole table. These are the current aggregator-based tools. */}
-              <div className="p-4 text-sm font-medium text-muted-foreground text-center">YNAB, Monarch, etc.</div>
-            </div>
-
-            {/* Rows */}
-            {rows.map((row, index) => (
-              <motion.div
-                key={row.feature}
-                className="grid grid-cols-4 gap-0 border-b border-border/30 last:border-0 hover:bg-card/50 transition-colors"
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.03 }}
-              >
-                <div className="p-4 text-sm text-foreground flex items-center">{row.feature}</div>
-                <div className="p-4 flex justify-center items-center bg-primary/5">
-                  <StatusIcon status={row.safeSpend} />
-                </div>
-                <div className="p-4 flex justify-center items-center">
-                  <StatusIcon status={row.spreadsheets} />
-                </div>
-                <div className="p-4 flex justify-center items-center">
-                  <StatusIcon status={row.otherApps} />
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
       </div>
-    </section>
-  );
-};
+
+      <p className="sm:hidden text-center text-xs text-muted-foreground mb-3">
+        Swipe the table sideways to compare →
+      </p>
+      <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
+        <table className="w-full min-w-[520px] sm:min-w-0 text-left border border-border/50 rounded-xl overflow-hidden bg-background">
+          <caption className="sr-only">
+            Comparison of Safe Spend, spreadsheets and bank-connected budgeting apps
+          </caption>
+          <thead className="bg-card">
+            <tr>
+              <th scope="col" className="p-4 text-sm font-medium text-muted-foreground">
+                Feature
+              </th>
+              <th scope="col" className="p-4 text-sm font-bold text-primary text-center bg-primary/5">
+                Safe Spend
+              </th>
+              <th scope="col" className="p-4 text-sm font-medium text-muted-foreground text-center">
+                Spreadsheet
+              </th>
+              <th scope="col" className="p-4 text-sm font-medium text-muted-foreground text-center">
+                Bank-connected apps
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {ROWS.map((row) => (
+              <tr key={row.feature} className="border-t border-border/30 hover:bg-card/50 transition-colors">
+                <th scope="row" className="p-4 text-sm font-normal text-foreground">
+                  {row.feature}
+                </th>
+                <td className="p-4 bg-primary/5">
+                  <span className="flex justify-center"><StatusCell status={row.safeSpend} /></span>
+                </td>
+                <td className="p-4">
+                  <span className="flex justify-center"><StatusCell status={row.spreadsheet} /></span>
+                </td>
+                <td className="p-4">
+                  <span className="flex justify-center"><StatusCell status={row.bankApps} /></span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p className="mt-4 text-xs text-center text-muted-foreground/80">
+        A general comparison of approaches; individual products differ. Reviewed October 2026.
+      </p>
+    </div>
+  </section>
+);
